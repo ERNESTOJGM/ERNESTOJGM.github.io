@@ -3,32 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio | Ernesto J. García</title>
+    <title>Gerencia y Mercadeo | Ing. Ernesto Guerrero</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Gerencia y Mercadeo</h1>
-        <p>Ing. Ernesto J. García | Portafolio de Aprendizaje</p>
+        <div class="header-content">
+            <h1>Gerencia y Mercadeo <span class="badge">VIII Semestre</span></h1>
+            <p class="subtitle">Ing. Ernesto Guerrero | Ingeniería Informática</p>
+        </div>
         <nav>
-            <button onclick="showTab('perfil')">Perfil</button>
-            <button onclick="showTab('lapso1')">Lapso 1</button>
-            <button onclick="showTab('lapso2')">Lapso 2</button>
-            <button onclick="showTab('lapso3')">Lapso 3</button>
-            <button onclick="showTab('lapso4')">Lapso 4</button>
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showTab('perfil')">Perfil</button>
+                <button class="nav-btn" onclick="showTab('lapso1')">Lapso 1</button>
+                <button class="nav-btn" onclick="showTab('lapso2')">Lapso 2</button>
+                <button class="nav-btn" onclick="showTab('lapso3')">Lapso 3</button>
+                <button class="nav-btn" onclick="showTab('lapso4')">Lapso 4</button>
+            </div>
         </nav>
     </header>
-    <main>
-        <section id="perfil" class="tab-content">
-            <h2>Presentación y Perfil</h2>
-            <p><strong>Objetivo General:</strong> Integrar la visión gerencial y el análisis de mercado en la gestión de proyectos informáticos.</p>
-            <p>Ingeniero de Petróleo y Estudiante de Ingeniería Informática con 13 años de experiencia en el sector industrial, enfocado en la transformación digital y gerencia estratégica.</p>
+
+    <main class="container">
+        <section id="perfil" class="tab-content active">
+            <div class="card">
+                <h2>Presentación Estratégica</h2>
+                <p class="intro-text">
+                    Como profesional con 13 años de trayectoria en el sector industrial, mi enfoque en este subproyecto es la convergencia entre la <strong>arquitectura técnica</strong> y la <strong>gerencia estratégica</strong>.
+                </p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Objetivo:</strong> Liderar la transformación digital mediante el dominio de procesos administrativos y análisis de mercado.
+                    </div>
+                    <div class="info-item">
+                        <strong>Visión:</strong> Evolucionar del código operativo a la toma de decisiones gerenciales basadas en datos (Data-Driven).
+                    </div>
+                </div>
+            </div>
         </section>
-        <section id="lapso1" class="tab-content" style="display:none;"><h2>Lapso 1</h2><p>Contenido en construcción...</p></section>
-        <section id="lapso2" class="tab-content" style="display:none;"><h2>Lapso 2</h2><p>Contenido en construcción...</p></section>
-        <section id="lapso3" class="tab-content" style="display:none;"><h2>Lapso 3</h2><p>Contenido en construcción...</p></section>
-        <section id="lapso4" class="tab-content" style="display:none;"><h2>Lapso 4</h2><p>Contenido en construcción...</p></section>
+
+        <section id="lapso1" class="tab-content">
+            <div class="card">
+                <h2>Módulo 1: Fundamentos de Gerencia IT</h2>
+                <div class="placeholder-box">
+                    <p>Actividad 1: Wiki-Framework (En preparación)</p>
+                    <p>Actividad 2: Análisis de Fallos Gerenciales (En preparación)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lapso2" class="tab-content"> <div class="card"><h2>Lapso 2</h2><p>Contenido próximamente.</p></div></section>
+        <section id="lapso3" class="tab-content"> <div class="card"><h2>Lapso 3</h2><p>Contenido próximamente.</p></div></section>
+        <section id="lapso4" class="tab-content"> <div class="card"><h2>Lapso 4</h2><p>Contenido próximamente.</p></div></section>
     </main>
+
     <script src="script.js"></script>
 </body>
 </html>
