@@ -2,61 +2,186 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerencia y Mercadeo | Ing. Ernesto Guerrero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Gerencia y Mercadeo | Ing. Ernesto Guerrero | Portafolio Profesional</title>
+    <!-- Google Fonts + Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Gerencia y Mercadeo <span class="badge">VIII Semestre</span></h1>
-            <p class="subtitle">Ing. Ernesto Guerrero | Ingeniería Informática</p>
+
+<header>
+    <div class="header-content">
+        <h1>
+            Gerencia y Mercadeo 
+            <span class="badge">VIII Semestre</span>
+        </h1>
+        <p class="subtitle">
+            <i class="fas fa-microchip"></i> Ing. Ernesto Guerrero 
+            <i class="fas fa-circle" style="font-size: 5px; vertical-align: middle;"></i> 
+            Ingeniería Informática
+        </p>
+    </div>
+    <nav>
+        <div class="nav-container">
+            <button class="nav-btn active" data-tab="perfil"><i class="fas fa-user-tie"></i> Perfil Estratégico</button>
+            <button class="nav-btn" data-tab="lapso1"><i class="fas fa-chalkboard-user"></i> Lapso 1</button>
+            <button class="nav-btn" data-tab="lapso2"><i class="fas fa-chart-line"></i> Lapso 2</button>
+            <button class="nav-btn" data-tab="lapso3"><i class="fas fa-bullhorn"></i> Lapso 3</button>
+            <button class="nav-btn" data-tab="lapso4"><i class="fas fa-project-diagram"></i> Lapso 4</button>
         </div>
-        <nav>
-            <div class="nav-container">
-                <button class="nav-btn active" onclick="showTab('perfil')">Perfil</button>
-                <button class="nav-btn" onclick="showTab('lapso1')">Lapso 1</button>
-                <button class="nav-btn" onclick="showTab('lapso2')">Lapso 2</button>
-                <button class="nav-btn" onclick="showTab('lapso3')">Lapso 3</button>
-                <button class="nav-btn" onclick="showTab('lapso4')">Lapso 4</button>
-            </div>
-        </nav>
-    </header>
+    </nav>
+</header>
 
-    <main class="container">
-        <section id="perfil" class="tab-content active">
-            <div class="card">
-                <h2>Presentación Estratégica</h2>
-                <p class="intro-text">
-                    Como profesional con 13 años de trayectoria en el sector industrial, mi enfoque en este subproyecto es la convergencia entre la <strong>arquitectura técnica</strong> y la <strong>gerencia estratégica</strong>.
-                </p>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <strong>Objetivo:</strong> Liderar la transformación digital mediante el dominio de procesos administrativos y análisis de mercado.
-                    </div>
-                    <div class="info-item">
-                        <strong>Visión:</strong> Evolucionar del código operativo a la toma de decisiones gerenciales basadas en datos (Data-Driven).
+<main class="container">
+    <!-- PERFIL -->
+    <section id="perfil" class="tab-content active">
+        <div class="card">
+            <h2>🔹 Arquitecto de soluciones & Estratega IT</h2>
+            <p class="intro-text">
+                Con <strong>13 años de trayectoria en el sector industrial</strong>, fusiono la visión técnica con el pensamiento gerencial. 
+                Mi propósito: liderar la transformación digital a través del dominio de procesos administrativos, análisis de mercado y toma de decisiones basadas en datos.
+            </p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong><i class="fas fa-bullseye"></i> Objetivo profesional</strong>
+                    <p>Conducir equipos multidisciplinarios hacia la excelencia operativa, implementando frameworks ágiles y estrategias de mercadeo tecnológico que impulsen la competitividad.</p>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-chart-simple"></i> Visión Data-Driven</strong>
+                    <p>Evolucionar del código operativo a la alta gerencia: utilizar analítica predictiva, KPIs estratégicos y automatización para escalar negocios.</p>
+                </div>
+                <div class="info-item">
+                    <strong><i class="fas fa-code-branch"></i> Competencias clave</strong>
+                    <div>
+                        <span class="skill-tag">IT Governance</span>
+                        <span class="skill-tag">Strategic Marketing</span>
+                        <span class="skill-tag">Scrum/Kanban</span>
+                        <span class="skill-tag">Business Intelligence</span>
+                        <span class="skill-tag">Liderazgo técnico</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="lapso1" class="tab-content">
-            <div class="card">
-                <h2>Módulo 1: Fundamentos de Gerencia IT</h2>
-                <div class="placeholder-box">
-                    <p>Actividad 1: Wiki-Framework (En preparación)</p>
-                    <p>Actividad 2: Análisis de Fallos Gerenciales (En preparación)</p>
+                <div class="info-item">
+                    <strong><i class="fas fa-globe"></i> Enfoque actual</strong>
+                    <p>Gerencia de proyectos con metodologías híbridas, diseño de producto digital y creación de valor mediante innovación centrada en el cliente.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="lapso2" class="tab-content"> <div class="card"><h2>Lapso 2</h2><p>Contenido próximamente.</p></div></section>
-        <section id="lapso3" class="tab-content"> <div class="card"><h2>Lapso 3</h2><p>Contenido próximamente.</p></div></section>
-        <section id="lapso4" class="tab-content"> <div class="card"><h2>Lapso 4</h2><p>Contenido próximamente.</p></div></section>
-    </main>
+    <!-- LAPSO 1 -->
+    <section id="lapso1" class="tab-content">
+        <div class="card">
+            <h2><i class="fas fa-layer-group"></i> Lapso 1: Fundamentos de Gerencia IT</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-wiki fa-fw"></i></div>
+                    <h3>Wiki-Framework</h3>
+                    <div class="activity-badge">Entregable académico</div>
+                    <p class="activity-desc">Documento colaborativo donde se sintetizan modelos de gerencia tecnológica (COBIT, ITIL, DevOps) aplicados al contexto industrial.</p>
+                    <span class="status pending"><i class="fas fa-hourglass-half"></i> En preparación</span>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Análisis de Fallos Gerenciales</h3>
+                    <div class="activity-badge">Estudio de caso</div>
+                    <p class="activity-desc">Evaluación de proyectos tecnológicos fallidos: identificación de brechas estratégicas, riesgos y propuesta de mejora basada en métricas.</p>
+                    <span class="status pending"><i class="fas fa-pen-ruler"></i> En preparación</span>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-chalkboard"></i></div>
+                    <h3>Workshop: Liderazgo ágil</h3>
+                    <div class="activity-badge">Actividad práctica</div>
+                    <p class="activity-desc">Simulación de role-playing gerencial, toma de decisiones en entornos VUCA y gestión de stakeholders.</p>
+                    <span class="status ready"><i class="fas fa-check-circle"></i> Material disponible</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- LAPSO 2 -->
+    <section id="lapso2" class="tab-content">
+        <div class="card">
+            <h2><i class="fas fa-chart-line"></i> Lapso 2: Marketing Estratégico & Análisis de Mercado</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Segmentación y Buyer Persona</h3>
+                    <div class="activity-badge">Investigación</div>
+                    <p class="activity-desc">Desarrollo de perfiles de cliente B2B/B2C para soluciones tecnológicas industriales, mapa de empatía y propuesta de valor.</p>
+                    <span class="status pending"><i class="fas fa-chart-simple"></i> Próximamente</span>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-ad"></i></div>
+                    <h3>Plan de Mercadeo Digital</h3>
+                    <div class="activity-badge">Proyecto aplicado</div>
+                    <p class="activity-desc">Estrategia omnicanal para posicionar servicios de consultoría IT, incluyendo embudos de conversión y ROI proyectado.</p>
+                    <span class="status pending"><i class="fas fa-calendar-alt"></i> En desarrollo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAPSO 3 -->
+    <section id="lapso3" class="tab-content">
+        <div class="card">
+            <h2><i class="fas fa-chart-simple"></i> Lapso 3: Gestión Financiera & Project Leadership</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-coins"></i></div>
+                    <h3>Business Case: Inversión TI</h3>
+                    <div class="activity-badge">Análisis cuantitativo</div>
+                    <p class="activity-desc">Elaboración de caso de negocio con VAN, TIR y período de recuperación para implementación de ERP industrial.</p>
+                    <span class="status pending"><i class="fas fa-chart-line"></i> Planificado</span>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-people-arrows"></i></div>
+                    <h3>Liderazgo en Equipos Híbridos</h3>
+                    <div class="activity-badge">Taller vivencial</div>
+                    <p class="activity-desc">Estrategias de comunicación, gestión remota y alineación de OKRs en entornos tecnológicos.</p>
+                    <span class="status ready"><i class="fas fa-check-circle"></i> Material base listo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAPSO 4 -->
+    <section id="lapso4" class="tab-content">
+        <div class="card">
+            <h2><i class="fas fa-rocket"></i> Lapso 4: Proyecto Integrador & Consultoría Estratégica</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <h3>Plan Estratégico Digital</h3>
+                    <div class="activity-badge">Proyecto final</div>
+                    <p class="activity-desc">Desarrollo de un plan de transformación digital para una empresa real (simulación de consultoría) incluyendo roadmap, KPI y modelo de gobernanza.</p>
+                    <span class="status pending"><i class="fas fa-microphone-alt"></i> Presentación final</span>
+                </div>
+                <div class="activity-card">
+                    <div class="activity-icon"><i class="fas fa-newspaper"></i></div>
+                    <h3>Artículo técnico</h3>
+                    <div class="activity-badge">Publicación</div>
+                    <p class="activity-desc">Ensayo sobre sinergia entre gerencia IT y mercadeo en la era de la inteligencia artificial.</p>
+                    <span class="status pending"><i class="fas fa-edit"></i> En proceso</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="social-icons">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="#" aria-label="Correo"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p>Ing. Ernesto Guerrero — Gerencia y Mercadeo | Ingeniería Informática — VIII Semestre</p>
+        <p style="font-size: 0.75rem; margin-top: 0.5rem;">© 2025 Portafolio Profesional — Transformación digital con visión ejecutiva</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
