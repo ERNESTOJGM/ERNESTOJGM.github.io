@@ -32,16 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons.forEach(btn => {
             if (btn.getAttribute('data-tab') === tabId) {
                 btn.classList.add('active');
-                // desplazamiento suave dentro del nav
                 btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             } else {
                 btn.classList.remove('active');
             }
         });
 
-        // Guardar pestaña activa en localStorage para persistencia (UX)
         localStorage.setItem('activeTab', tabId);
-        // Actualizar hash sin causar scroll forzado
         history.replaceState(null, '', `#${tabId}`);
     }
 
@@ -50,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const tabId = btn.getAttribute('data-tab');
             if (tabId && sections[tabId]) {
                 activateTab(tabId);
-                // ajuste de scroll suave hacia el contenido principal
                 const headerOffset = document.querySelector('header').offsetHeight;
                 const targetPosition = document.querySelector('.container').offsetTop - 20;
                 window.scrollTo({ top: Math.max(0, targetPosition - 10), behavior: 'smooth' });
@@ -58,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Restaurar pestaña desde localStorage o hash
     const hash = window.location.hash.slice(1);
     let savedTab = localStorage.getItem('activeTab');
     let initialTab = 'perfil';
@@ -70,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     activateTab(initialTab);
 
-    // Mejora UX: evitar que el hash cambie de manera brusca al cargar
     window.addEventListener('hashchange', () => {
         const newHash = window.location.hash.slice(1);
         if (newHash && sections[newHash]) {
@@ -80,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Prevenir el salto brusco si hay hash al inicio
     if (window.location.hash) {
         setTimeout(() => {
             const containerTop = document.querySelector('.container').offsetTop;
