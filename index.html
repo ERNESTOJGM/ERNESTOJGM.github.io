@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Gerencia Y Mercadeo</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Gerencia y Mercadeo · Portafolio Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/jpeg" href="https://i.ibb.co/chHf3xz6/gerente-de-marketing-1-1.jpg">
@@ -24,7 +24,7 @@
         </p>
     </div>
     <nav>
-        <div class="nav-container">
+        <div class="nav-container" id="navContainer">
             <button class="nav-btn active" data-tab="perfil"><i class="fas fa-user-tie"></i> Perfil Estratégico</button>
             <button class="nav-btn" data-tab="lapso1"><i class="fas fa-chalkboard-user"></i> Módulo I</button>
             <button class="nav-btn" data-tab="lapso2"><i class="fas fa-chart-line"></i> Módulo II</button>
@@ -38,7 +38,9 @@
     <section id="perfil" class="tab-content active">
         <div class="card profile-card">
             <div class="profile-header">
-                <img src="https://i.ibb.co/b5nMbJfw/CEO-EG-Solutions.jpg" alt="Ing. Ernesto Guerrero" class="profile-photo">
+                <div class="profile-avatar-wrapper">
+                    <img src="https://i.ibb.co/b5nMbJfw/CEO-EG-Solutions.jpg" alt="Ing. Ernesto Guerrero" class="profile-photo">
+                </div>
                 <div class="profile-title">
                     <h2>Ingeniero en Petróleo</h2>
                     <p class="intro-text">
@@ -87,7 +89,7 @@
                     <div class="activity-icon"><i class="fas fa-sitemap"></i></div>
                     <h3>Estructura Organizacional y Objetivos</h3>
                     <div class="activity-badge">Fundamentos</div>
-                    <ul class="activity-list" style="text-align: left; margin-top: 15px;">
+                    <ul class="activity-list">
                         <li><i class="fas fa-check-double"></i> Concepto de Gerencia</li>
                         <li><i class="fas fa-check-double"></i> Tipos de Gerencia</li>
                         <li><i class="fas fa-check-double"></i> La Necesidad de la Gerencia</li>
@@ -112,7 +114,7 @@
                     <div class="activity-icon"><i class="fas fa-toolbox"></i></div>
                     <h3>Estrategias de Optimización</h3>
                     <div class="activity-badge">Metodologías</div>
-                    <ul class="activity-list" style="text-align: left; margin-top: 15px;">
+                    <ul class="activity-list">
                         <li><i class="fas fa-check-double"></i> Balanced Scorecard</li>
                         <li><i class="fas fa-check-double"></i> Benchmarking</li>
                         <li><i class="fas fa-check-double"></i> Coaching</li>
@@ -136,7 +138,7 @@
                     <div class="activity-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>Análisis y Planeación Comercial</h3>
                     <div class="activity-badge">Mercados</div>
-                    <ul class="activity-list" style="text-align: left; margin-top: 15px;">
+                    <ul class="activity-list">
                         <li><i class="fas fa-check-double"></i> Definición de mercadeo</li>
                         <li><i class="fas fa-check-double"></i> Sistema económico</li>
                         <li><i class="fas fa-check-double"></i> Pronósticos - regresión lineal</li>
@@ -159,7 +161,7 @@
                     <div class="activity-icon"><i class="fas fa-users-viewfinder"></i></div>
                     <h3>Targeting y Criterios Modernos</h3>
                     <div class="activity-badge">Estrategia</div>
-                    <ul class="activity-list" style="text-align: left; margin-top: 15px;">
+                    <ul class="activity-list">
                         <li><i class="fas fa-check-double"></i> Qué es la segmentación de mercados</li>
                         <li><i class="fas fa-check-double"></i> Métodos de segmentación</li>
                         <li><i class="fas fa-check-double"></i> Bases para la segmentación de mercados</li>
@@ -188,6 +190,10 @@
         <p class="copyright">© 2026 Portafolio Académico del Sub-Proyecto</p>
     </div>
 </footer>
+
+<button class="scroll-top" id="scrollTopBtn" aria-label="Volver arriba">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
 <script src="script.js"></script>
 </body>
