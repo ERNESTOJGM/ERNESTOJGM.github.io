@@ -58,20 +58,24 @@ header {
     margin-bottom: 0.4rem;
 }
 
+/* === LOGO MÁS GRANDE Y PROFESIONAL === */
 .header-logo {
-    height: 58px;
-    width: 58px;
+    height: 85px;
+    width: auto;
+    max-width: 220px;
     object-fit: contain;
-    border-radius: 20px;
-    background: white;
-    padding: 6px;
-    transition: transform 0.2s ease, box-shadow 0.2s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(2px);
 }
 
 .header-logo:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+    background: rgba(255,255,255,0.12);
 }
 
 .header-content h1 {
@@ -438,7 +442,7 @@ h2 {
     border-left: 3px solid #f97316;
 }
 
-/* Footer refinado */
+/* Footer refinado con logo profesional */
 footer {
     background: linear-gradient(135deg, #0a0f1c 0%, #0b1120 100%);
     color: #a0abc0;
@@ -449,13 +453,23 @@ footer {
 }
 
 .footer-logo {
-    height: 48px;
-    width: 48px;
+    height: 70px;
+    width: auto;
+    max-width: 180px;
     object-fit: contain;
-    border-radius: 16px;
+    border-radius: 20px;
     margin-bottom: 1.2rem;
-    opacity: 0.9;
-    transition: 0.2s;
+    opacity: 0.95;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.05);
+    padding: 6px 12px;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+    transform: scale(1.02);
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .social-icons {
@@ -515,8 +529,17 @@ footer {
     box-shadow: 0 12px 22px rgba(249,115,22,0.5);
 }
 
-/* Responsive */
+/* Responsive ajustado para el logo más grande */
 @media (max-width: 800px) {
+    .header-logo {
+        height: 65px;
+        max-width: 180px;
+        padding: 6px 10px;
+    }
+    .footer-logo {
+        height: 55px;
+        max-width: 150px;
+    }
     .header-content h1 {
         font-size: 1.6rem;
     }
@@ -540,6 +563,15 @@ footer {
 }
 
 @media (max-width: 540px) {
+    .header-logo {
+        height: 55px;
+        max-width: 150px;
+        padding: 4px 8px;
+    }
+    .footer-logo {
+        height: 48px;
+        max-width: 130px;
+    }
     .profile-header {
         justify-content: center;
         text-align: center;
@@ -574,7 +606,6 @@ a:focus-visible {
     outline-offset: 2px;
 }
 
-/* Detalles extra */
 .linkedin-profile-link {
     margin-top: 0.8rem;
 }
