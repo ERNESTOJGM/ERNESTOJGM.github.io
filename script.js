@@ -1,5 +1,4 @@
-(function() {
-    // Obtener todos los botones y secciones
+document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.nav-btn');
     const sections = {
         perfil: document.getElementById('perfil'),
@@ -14,13 +13,13 @@
         Object.values(sections).forEach(section => {
             if (section) section.classList.remove('active');
         });
+        
         // Mostrar la seleccionada
         if (sections[tabId]) sections[tabId].classList.add('active');
 
-        // Actualizar estado visual de botones
+        // Actualizar estado visual de los botones
         buttons.forEach(btn => {
-            const btnTab = btn.getAttribute('data-tab');
-            if (btnTab === tabId) {
+            if (btn.getAttribute('data-tab') === tabId) {
                 btn.classList.add('active');
             } else {
                 btn.classList.remove('active');
@@ -30,22 +29,26 @@
 
     // Asignar evento click a cada botón
     buttons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const tabId = btn.getAttribute('data-tab');
             if (tabId && sections[tabId]) {
                 activateTab(tabId);
-                // Scroll suave al inicio del contenido principal
-                window.scrollTo({ top: 120, behavior: 'smooth' });
+                
+                // Desplazamiento suave para centrar la vista en el contenido
+                const navHeight = document.querySelector('header').offsetHeight;
+                window.scrollTo({ 
+                    top: navHeight - 20, 
+                    behavior: 'smooth' 
+                });
             }
         });
     });
 
-    // Si existe algún hash en la URL, abrir esa pestaña (opcional)
+    // Leer el hash de la URL si se comparte un enlace directo a una pestaña
     const hash = window.location.hash.slice(1);
     if (hash && sections[hash]) {
         activateTab(hash);
     } else {
-        // Asegurar perfil activo por defecto
-        activateTab('perfil');
+        activateTab('perfil'); // Por defecto
     }
-})();
+});
