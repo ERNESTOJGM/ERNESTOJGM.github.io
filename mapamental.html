@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Gerencia IT · Mapa Estratégico | Ernesto Guerrero</title>
   <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -19,7 +19,6 @@
       min-height: 100vh;
     }
 
-    /* Header Estilizado */
     .header {
       text-align: center;
       margin-bottom: 2rem;
@@ -33,37 +32,51 @@
     .header h1 { font-size: 1.8rem; font-weight: 700; color: #fde079; }
     .header p { font-size: 0.9rem; color: #cbdbe2; margin-top: 5px; }
 
-    /* Contenedor del Mapa Mental (Permite Scroll en móviles) */
+    /* Contenedor principal con scroll horizontal suave */
     .mindmap-viewport {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1200px;
       overflow-x: auto;
       background: #fff;
       border: 4px solid #2b2b2b;
       border-radius: 12px;
       box-shadow: -8px 8px 0px #dcdcdc;
-      padding: 2rem;
+      padding: 1rem;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Lienzo Fijo donde ocurre la magia (1000x900 para más espacio) */
+    /* Canvas que se escala para adaptarse al ancho */
     .mindmap-canvas {
-      width: 1000px;
-      height: 900px;
       position: relative;
+      width: 1000px;          /* ancho base */
+      height: 900px;
       margin: 0 auto;
       background: transparent;
+      transform-origin: top left;
+      transition: transform 0.2s ease;
     }
 
-    /* Capa SVG para las flechas estilo dibujo a mano */
+    /* Escalamiento automático para móviles */
+    @media (max-width: 1000px) {
+      .mindmap-canvas {
+        transform: scale(calc(100% / 1000));
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    /* SVG de flechas también escala */
     .svg-layer {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Estilos base de los Nodos (Cajas del mapa) */
+    /* Nodos mejorados para tacto */
     .node {
       position: absolute;
       display: flex;
@@ -73,58 +86,75 @@
       text-align: center;
       padding: 0.8rem;
       border: 3px solid #2b2b2b;
-      border-radius: 3px 15px 3px 15px / 15px 3px 15px 3px; /* Efecto dibujado a mano */
+      border-radius: 3px 15px 3px 15px / 15px 3px 15px 3px;
       box-shadow: -4px 5px 0px #2b2b2b;
       z-index: 2;
       cursor: pointer;
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       background-color: #fff;
+      touch-action: manipulation; /* mejora respuesta táctil */
     }
-    
-    .node:hover { transform: scale(1.05) rotate(-1deg); }
+    .node:active { transform: scale(0.98); } /* feedback táctil */
 
-    /* Eliminamos el tooltip nativo y el pseudo-elemento para usar el personalizado */
-    .node[title] { pointer-events: auto; }
-
-    /* Colores pastel basados en la imagen */
     .node-yellow { background-color: #fce276; }
     .node-teal { background-color: #a2d2cf; }
-    .node-green { 
-      background-color: #d1e7a5; 
-      border-radius: 50%; 
-      box-shadow: -4px 4px 0px #2b2b2b; 
+    .node-green {
+      background-color: #d1e7a5;
+      border-radius: 50%;
+      box-shadow: -4px 4px 0px #2b2b2b;
       justify-content: center;
     }
-    .node-light-yellow { 
-      background-color: #fef0bc; 
-      border-radius: 6px; 
+    .node-light-yellow {
+      background-color: #fef0bc;
+      border-radius: 6px;
       padding: 0.4rem;
       box-shadow: -2px 3px 0px #2b2b2b;
     }
 
-    /* Textos internos */
     .node-title { font-weight: 700; font-size: 1.2rem; color: #1a1a1a; line-height: 1.1; }
     .node-desc { font-size: 0.9rem; color: #333; margin-top: 4px; line-height: 1.1; }
     .node i { margin-bottom: 5px; font-size: 1.2rem; }
 
-    /* Elementos de la Lista (PODC) - mantiene estilo */
-    .list-wrapper { position: absolute; display: flex; flex-direction: column; gap: 12px; z-index: 2;}
-    .list-item { display: flex; align-items: center; gap: 8px; }
-    .list-number {
-      width: 28px; height: 28px;
-      border-radius: 50%; border: 2px solid #2b2b2b;
-      background: #d1e7a5;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; font-size: 1rem;
+    /* Lista PODC */
+    .list-wrapper {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 2;
     }
-    .list-box { 
-      width: 160px; height: 38px; border: 2px solid #2b2b2b; 
-      display: flex; align-items: center; padding-left: 10px; 
-      font-size: 0.95rem; font-weight: bold; background: #fef0bc; 
-      border-radius: 4px; box-shadow: -2px 2px 0 #2b2b2b;
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .list-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #2b2b2b;
+      background: #d1e7a5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .list-box {
+      width: 160px;
+      height: 38px;
+      border: 2px solid #2b2b2b;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      background: #fef0bc;
+      border-radius: 4px;
+      box-shadow: -2px 2px 0 #2b2b2b;
     }
 
-    /* Estilo del tooltip personalizado */
+    /* Tooltip personalizado */
     .custom-tooltip {
       position: fixed;
       background: #2b2b2b;
@@ -135,7 +165,7 @@
       line-height: 1.4;
       padding: 12px 18px;
       border-radius: 12px;
-      max-width: 320px;
+      max-width: 280px;
       white-space: pre-wrap;
       word-wrap: break-word;
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
@@ -154,257 +184,236 @@
       border-right: 8px solid transparent;
       border-bottom: 8px solid #2b2b2b;
     }
+
+    /* Ajustes en móviles para que los nodos se vean más grandes */
+    @media (max-width: 700px) {
+      .node-title { font-size: 0.9rem; }
+      .node-desc { font-size: 0.7rem; }
+      .node { padding: 0.4rem; }
+      .list-box { width: 130px; font-size: 0.8rem; height: 32px; }
+      .list-number { width: 24px; height: 24px; font-size: 0.8rem; }
+      .header h1 { font-size: 1.2rem; }
+      .header p { font-size: 0.7rem; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1><i class="fas fa-project-diagram"></i> Mapa Estratégico · Gerencia IT</h1>
-    <p>Ernesto Guerrero | Subproyecto: Gerencia y Mercadeo | Profesora. Dra. Dexi Azuaje</p>
-  </div>
+<div class="header">
+  <h1><i class="fas fa-project-diagram"></i> Mapa Estratégico · Gerencia IT</h1>
+  <p>Ernesto Guerrero | Subproyecto: Gerencia y Mercadeo | Profesora. Dra. Dexi Azuaje</p>
+</div>
 
-  <div class="mindmap-viewport">
-    <div class="mindmap-canvas">
-      
-      <svg class="svg-layer" width="1000" height="900" viewBox="0 0 1000 900">
-        <defs>
-          <marker id="hollow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" stroke="#2b2b2b" stroke-width="1.5" stroke-linejoin="round"/>
-          </marker>
-          <marker id="black-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b2b2b" />
-          </marker>
-        </defs>
+<div class="mindmap-viewport">
+  <div class="mindmap-canvas">
+    <svg class="svg-layer" width="1000" height="900" viewBox="0 0 1000 900">
+      <defs>
+        <marker id="hollow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" stroke="#2b2b2b" stroke-width="1.5" stroke-linejoin="round"/>
+        </marker>
+        <marker id="black-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b2b2b" />
+        </marker>
+      </defs>
+      <!-- líneas (mismas que antes) -->
+      <path d="M 400,160 L 460,160 L 460,180 L 550,180 L 550,165 L 610,165" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 690,160 L 760,160" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 690,205 L 760,205" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 690,250 L 760,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 305,165 L 305,215 L 230,215" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 210,270 L 210,325" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+      <path d="M 200,415 L 140,415" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 200,460 L 140,460" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 200,505 L 140,505" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 200,550 L 140,550" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 500,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 400,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 600,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 350,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 650,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 500,500" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,500 L 380,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,500 L 620,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 650,350" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 650,450" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 500,400 L 500,620 L 730,620" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+      <path d="M 330,590 L 290,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+      <path d="M 530,590 L 530,680" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+      <path d="M 670,590 L 710,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+      <path d="M 400,680 L 400,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+      <path d="M 600,680 L 600,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+    </svg>
 
-        <!-- Líneas y decoraciones manteniendo el estilo "dibujado a mano" -->
-
-        <!-- Conexión Drucker -> Triada -->
-        <path d="M 400,160 L 460,160 L 460,180 L 550,180 L 550,165 L 610,165" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <!-- Conexión Triada -> Técnica, Mercadeo, Finanzas -->
-        <path d="M 690,160 L 760,160" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 690,205 L 760,205" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 690,250 L 760,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-
-        <!-- Conexión Mintzberg -> 10 Roles -->
-        <path d="M 305,165 L 305,215 L 230,215" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <!-- Conexión 10 Roles -> PODC (opcional para jerarquía) -->
-        <path d="M 210,270 L 210,325" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-
-        <!-- Conexiones desde PODC a los 4 items de la lista (ya están en SVG) pero agregamos líneas visuales -->
-        <path d="M 200,415 L 140,415" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 200,460 L 140,460" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 200,505 L 140,505" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 200,550 L 140,550" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-
-        <!-- Conexión Gerencia IT (centro) hacia Mintzberg, Drucker y PODC -->
-        <path d="M 500,400 L 500,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 400,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 600,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 350,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 650,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-
-        <!-- Conexiones desde Gerencia IT hacia los tres pilares estratégicos -->
-        <path d="M 500,400 L 500,500" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,500 L 380,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,500 L 620,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-
-        <!-- Conexión desde Gerencia IT hacia Roles Líder y Enlace (arriba) y Emprendedor (abajo) -->
-        <path d="M 500,400 L 650,350" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 650,450" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-        <path d="M 500,400 L 500,620 L 730,620" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-
-        <!-- Conexiones desde Visión Estratégica (pilares) a conceptos técnicos -->
-        <path d="M 330,590 L 290,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-        <path d="M 530,590 L 530,680" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-        <path d="M 670,590 L 710,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-        <path d="M 400,680 L 400,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-        <path d="M 600,680 L 600,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-
-      </svg>
-
-      <!-- Nodo Central: Gerencia IT / Wiki-Framework -->
-      <div class="node node-yellow" style="top: 350px; left: 390px; width: 220px; height: 120px;" data-tooltip="Marco integral que integra el Proceso Administrativo PODC, los fundamentos de Drucker, los roles de Mintzberg y la visión estratégica para liderar equipos de ingeniería informática con enfoque en negocio.">
-        <div class="node-title">Gerencia IT</div>
-        <div class="node-desc">Wiki-Framework</div>
-      </div>
-
-      <!-- Peter Drucker + Triada -->
-      <div class="node node-teal" style="top: 120px; left: 400px; width: 200px; height: 90px;" data-tooltip="El padre de la gerencia moderna. Acuñó el concepto del 'Trabajador del Conocimiento': el cerebro del ingeniero es el activo real. Su visión de la gerencia integral es la base para un CTO moderno.">
-        <div class="node-title">Peter Drucker</div>
-        <div class="node-desc">Trabajador del Conocimiento</div>
-      </div>
-      <div class="node node-green" style="top: 125px; left: 690px; width: 85px; height: 85px;" data-tooltip="La Gerencia Integral requiere dominar tres áreas críticas: Técnica, Mercadeo y Finanzas.">
-        <div class="node-title" style="font-size: 1rem;">Triada</div>
-      </div>
-      <div class="node node-light-yellow" style="top: 90px; left: 830px; width: 130px;" data-tooltip="Viabilidad técnica, arquitectura escalable, selección de stack.">Técnica</div>
-      <div class="node node-light-yellow" style="top: 145px; left: 830px; width: 130px;" data-tooltip="Necesidades del usuario, propuesta de valor, posicionamiento en el mercado.">Mercadeo</div>
-      <div class="node node-light-yellow" style="top: 200px; left: 830px; width: 130px;" data-tooltip="Rentabilidad, retorno de inversión, optimización de recursos.">Finanzas</div>
-
-      <!-- Mintzberg y los 10 Roles -->
-      <div class="node node-green" style="top: 125px; left: 200px; width: 90px; height: 90px;" data-tooltip="Henry Mintzberg: teoría de los roles gerenciales. Aplicados al contexto de ingeniería de software.">
-        <div class="node-title" style="font-size: 0.9rem;">Mintzberg</div>
-      </div>
-      <div class="node node-light-yellow" style="top: 215px; left: 140px; width: 190px; height: 70px;" data-tooltip="Los 10 roles gerenciales: Cabeza Visible, Líder, Enlace, Monitor, Difusor, Portavoz, Emprendedor, Gestor de problemas, Asignador de recursos, Negociador. Adaptados a entornos IT.">
-        <div class="node-title" style="font-size: 1rem;">Los 10 Roles</div>
-      </div>
-
-      <!-- PODC: Proceso Administrativo en Software -->
-      <div class="node node-teal" style="top: 375px; left: 140px; width: 180px; height: 90px;" data-tooltip="Aplicación del ciclo administrativo (Planificar, Organizar, Dirigir, Controlar) a proyectos de software, integrando metodologías ágiles y gestión de infraestructura.">
-        <div class="node-title">PODC</div>
-        <div class="node-desc">Proceso Administrativo</div>
-      </div>
-
-      <div class="list-wrapper" style="top: 470px; left: 40px;">
-        <div class="list-item" data-tooltip="Definición del Product Backlog, selección del Stack tecnológico, estimación de Sprints y previsión de escalabilidad.">
-          <div class="list-number">1</div>
-          <div class="list-box">Planificación</div>
-        </div>
-        <div class="list-item" data-tooltip="Estructuración de células ágiles Scrum, asignación de roles Dev-QA-DevOps, gestión de infraestructura Cloud.">
-          <div class="list-number">2</div>
-          <div class="list-box">Organización</div>
-        </div>
-        <div class="list-item" data-tooltip="Liderazgo técnico del Tech Lead: resolver bloqueos en Dailies, gestionar deuda técnica y motivar al equipo.">
-          <div class="list-number">3</div>
-          <div class="list-box">Dirección</div>
-        </div>
-        <div class="list-item" data-tooltip="Implementación de CI/CD, revisiones de código Pull Requests, monitoreo de KPIs de rendimiento y calidad QA.">
-          <div class="list-number">4</div>
-          <div class="list-box">Control</div>
-        </div>
-      </div>
-
-      <!-- Roles críticos de Mintzberg (Top 3) -->
-      <div class="node node-teal" style="top: 320px; left: 710px; width: 170px; height: 80px;" data-tooltip="Fundamental para alinear la cultura de ingeniería con los objetivos estratégicos del negocio. Fomenta la motivación, la visión compartida y la mejora continua.">
-        <i class="fas fa-star" style="color:#2b2b2b"></i>
-        <div class="node-title">Rol Líder</div>
-        <div class="node-desc">(Top 3)</div>
-      </div>
-      <div class="node node-teal" style="top: 420px; left: 710px; width: 170px; height: 80px;" data-tooltip="Puente vital para traducir requerimientos de clientes no técnicos a especificaciones funcionales. Gestiona stakeholders y facilita la comunicación.">
-        <i class="fas fa-handshake" style="color:#2b2b2b"></i>
-        <div class="node-title">Rol Enlace</div>
-        <div class="node-desc">(Top 3)</div>
-      </div>
-      <div class="node node-teal" style="top: 580px; left: 710px; width: 170px; height: 80px;" data-tooltip="Capacidad de identificar tecnologías disruptivas como la IA, integrarlas como ventaja competitiva. Promueve la innovación y la adaptación al cambio.">
-        <i class="fas fa-rocket" style="color:#2b2b2b"></i>
-        <div class="node-title">Rol Emprendedor</div>
-        <div class="node-desc">(Top 3)</div>
-      </div>
-
-      <!-- Pilares de la Visión Estratégica -->
-      <div class="node node-teal" style="top: 530px; left: 280px; width: 190px; height: 90px;" data-tooltip="Del código a la estrategia: arquitectura orientada a negocio + OKRs técnicos. Cada línea de código debe aportar valor al negocio.">
-        <div class="node-title">Del Código a la Estrategia</div>
-      </div>
-      <div class="node node-teal" style="top: 530px; left: 490px; width: 190px; height: 90px;" data-tooltip="Tech debt reduction, DORA metrics, resiliencia y escalabilidad. Asegura la sostenibilidad técnica y operativa del producto.">
-        <div class="node-title">Sostenibilidad del Producto</div>
-      </div>
-      <div class="node node-teal" style="top: 530px; left: 700px; width: 190px; height: 90px;" data-tooltip="Cultura de innovación continua, mentoring técnico y psychological safety. Liderazgo que empodera y retiene talento.">
-        <div class="node-title">Liderazgo Transformacional</div>
-      </div>
-
-      <!-- Conceptos técnicos y de gestión complementarios -->
-      <div class="node node-light-yellow" style="top: 670px; left: 200px; width: 130px;" data-tooltip="Integración y despliegue continuo (CI/CD). Automatización, despliegues confiables y métricas DORA.">DevOps</div>
-      <div class="node node-light-yellow" style="top: 740px; left: 200px; width: 130px;" data-tooltip="Reducción de la deuda técnica. Refactorización, calidad de código y mantenibilidad.">Tech Debt</div>
-      <div class="node node-light-yellow" style="top: 670px; left: 530px; width: 130px;" data-tooltip="Objetivos y Resultados Clave (OKRs) aplicados a ingeniería. Medición de impacto técnico.">OKRs Técnicos</div>
-      <div class="node node-light-yellow" style="top: 740px; left: 530px; width: 130px;" data-tooltip="Métricas DORA: Deployment Frequency, Lead Time, MTTR, Change Failure Rate. Clave para la excelencia operativa.">DORA Metrics</div>
-      <div class="node node-light-yellow" style="top: 670px; left: 830px; width: 130px;" data-tooltip="Storytelling técnico, comunicación ejecutiva, gestión de expectativas con stakeholders.">Stakeholder Mgmt</div>
-      <div class="node node-light-yellow" style="top: 740px; left: 830px; width: 130px;" data-tooltip="Alineación de la ingeniería con la estrategia de producto. Roadmaps iterativos y entrega de valor continuo.">Product Alignment</div>
-
+    <!-- Nodos (mismos que antes) -->
+    <div class="node node-yellow" style="top: 350px; left: 390px; width: 220px; height: 120px;" data-tooltip="Marco integral que integra el Proceso Administrativo PODC, los fundamentos de Drucker, los roles de Mintzberg y la visión estratégica para liderar equipos de ingeniería informática con enfoque en negocio.">
+      <div class="node-title">Gerencia IT</div>
+      <div class="node-desc">Wiki-Framework</div>
     </div>
+    <div class="node node-teal" style="top: 120px; left: 400px; width: 200px; height: 90px;" data-tooltip="El padre de la gerencia moderna. Acuñó el concepto del 'Trabajador del Conocimiento': el cerebro del ingeniero es el activo real. Su visión de la gerencia integral es la base para un CTO moderno.">
+      <div class="node-title">Peter Drucker</div>
+      <div class="node-desc">Trabajador del Conocimiento</div>
+    </div>
+    <div class="node node-green" style="top: 125px; left: 690px; width: 85px; height: 85px;" data-tooltip="La Gerencia Integral requiere dominar tres áreas críticas: Técnica, Mercadeo y Finanzas.">
+      <div class="node-title" style="font-size: 1rem;">Triada</div>
+    </div>
+    <div class="node node-light-yellow" style="top: 90px; left: 830px; width: 130px;" data-tooltip="Viabilidad técnica, arquitectura escalable, selección de stack.">Técnica</div>
+    <div class="node node-light-yellow" style="top: 145px; left: 830px; width: 130px;" data-tooltip="Necesidades del usuario, propuesta de valor, posicionamiento en el mercado.">Mercadeo</div>
+    <div class="node node-light-yellow" style="top: 200px; left: 830px; width: 130px;" data-tooltip="Rentabilidad, retorno de inversión, optimización de recursos.">Finanzas</div>
+    <div class="node node-green" style="top: 125px; left: 200px; width: 90px; height: 90px;" data-tooltip="Henry Mintzberg: teoría de los roles gerenciales. Aplicados al contexto de ingeniería de software.">
+      <div class="node-title" style="font-size: 0.9rem;">Mintzberg</div>
+    </div>
+    <div class="node node-light-yellow" style="top: 215px; left: 140px; width: 190px; height: 70px;" data-tooltip="Los 10 roles gerenciales: Cabeza Visible, Líder, Enlace, Monitor, Difusor, Portavoz, Emprendedor, Gestor de problemas, Asignador de recursos, Negociador. Adaptados a entornos IT.">
+      <div class="node-title" style="font-size: 1rem;">Los 10 Roles</div>
+    </div>
+    <div class="node node-teal" style="top: 375px; left: 140px; width: 180px; height: 90px;" data-tooltip="Aplicación del ciclo administrativo (Planificar, Organizar, Dirigir, Controlar) a proyectos de software, integrando metodologías ágiles y gestión de infraestructura.">
+      <div class="node-title">PODC</div>
+      <div class="node-desc">Proceso Administrativo</div>
+    </div>
+    <div class="list-wrapper" style="top: 470px; left: 40px;">
+      <div class="list-item" data-tooltip="Definición del Product Backlog, selección del Stack tecnológico, estimación de Sprints y previsión de escalabilidad.">
+        <div class="list-number">1</div>
+        <div class="list-box">Planificación</div>
+      </div>
+      <div class="list-item" data-tooltip="Estructuración de células ágiles Scrum, asignación de roles Dev-QA-DevOps, gestión de infraestructura Cloud.">
+        <div class="list-number">2</div>
+        <div class="list-box">Organización</div>
+      </div>
+      <div class="list-item" data-tooltip="Liderazgo técnico del Tech Lead: resolver bloqueos en Dailies, gestionar deuda técnica y motivar al equipo.">
+        <div class="list-number">3</div>
+        <div class="list-box">Dirección</div>
+      </div>
+      <div class="list-item" data-tooltip="Implementación de CI/CD, revisiones de código Pull Requests, monitoreo de KPIs de rendimiento y calidad QA.">
+        <div class="list-number">4</div>
+        <div class="list-box">Control</div>
+      </div>
+    </div>
+    <div class="node node-teal" style="top: 320px; left: 710px; width: 170px; height: 80px;" data-tooltip="Fundamental para alinear la cultura de ingeniería con los objetivos estratégicos del negocio. Fomenta la motivación, la visión compartida y la mejora continua.">
+      <i class="fas fa-star" style="color:#2b2b2b"></i>
+      <div class="node-title">Rol Líder</div>
+      <div class="node-desc">(Top 3)</div>
+    </div>
+    <div class="node node-teal" style="top: 420px; left: 710px; width: 170px; height: 80px;" data-tooltip="Puente vital para traducir requerimientos de clientes no técnicos a especificaciones funcionales. Gestiona stakeholders y facilita la comunicación.">
+      <i class="fas fa-handshake" style="color:#2b2b2b"></i>
+      <div class="node-title">Rol Enlace</div>
+      <div class="node-desc">(Top 3)</div>
+    </div>
+    <div class="node node-teal" style="top: 580px; left: 710px; width: 170px; height: 80px;" data-tooltip="Capacidad de identificar tecnologías disruptivas como la IA, integrarlas como ventaja competitiva. Promueve la innovación y la adaptación al cambio.">
+      <i class="fas fa-rocket" style="color:#2b2b2b"></i>
+      <div class="node-title">Rol Emprendedor</div>
+      <div class="node-desc">(Top 3)</div>
+    </div>
+    <div class="node node-teal" style="top: 530px; left: 280px; width: 190px; height: 90px;" data-tooltip="Del código a la estrategia: arquitectura orientada a negocio + OKRs técnicos. Cada línea de código debe aportar valor al negocio.">
+      <div class="node-title">Del Código a la Estrategia</div>
+    </div>
+    <div class="node node-teal" style="top: 530px; left: 490px; width: 190px; height: 90px;" data-tooltip="Tech debt reduction, DORA metrics, resiliencia y escalabilidad. Asegura la sostenibilidad técnica y operativa del producto.">
+      <div class="node-title">Sostenibilidad del Producto</div>
+    </div>
+    <div class="node node-teal" style="top: 530px; left: 700px; width: 190px; height: 90px;" data-tooltip="Cultura de innovación continua, mentoring técnico y psychological safety. Liderazgo que empodera y retiene talento.">
+      <div class="node-title">Liderazgo Transformacional</div>
+    </div>
+    <div class="node node-light-yellow" style="top: 670px; left: 200px; width: 130px;" data-tooltip="Integración y despliegue continuo (CI/CD). Automatización, despliegues confiables y métricas DORA.">DevOps</div>
+    <div class="node node-light-yellow" style="top: 740px; left: 200px; width: 130px;" data-tooltip="Reducción de la deuda técnica. Refactorización, calidad de código y mantenibilidad.">Tech Debt</div>
+    <div class="node node-light-yellow" style="top: 670px; left: 530px; width: 130px;" data-tooltip="Objetivos y Resultados Clave (OKRs) aplicados a ingeniería. Medición de impacto técnico.">OKRs Técnicos</div>
+    <div class="node node-light-yellow" style="top: 740px; left: 530px; width: 130px;" data-tooltip="Métricas DORA: Deployment Frequency, Lead Time, MTTR, Change Failure Rate. Clave para la excelencia operativa.">DORA Metrics</div>
+    <div class="node node-light-yellow" style="top: 670px; left: 830px; width: 130px;" data-tooltip="Storytelling técnico, comunicación ejecutiva, gestión de expectativas con stakeholders.">Stakeholder Mgmt</div>
+    <div class="node node-light-yellow" style="top: 740px; left: 830px; width: 130px;" data-tooltip="Alineación de la ingeniería con la estrategia de producto. Roadmaps iterativos y entrega de valor continuo.">Product Alignment</div>
   </div>
+</div>
 
-  <script>
-    // Custom tooltip para mejorar la experiencia
-    (function() {
-      // Crear elemento tooltip
-      const tooltip = document.createElement('div');
-      tooltip.className = 'custom-tooltip';
+<script>
+  // Tooltip mejorado para móviles: aparece con un toque, se cierra al tocar fuera o después de un tiempo
+  (function() {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'custom-tooltip';
+    tooltip.style.opacity = '0';
+    tooltip.style.visibility = 'hidden';
+    document.body.appendChild(tooltip);
+
+    let activeTooltip = null;
+    let hideTimeout = null;
+
+    function showTooltip(target, text) {
+      if (!text) return;
+      if (hideTimeout) clearTimeout(hideTimeout);
+      tooltip.innerText = text;
+      tooltip.style.opacity = '1';
+      tooltip.style.visibility = 'visible';
+
+      const rect = target.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+      let top = rect.top - tooltipRect.height - 8;
+      let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+
+      if (top < 10) top = rect.bottom + 8;
+      if (left + tooltipRect.width > window.innerWidth - 10) left = window.innerWidth - tooltipRect.width - 10;
+      if (left < 10) left = 10;
+
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+      activeTooltip = target;
+    }
+
+    function hideTooltip() {
       tooltip.style.opacity = '0';
       tooltip.style.visibility = 'hidden';
-      document.body.appendChild(tooltip);
+      activeTooltip = null;
+    }
 
-      let currentTarget = null;
-      let timeoutId = null;
+    function scheduleHide() {
+      if (hideTimeout) clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(() => {
+        hideTooltip();
+      }, 2000); // se oculta automáticamente a los 2 segundos para no bloquear
+    }
 
-      function showTooltip(target, text) {
-        if (!text) return;
-        tooltip.innerText = text;
-        tooltip.style.opacity = '1';
-        tooltip.style.visibility = 'visible';
-        
-        // Posicionar cerca del elemento, pero sin superponer
-        const rect = target.getBoundingClientRect();
-        const tooltipRect = tooltip.getBoundingClientRect();
-        let top = rect.top - tooltipRect.height - 8;
-        let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-        
-        // Ajustar si se sale de la pantalla
-        if (top < 10) top = rect.bottom + 8;
-        if (left + tooltipRect.width > window.innerWidth - 10) left = window.innerWidth - tooltipRect.width - 10;
-        if (left < 10) left = 10;
-        
-        tooltip.style.top = `${top}px`;
-        tooltip.style.left = `${left}px`;
+    function handleMouseEnter(e) {
+      const target = e.currentTarget;
+      if (hideTimeout) clearTimeout(hideTimeout);
+      const text = target.getAttribute('data-tooltip');
+      if (text) {
+        showTooltip(target, text);
       }
+    }
 
-      function hideTooltip() {
-        tooltip.style.opacity = '0';
-        tooltip.style.visibility = 'hidden';
-        currentTarget = null;
-      }
+    function handleMouseLeave() {
+      scheduleHide();
+    }
 
-      function scheduleHide() {
-        if (timeoutId) clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
+    // Para dispositivos táctiles: al tocar se muestra el tooltip y se mantiene hasta tocar otra vez o fuera
+    function handleTouchStart(e) {
+      e.preventDefault();
+      const target = e.currentTarget;
+      const text = target.getAttribute('data-tooltip');
+      if (text) {
+        if (activeTooltip === target) {
+          // Si ya está activo, lo ocultamos
           hideTooltip();
-        }, 100);
-      }
-
-      function handleMouseEnter(e) {
-        const target = e.currentTarget;
-        if (timeoutId) clearTimeout(timeoutId);
-        // Obtener texto del atributo data-tooltip
-        const text = target.getAttribute('data-tooltip');
-        if (text) {
-          currentTarget = target;
+        } else {
           showTooltip(target, text);
+          // Programar ocultado automático después de 3 segundos para no saturar
+          setTimeout(() => {
+            if (activeTooltip === target) hideTooltip();
+          }, 3000);
         }
       }
+    }
 
-      function handleMouseLeave() {
-        scheduleHide();
+    // Aplicar a todos los elementos con data-tooltip
+    const elements = document.querySelectorAll('[data-tooltip]');
+    elements.forEach(el => {
+      el.removeAttribute('title');
+      el.addEventListener('mouseenter', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
+      el.addEventListener('touchstart', handleTouchStart, { passive: false });
+    });
+
+    // Al tocar fuera del tooltip, ocultarlo
+    document.body.addEventListener('touchstart', function(e) {
+      if (activeTooltip && !activeTooltip.contains(e.target) && !tooltip.contains(e.target)) {
+        hideTooltip();
       }
-
-      // Para dispositivos táctiles: mostrar al hacer tap y ocultar al tocar otro lugar
-      function handleTouchStart(e) {
-        const target = e.currentTarget;
-        const text = target.getAttribute('data-tooltip');
-        if (text) {
-          e.preventDefault();
-          // Ocultar cualquier tooltip anterior
-          hideTooltip();
-          showTooltip(target, text);
-          // Mantener visible hasta que se toque fuera
-          document.addEventListener('touchstart', onOutsideTouch, { once: true });
-        }
-      }
-
-      function onOutsideTouch(e) {
-        if (!currentTarget || (e.target !== currentTarget && !currentTarget.contains(e.target))) {
-          hideTooltip();
-        }
-        document.removeEventListener('touchstart', onOutsideTouch);
-      }
-
-      // Aplicar a todos los elementos que tengan data-tooltip (nodos y elementos de lista)
-      const elements = document.querySelectorAll('[data-tooltip]');
-      elements.forEach(el => {
-        // Eliminar title nativo para que no interfiera
-        el.removeAttribute('title');
-        el.addEventListener('mouseenter', handleMouseEnter);
-        el.addEventListener('mouseleave', handleMouseLeave);
-        el.addEventListener('touchstart', handleTouchStart, { passive: false });
-      });
-    })();
-  </script>
+    });
+  })();
+</script>
 </body>
 </html>
