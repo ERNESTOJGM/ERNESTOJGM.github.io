@@ -17,6 +17,7 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      overflow-x: auto; /* Permitir scroll horizontal en el body */
     }
 
     .header {
@@ -28,11 +29,12 @@
       padding: 1rem 3rem;
       border-radius: 20px;
       box-shadow: 4px 4px 0px #a2d2cf;
+      max-width: 100%;
     }
     .header h1 { font-size: 1.8rem; font-weight: 700; color: #fde079; }
     .header p { font-size: 0.9rem; color: #cbdbe2; margin-top: 5px; }
 
-    /* Contenedor principal con scroll horizontal suave */
+    /* Contenedor que permite scroll horizontal */
     .mindmap-viewport {
       width: 100%;
       max-width: 1200px;
@@ -45,27 +47,16 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    /* Canvas que se escala para adaptarse al ancho */
+    /* Canvas con ancho fijo para mantener el diseño original, pero el contenedor lo desplaza */
     .mindmap-canvas {
       position: relative;
-      width: 1000px;          /* ancho base */
+      width: 1000px;   /* ancho original, no se escala */
       height: 900px;
       margin: 0 auto;
       background: transparent;
-      transform-origin: top left;
-      transition: transform 0.2s ease;
     }
 
-    /* Escalamiento automático para móviles */
-    @media (max-width: 1000px) {
-      .mindmap-canvas {
-        transform: scale(calc(100% / 1000));
-        width: 100%;
-        height: auto;
-      }
-    }
-
-    /* SVG de flechas también escala */
+    /* SVG de flechas */
     .svg-layer {
       position: absolute;
       top: 0;
@@ -76,7 +67,7 @@
       z-index: 1;
     }
 
-    /* Nodos mejorados para tacto */
+    /* Nodos */
     .node {
       position: absolute;
       display: flex;
@@ -92,9 +83,9 @@
       cursor: pointer;
       transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       background-color: #fff;
-      touch-action: manipulation; /* mejora respuesta táctil */
+      touch-action: manipulation;
     }
-    .node:active { transform: scale(0.98); } /* feedback táctil */
+    .node:active { transform: scale(0.98); }
 
     .node-yellow { background-color: #fce276; }
     .node-teal { background-color: #a2d2cf; }
@@ -102,7 +93,6 @@
       background-color: #d1e7a5;
       border-radius: 50%;
       box-shadow: -4px 4px 0px #2b2b2b;
-      justify-content: center;
     }
     .node-light-yellow {
       background-color: #fef0bc;
@@ -185,7 +175,7 @@
       border-bottom: 8px solid #2b2b2b;
     }
 
-    /* Ajustes en móviles para que los nodos se vean más grandes */
+    /* Ajustes en móviles para que los textos sean legibles */
     @media (max-width: 700px) {
       .node-title { font-size: 0.9rem; }
       .node-desc { font-size: 0.7rem; }
@@ -215,7 +205,7 @@
           <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b2b2b" />
         </marker>
       </defs>
-      <!-- líneas (mismas que antes) -->
+      <!-- líneas (idénticas) -->
       <path d="M 400,160 L 460,160 L 460,180 L 550,180 L 550,165 L 610,165" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
       <path d="M 690,160 L 760,160" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
       <path d="M 690,205 L 760,205" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
@@ -244,7 +234,7 @@
       <path d="M 600,680 L 600,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
     </svg>
 
-    <!-- Nodos (mismos que antes) -->
+    <!-- Nodos (mismos) -->
     <div class="node node-yellow" style="top: 350px; left: 390px; width: 220px; height: 120px;" data-tooltip="Marco integral que integra el Proceso Administrativo PODC, los fundamentos de Drucker, los roles de Mintzberg y la visión estratégica para liderar equipos de ingeniería informática con enfoque en negocio.">
       <div class="node-title">Gerencia IT</div>
       <div class="node-desc">Wiki-Framework</div>
@@ -321,7 +311,7 @@
 </div>
 
 <script>
-  // Tooltip mejorado para móviles: aparece con un toque, se cierra al tocar fuera o después de un tiempo
+  // Tooltip mejorado para móviles y escritorio
   (function() {
     const tooltip = document.createElement('div');
     tooltip.className = 'custom-tooltip';
@@ -329,7 +319,7 @@
     tooltip.style.visibility = 'hidden';
     document.body.appendChild(tooltip);
 
-    let activeTooltip = null;
+    let activeTarget = null;
     let hideTimeout = null;
 
     function showTooltip(target, text) {
@@ -350,50 +340,44 @@
 
       tooltip.style.top = `${top}px`;
       tooltip.style.left = `${left}px`;
-      activeTooltip = target;
+      activeTarget = target;
     }
 
     function hideTooltip() {
       tooltip.style.opacity = '0';
       tooltip.style.visibility = 'hidden';
-      activeTooltip = null;
+      activeTarget = null;
     }
 
-    function scheduleHide() {
+    function scheduleHide(delay = 2000) {
       if (hideTimeout) clearTimeout(hideTimeout);
       hideTimeout = setTimeout(() => {
         hideTooltip();
-      }, 2000); // se oculta automáticamente a los 2 segundos para no bloquear
+      }, delay);
     }
 
+    // Eventos para ratón
     function handleMouseEnter(e) {
       const target = e.currentTarget;
       if (hideTimeout) clearTimeout(hideTimeout);
       const text = target.getAttribute('data-tooltip');
-      if (text) {
-        showTooltip(target, text);
-      }
+      if (text) showTooltip(target, text);
     }
-
     function handleMouseLeave() {
-      scheduleHide();
+      scheduleHide(500);
     }
 
-    // Para dispositivos táctiles: al tocar se muestra el tooltip y se mantiene hasta tocar otra vez o fuera
+    // Eventos táctiles
     function handleTouchStart(e) {
       e.preventDefault();
       const target = e.currentTarget;
       const text = target.getAttribute('data-tooltip');
       if (text) {
-        if (activeTooltip === target) {
-          // Si ya está activo, lo ocultamos
+        if (activeTarget === target) {
           hideTooltip();
         } else {
           showTooltip(target, text);
-          // Programar ocultado automático después de 3 segundos para no saturar
-          setTimeout(() => {
-            if (activeTooltip === target) hideTooltip();
-          }, 3000);
+          scheduleHide(3000); // se oculta automáticamente después de 3 segundos
         }
       }
     }
@@ -407,9 +391,9 @@
       el.addEventListener('touchstart', handleTouchStart, { passive: false });
     });
 
-    // Al tocar fuera del tooltip, ocultarlo
+    // Ocultar tooltip al tocar fuera
     document.body.addEventListener('touchstart', function(e) {
-      if (activeTooltip && !activeTooltip.contains(e.target) && !tooltip.contains(e.target)) {
+      if (activeTarget && !activeTarget.contains(e.target) && !tooltip.contains(e.target)) {
         hideTooltip();
       }
     });
