@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://i.ibb.co/JwTPQdgs/Logo-GYM.png">
     <style>
-        /* Estilos adicionales para el mapa mental responsivo */
+        /* Ajustes responsivos para el mapa mental y video */
         .mindmap-container {
             margin-top: 2rem;
             padding-top: 1rem;
@@ -26,17 +26,16 @@
         .mindmap-iframe {
             display: block;
             width: 100%;
-            height: 650px;  /* altura fija, pero el contenido interno escala */
+            height: 650px;
             border: none;
             border-radius: 1rem;
         }
-        /* En móviles muy pequeños, reducimos altura para que se vea mejor */
         @media (max-width: 640px) {
             .mindmap-iframe {
                 height: 500px;
             }
         }
-        /* Asegurar que el video siempre se vea completo */
+        /* Video mejorado */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -52,10 +51,7 @@
             width: 100%;
             height: 100%;
             border: 0;
-        }
-        .info-item .video-wrapper:hover {
-            transform: scale(1.01);
-            box-shadow: 0 16px 28px -8px rgba(0,0,0,0.2);
+            object-fit: cover; /* Asegura que el video cubra el área sin deformarse */
         }
         .video-caption {
             font-size: 0.75rem;
@@ -164,7 +160,7 @@
                 </div>
             </div>
 
-            <!-- Mapa mental integrado con mejora responsiva -->
+            <!-- Mapa mental integrado con scroll horizontal -->
             <div class="mindmap-container">
                 <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-project-diagram"></i> Mapa Estratégico: Gerencia IT
@@ -174,11 +170,12 @@
                         src="mapamental.html" 
                         title="Mapa mental - Gerencia IT"
                         class="mindmap-iframe"
-                        loading="lazy">
+                        loading="lazy"
+                        style="width: 100%;">
                     </iframe>
                 </div>
                 <p class="mindmap-caption" style="font-size: 0.85rem; color: #475569; margin-top: 0.75rem; text-align: center;">
-                    <i class="fas fa-info-circle"></i> Explora los conceptos clave: toca cualquier nodo para ver la explicación.
+                    <i class="fas fa-info-circle"></i> Explora los conceptos clave: toca cualquier nodo para ver la explicación. Desliza para ver todo el mapa.
                 </p>
             </div>
         </div>
