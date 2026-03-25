@@ -9,32 +9,135 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://i.ibb.co/JwTPQdgs/Logo-GYM.png">
     <style>
-        /* Ajustes responsivos para el mapa mental y video */
-        .mindmap-container {
+        /* Estilos para el mapa mental integrado (versión responsive) */
+        .mindmap-integrated {
             margin-top: 2rem;
             padding-top: 1rem;
             border-top: 1px solid rgba(249,115,22,0.2);
         }
-        .mindmap-iframe-wrapper {
-            position: relative;
-            width: 100%;
-            overflow-x: auto;
-            border-radius: 1rem;
+        .mindmap-wrapper {
             background: #f4f7f6;
+            border: 4px solid #2b2b2b;
+            border-radius: 12px;
+            padding: 1rem;
+            overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
-        .mindmap-iframe {
-            display: block;
+        .mindmap-container {
+            position: relative;
+            width: 1000px;   /* ancho fijo para conservar diseño */
+            height: 900px;
+            margin: 0 auto;
+        }
+        .mindmap-container svg {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 650px;
-            border: none;
-            border-radius: 1rem;
+            height: 100%;
+            pointer-events: none;
         }
-        @media (max-width: 640px) {
-            .mindmap-iframe {
-                height: 500px;
-            }
+        /* Nodos */
+        .mindmap-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0.8rem;
+            border: 3px solid #2b2b2b;
+            border-radius: 3px 15px 3px 15px / 15px 3px 15px 3px;
+            box-shadow: -4px 5px 0px #2b2b2b;
+            background-color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            touch-action: manipulation;
+            z-index: 2;
         }
+        .mindmap-node:active { transform: scale(0.98); }
+        .mindmap-node-yellow { background-color: #fce276; }
+        .mindmap-node-teal { background-color: #a2d2cf; }
+        .mindmap-node-green {
+            background-color: #d1e7a5;
+            border-radius: 50%;
+        }
+        .mindmap-node-light-yellow {
+            background-color: #fef0bc;
+            border-radius: 6px;
+            padding: 0.4rem;
+        }
+        .mindmap-node-title { font-weight: 700; font-size: 1.2rem; color: #1a1a1a; }
+        .mindmap-node-desc { font-size: 0.9rem; color: #333; margin-top: 4px; }
+        .mindmap-list-wrapper {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 2;
+        }
+        .mindmap-list-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mindmap-list-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid #2b2b2b;
+            background: #d1e7a5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .mindmap-list-box {
+            width: 160px;
+            height: 38px;
+            border: 2px solid #2b2b2b;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+            background: #fef0bc;
+            border-radius: 4px;
+            box-shadow: -2px 2px 0 #2b2b2b;
+        }
+        @media (max-width: 700px) {
+            .mindmap-node-title { font-size: 0.9rem; }
+            .mindmap-node-desc { font-size: 0.7rem; }
+            .mindmap-node { padding: 0.4rem; }
+            .mindmap-list-box { width: 130px; font-size: 0.8rem; height: 32px; }
+            .mindmap-list-number { width: 24px; height: 24px; font-size: 0.8rem; }
+        }
+
+        /* Tooltip personalizado */
+        .custom-tooltip {
+            position: fixed;
+            background: #2b2b2b;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            padding: 12px 18px;
+            border-radius: 12px;
+            max-width: 280px;
+            white-space: pre-wrap;
+            z-index: 10000;
+            pointer-events: none;
+            border-left: 4px solid #fde079;
+            transition: opacity 0.15s;
+        }
+        .custom-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #2b2b2b;
+        }
+
         /* Video mejorado */
         .video-wrapper {
             position: relative;
@@ -51,13 +154,7 @@
             width: 100%;
             height: 100%;
             border: 0;
-            object-fit: cover; /* Asegura que el video cubra el área sin deformarse */
-        }
-        .video-caption {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-            text-align: center;
+            object-fit: contain;
         }
     </style>
 </head>
@@ -160,19 +257,122 @@
                 </div>
             </div>
 
-            <!-- Mapa mental integrado con scroll horizontal -->
-            <div class="mindmap-container">
+            <!-- Mapa mental integrado (sin iframe) -->
+            <div class="mindmap-integrated">
                 <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-project-diagram"></i> Mapa Estratégico: Gerencia IT
                 </h3>
-                <div class="mindmap-iframe-wrapper">
-                    <iframe 
-                        src="mapamental.html" 
-                        title="Mapa mental - Gerencia IT"
-                        class="mindmap-iframe"
-                        loading="lazy"
-                        style="width: 100%;">
-                    </iframe>
+                <div class="mindmap-wrapper">
+                    <div class="mindmap-container">
+                        <!-- SVG con las flechas -->
+                        <svg width="1000" height="900" viewBox="0 0 1000 900">
+                            <defs>
+                                <marker id="hollow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" stroke="#2b2b2b" stroke-width="1.5"/>
+                                </marker>
+                                <marker id="black-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b2b2b"/>
+                                </marker>
+                            </defs>
+                            <path d="M 400,160 L 460,160 L 460,180 L 550,180 L 550,165 L 610,165" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 690,160 L 760,160" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 690,205 L 760,205" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 690,250 L 760,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 305,165 L 305,215 L 230,215" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 210,270 L 210,325" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                            <path d="M 200,415 L 140,415" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 200,460 L 140,460" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 200,505 L 140,505" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 200,550 L 140,550" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 500,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 400,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 600,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 350,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 650,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 500,500" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,500 L 380,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,500 L 620,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 650,350" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 650,450" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 500,400 L 500,620 L 730,620" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
+                            <path d="M 330,590 L 290,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                            <path d="M 530,590 L 530,680" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                            <path d="M 670,590 L 710,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                            <path d="M 400,680 L 400,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                            <path d="M 600,680 L 600,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
+                        </svg>
+
+                        <!-- Nodos (contenido) -->
+                        <div class="mindmap-node mindmap-node-yellow" style="top: 350px; left: 390px; width: 220px; height: 120px;" data-tooltip="Marco integral que integra el Proceso Administrativo PODC, los fundamentos de Drucker, los roles de Mintzberg y la visión estratégica para liderar equipos de ingeniería informática con enfoque en negocio.">
+                            <div class="mindmap-node-title">Gerencia IT</div>
+                            <div class="mindmap-node-desc">Wiki-Framework</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 120px; left: 400px; width: 200px; height: 90px;" data-tooltip="El padre de la gerencia moderna. Acuñó el concepto del 'Trabajador del Conocimiento': el cerebro del ingeniero es el activo real.">
+                            <div class="mindmap-node-title">Peter Drucker</div>
+                            <div class="mindmap-node-desc">Trabajador del Conocimiento</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-green" style="top: 125px; left: 690px; width: 85px; height: 85px;" data-tooltip="La Gerencia Integral requiere dominar tres áreas críticas: Técnica, Mercadeo y Finanzas.">
+                            <div class="mindmap-node-title">Triada</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 90px; left: 830px; width: 130px;" data-tooltip="Viabilidad técnica, arquitectura escalable, selección de stack.">Técnica</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 145px; left: 830px; width: 130px;" data-tooltip="Necesidades del usuario, propuesta de valor, posicionamiento en el mercado.">Mercadeo</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 200px; left: 830px; width: 130px;" data-tooltip="Rentabilidad, retorno de inversión, optimización de recursos.">Finanzas</div>
+                        <div class="mindmap-node mindmap-node-green" style="top: 125px; left: 200px; width: 90px; height: 90px;" data-tooltip="Henry Mintzberg: teoría de los roles gerenciales.">
+                            <div class="mindmap-node-title">Mintzberg</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 215px; left: 140px; width: 190px; height: 70px;" data-tooltip="Los 10 roles gerenciales: Cabeza Visible, Líder, Enlace, Monitor, Difusor, Portavoz, Emprendedor, Gestor de problemas, Asignador de recursos, Negociador.">
+                            <div class="mindmap-node-title">Los 10 Roles</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 375px; left: 140px; width: 180px; height: 90px;" data-tooltip="Aplicación del ciclo administrativo (Planificar, Organizar, Dirigir, Controlar) a proyectos de software.">
+                            <div class="mindmap-node-title">PODC</div>
+                            <div class="mindmap-node-desc">Proceso Administrativo</div>
+                        </div>
+                        <div class="mindmap-list-wrapper" style="top: 470px; left: 40px;">
+                            <div class="mindmap-list-item" data-tooltip="Definición del Product Backlog, selección del Stack tecnológico, estimación de Sprints.">
+                                <div class="mindmap-list-number">1</div>
+                                <div class="mindmap-list-box">Planificación</div>
+                            </div>
+                            <div class="mindmap-list-item" data-tooltip="Estructuración de células ágiles Scrum, asignación de roles Dev-QA-DevOps.">
+                                <div class="mindmap-list-number">2</div>
+                                <div class="mindmap-list-box">Organización</div>
+                            </div>
+                            <div class="mindmap-list-item" data-tooltip="Liderazgo técnico del Tech Lead: resolver bloqueos en Dailies, gestionar deuda técnica.">
+                                <div class="mindmap-list-number">3</div>
+                                <div class="mindmap-list-box">Dirección</div>
+                            </div>
+                            <div class="mindmap-list-item" data-tooltip="Implementación de CI/CD, revisiones de código, monitoreo de KPIs.">
+                                <div class="mindmap-list-number">4</div>
+                                <div class="mindmap-list-box">Control</div>
+                            </div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 320px; left: 710px; width: 170px; height: 80px;" data-tooltip="Alinear la cultura de ingeniería con los objetivos estratégicos del negocio.">
+                            <i class="fas fa-star"></i>
+                            <div class="mindmap-node-title">Rol Líder</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 420px; left: 710px; width: 170px; height: 80px;" data-tooltip="Puente para traducir requerimientos de clientes no técnicos a especificaciones funcionales.">
+                            <i class="fas fa-handshake"></i>
+                            <div class="mindmap-node-title">Rol Enlace</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 580px; left: 710px; width: 170px; height: 80px;" data-tooltip="Identificar tecnologías disruptivas como IA, integrarlas como ventaja competitiva.">
+                            <i class="fas fa-rocket"></i>
+                            <div class="mindmap-node-title">Rol Emprendedor</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 280px; width: 190px; height: 90px;" data-tooltip="Arquitectura orientada a negocio + OKRs técnicos.">
+                            <div class="mindmap-node-title">Del Código a la Estrategia</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 490px; width: 190px; height: 90px;" data-tooltip="Tech debt reduction, DORA metrics, resiliencia y escalabilidad.">
+                            <div class="mindmap-node-title">Sostenibilidad del Producto</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 700px; width: 190px; height: 90px;" data-tooltip="Cultura de innovación continua, mentoring técnico y psychological safety.">
+                            <div class="mindmap-node-title">Liderazgo Transformacional</div>
+                        </div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 200px; width: 130px;" data-tooltip="Integración y despliegue continuo (CI/CD).">DevOps</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 200px; width: 130px;" data-tooltip="Reducción de la deuda técnica.">Tech Debt</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 530px; width: 130px;" data-tooltip="OKRs aplicados a ingeniería.">OKRs Técnicos</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 530px; width: 130px;" data-tooltip="Métricas DORA.">DORA Metrics</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 830px; width: 130px;" data-tooltip="Storytelling técnico, comunicación ejecutiva.">Stakeholder Mgmt</div>
+                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 830px; width: 130px;" data-tooltip="Alineación de la ingeniería con la estrategia de producto.">Product Alignment</div>
+                    </div>
                 </div>
                 <p class="mindmap-caption" style="font-size: 0.85rem; color: #475569; margin-top: 0.75rem; text-align: center;">
                     <i class="fas fa-info-circle"></i> Explora los conceptos clave: toca cualquier nodo para ver la explicación. Desliza para ver todo el mapa.
@@ -270,5 +470,91 @@
 </button>
 
 <script src="script.js"></script>
+<script>
+    // Tooltip para los nodos del mapa mental
+    (function() {
+        const tooltip = document.createElement('div');
+        tooltip.className = 'custom-tooltip';
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
+        document.body.appendChild(tooltip);
+
+        let activeTarget = null;
+        let hideTimeout = null;
+
+        function showTooltip(target, text) {
+            if (!text) return;
+            if (hideTimeout) clearTimeout(hideTimeout);
+            tooltip.innerText = text;
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+
+            const rect = target.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            let top = rect.top - tooltipRect.height - 8;
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+
+            if (top < 10) top = rect.bottom + 8;
+            if (left + tooltipRect.width > window.innerWidth - 10) left = window.innerWidth - tooltipRect.width - 10;
+            if (left < 10) left = 10;
+
+            tooltip.style.top = `${top}px`;
+            tooltip.style.left = `${left}px`;
+            activeTarget = target;
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+            tooltip.style.visibility = 'hidden';
+            activeTarget = null;
+        }
+
+        function scheduleHide(delay = 2000) {
+            if (hideTimeout) clearTimeout(hideTimeout);
+            hideTimeout = setTimeout(hideTooltip, delay);
+        }
+
+        // Eventos para ratón
+        function handleMouseEnter(e) {
+            const target = e.currentTarget;
+            if (hideTimeout) clearTimeout(hideTimeout);
+            const text = target.getAttribute('data-tooltip');
+            if (text) showTooltip(target, text);
+        }
+        function handleMouseLeave() {
+            scheduleHide(500);
+        }
+
+        // Eventos táctiles
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const target = e.currentTarget;
+            const text = target.getAttribute('data-tooltip');
+            if (text) {
+                if (activeTarget === target) {
+                    hideTooltip();
+                } else {
+                    showTooltip(target, text);
+                    scheduleHide(3000);
+                }
+            }
+        }
+
+        const elements = document.querySelectorAll('[data-tooltip]');
+        elements.forEach(el => {
+            el.removeAttribute('title');
+            el.addEventListener('mouseenter', handleMouseEnter);
+            el.addEventListener('mouseleave', handleMouseLeave);
+            el.addEventListener('touchstart', handleTouchStart, { passive: false });
+        });
+
+        // Ocultar al tocar fuera
+        document.body.addEventListener('touchstart', function(e) {
+            if (activeTarget && !activeTarget.contains(e.target) && !tooltip.contains(e.target)) {
+                hideTooltip();
+            }
+        });
+    })();
+</script>
 </body>
 </html>
