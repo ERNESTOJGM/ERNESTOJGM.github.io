@@ -3,199 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Gerencia y Mercadeo - Mi Portafolio</title>
+    <title>Gerencia y Mercadeo - Portafolio Ernesto Guerrero</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://i.ibb.co/JwTPQdgs/Logo-GYM.png">
     <style>
-        /* Estilos para el mapa mental integrado (versión responsive) */
-        .mindmap-integrated {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(249,115,22,0.2);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .mindmap-wrapper {
-            background: #f4f7f6;
-            border: 4px solid #2b2b2b;
-            border-radius: 12px;
-            padding: 1rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
         }
-        .mindmap-container {
-            position: relative;
-            width: 1000px;   /* ancho fijo para conservar diseño */
-            height: 900px;
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            border-bottom: 4px solid #f97316;
+        }
+        .header-content {
+            max-width: 1200px;
             margin: 0 auto;
-        }
-        .mindmap-container svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-        /* Nodos */
-        .mindmap-node {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            padding: 0.8rem;
-            border: 3px solid #2b2b2b;
-            border-radius: 3px 15px 3px 15px / 15px 3px 15px 3px;
-            box-shadow: -4px 5px 0px #2b2b2b;
-            background-color: #fff;
+        }
+        .header-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+        .blog-name {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            color: #cbd5e1;
+            margin-top: 0.5rem;
+        }
+        nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+        .nav-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 40px;
             cursor: pointer;
-            transition: transform 0.2s ease;
-            touch-action: manipulation;
-            z-index: 2;
-        }
-        .mindmap-node:active { transform: scale(0.98); }
-        .mindmap-node-yellow { background-color: #fce276; }
-        .mindmap-node-teal { background-color: #a2d2cf; }
-        .mindmap-node-green {
-            background-color: #d1e7a5;
-            border-radius: 50%;
-        }
-        .mindmap-node-light-yellow {
-            background-color: #fef0bc;
-            border-radius: 6px;
-            padding: 0.4rem;
-        }
-        .mindmap-node-title { font-weight: 700; font-size: 1.2rem; color: #1a1a1a; }
-        .mindmap-node-desc { font-size: 0.9rem; color: #333; margin-top: 4px; }
-        .mindmap-list-wrapper {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 2;
-        }
-        .mindmap-list-item {
-            display: flex;
+            transition: all 0.2s;
+            color: #334155;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
         }
-        .mindmap-list-number {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid #2b2b2b;
-            background: #d1e7a5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+        .nav-btn i {
+            font-size: 1rem;
         }
-        .mindmap-list-box {
+        .nav-btn.active {
+            background: #f97316;
+            color: white;
+            box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+        }
+        .nav-btn:hover:not(.active) {
+            background: #f1f5f9;
+            color: #f97316;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .tab-content {
+            display: none;
+            animation: fade 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.02);
+            padding: 2rem;
+            transition: transform 0.2s;
+            border: 1px solid #eef2ff;
+        }
+        .profile-card {
+            padding: 2rem;
+        }
+        .profile-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .profile-avatar-wrapper {
+            flex-shrink: 0;
+        }
+        .profile-photo {
             width: 160px;
-            height: 38px;
-            border: 2px solid #2b2b2b;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #f97316;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .profile-title h2 {
+            font-size: 1.6rem;
+            color: #0f172a;
+        }
+        .intro-text {
+            color: #334155;
+            margin-top: 0.75rem;
+            line-height: 1.5;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .info-item {
+            background: #f8fafc;
+            padding: 1.2rem;
+            border-radius: 1rem;
+            border-left: 4px solid #f97316;
+        }
+        .info-item strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        .tags-container {
             display: flex;
-            align-items: center;
-            padding-left: 10px;
-            font-weight: bold;
-            background: #fef0bc;
-            border-radius: 4px;
-            box-shadow: -2px 2px 0 #2b2b2b;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
         }
-        @media (max-width: 700px) {
-            .mindmap-node-title { font-size: 0.9rem; }
-            .mindmap-node-desc { font-size: 0.7rem; }
-            .mindmap-node { padding: 0.4rem; }
-            .mindmap-list-box { width: 130px; font-size: 0.8rem; height: 32px; }
-            .mindmap-list-number { width: 24px; height: 24px; font-size: 0.8rem; }
+        .skill-tag {
+            background: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #0f172a;
         }
-
-        /* Tooltip personalizado */
-        .custom-tooltip {
-            position: fixed;
-            background: #2b2b2b;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            padding: 12px 18px;
-            border-radius: 12px;
-            max-width: 280px;
-            white-space: pre-wrap;
-            z-index: 10000;
-            pointer-events: none;
-            border-left: 4px solid #fde079;
-            transition: opacity 0.15s;
-        }
-        .custom-tooltip::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            left: 20px;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-bottom: 8px solid #2b2b2b;
-        }
-
-        /* Video mejorado */
         .video-wrapper {
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
-            overflow: hidden;
-            border-radius: 1.2rem;
             background: #000;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-top: 0.75rem;
         }
         .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             border: 0;
-            object-fit: contain;
         }
-
-        /* Estilos para el PDF integrado */
-        .pdf-integrated {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(249,115,22,0.2);
+        .video-caption {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .activity-card {
+            background: #fef9f4;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            border: 1px solid #ffedd5;
+        }
+        .activity-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .activity-badge {
+            display: inline-block;
+            background: #f9731611;
+            color: #c2410c;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        .activity-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        .activity-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .activity-list li i {
+            color: #f97316;
+            width: 18px;
+        }
+        .status {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+        }
+        .status.ready {
+            background: #dcfce7;
+            color: #15803d;
+        }
+        .status.pending {
+            background: #fef9c3;
+            color: #a16207;
+        }
+        /* Mapa mental iframe */
+        .mindmap-iframe-container {
+            margin: 2rem 0 1rem 0;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            background: #f1f5f9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .mindmap-iframe-container iframe {
+            width: 100%;
+            height: 850px;
+            border: none;
+            display: block;
         }
         .pdf-viewer-container {
             width: 100%;
-            height: 600px;
+            height: 550px;
             border-radius: 1rem;
             overflow: hidden;
-            border: 2px solid #2b2b2b;
-            background: #f1f5f9;
-        }
-        .pdf-viewer-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .pdf-actions {
-            margin-top: 1.5rem;
-            text-align: center;
+            border: 1px solid #e2e8f0;
+            margin-top: 1rem;
         }
         .btn-download {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background-color: #2b2b2b;
-            color: #fff;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
+            background: #2b2b2b;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
+            margin-top: 1rem;
         }
         .btn-download:hover {
-            background-color: #f97316;
+            background: #f97316;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(249,115,22,0.3);
+        }
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid #1e293b;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .social-icons a {
+            color: #cbd5e1;
+            font-size: 1.4rem;
+            transition: color 0.2s;
+        }
+        .social-icons a:hover {
+            color: #f97316;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #f97316;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 99;
+        }
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .nav-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.8rem;
+            }
+            .mindmap-iframe-container iframe {
+                height: 650px;
+            }
         }
     </style>
 </head>
@@ -203,24 +348,24 @@
 
 <header>
     <div class="header-content">
-        <div class="logo-title">
-            <img src="https://i.ibb.co/JwTPQdgs/Logo-GYM.png" alt="Logo Gerencia y Mercadeo" class="header-logo">
-        </div>
-        <h2 class="blog-name">Ernesto Guerrero</h2>
-        <p class="subtitle"></p>
+        <img src="https://i.ibb.co/JwTPQdgs/Logo-GYM.png" alt="Logo Gerencia y Mercadeo" class="header-logo">
+        <h1 class="blog-name">Ernesto Guerrero</h1>
+        <p class="subtitle">Ingeniería Informática · Gerencia y Mercadeo · VIII Semestre</p>
     </div>
-    <nav>
-        <div class="nav-container" id="navContainer">
-            <button class="nav-btn active" data-tab="perfil"><i class="fas fa-user-tie"></i> Perfil Estratégico</button>
-            <button class="nav-btn" data-tab="lapso1"><i class="fas fa-chalkboard-user"></i> Módulo I</button>
-            <button class="nav-btn" data-tab="lapso2"><i class="fas fa-chart-line"></i> Módulo II</button>
-            <button class="nav-btn" data-tab="lapso3"><i class="fas fa-bullhorn"></i> Módulo III</button>
-            <button class="nav-btn" data-tab="lapso4"><i class="fas fa-project-diagram"></i> Módulo IV</button>
-        </div>
-    </nav>
 </header>
 
+<nav>
+    <div class="nav-container" id="navContainer">
+        <button class="nav-btn active" data-tab="perfil"><i class="fas fa-user-tie"></i> Perfil Estratégico</button>
+        <button class="nav-btn" data-tab="lapso1"><i class="fas fa-chalkboard-user"></i> Módulo I</button>
+        <button class="nav-btn" data-tab="lapso2"><i class="fas fa-chart-line"></i> Módulo II</button>
+        <button class="nav-btn" data-tab="lapso3"><i class="fas fa-bullhorn"></i> Módulo III</button>
+        <button class="nav-btn" data-tab="lapso4"><i class="fas fa-project-diagram"></i> Módulo IV</button>
+    </div>
+</nav>
+
 <main class="container">
+    <!-- PERFIL -->
     <section id="perfil" class="tab-content active">
         <div class="card profile-card">
             <div class="profile-header">
@@ -228,7 +373,7 @@
                     <img src="https://i.ibb.co/b5nMbJfw/CEO-EG-Solutions.jpg" alt="Ing. Ernesto Guerrero" class="profile-photo">
                 </div>
                 <div class="profile-title">
-                    <h2>Ingeniero de Petróleo Sénior | Desarrollador</h2>
+                    <h2>Ingeniero de Petróleo Sénior | Desarrollador & Consultor Tech</h2>
                     <p class="intro-text">
                         Con <strong>13 años de trayectoria en la industria petrolera</strong>, mi enfoque actual es integrar la ingeniería con el desarrollo de herramientas para la simulación de parámetros operacionales. Como <strong>instructor y consultor de Python + JS</strong>, aplico mis conocimientos a desarrollar soluciones digitales estratégicas a estudiantes y profesionales del sector.
                     </p>
@@ -255,18 +400,12 @@
                 </div>
                 <div class="info-item">
                     <strong><i class="fas fa-globe"></i> Visión de Mercado</strong>
-                    <p>Evolucionar del código a otras ramas de la ingenieria y la gerencia, utilizando analítica de datos, KPIs estratégicos y automatización de procesos ágiles centrados en el cliente.</p>
-                    <div class="linkedin-profile-link"></div>
+                    <p>Evolucionar del código a otras ramas de la ingeniería y la gerencia, utilizando analítica de datos, KPIs estratégicos y automatización de procesos ágiles centrados en el cliente.</p>
                 </div>
                 <div class="info-item">
                     <strong><i class="fas fa-play-circle"></i> DESARROLLA SOLUCIONES, IMPULSA LA INDUSTRIA</strong>
                     <div class="video-wrapper">
-                        <iframe 
-                            src="https://drive.google.com/file/d/1XHbEN9KKyb48zZ-m0bn28nLU70IDH-AH/preview"
-                            allow="autoplay; fullscreen; picture-in-picture" 
-                            allowfullscreen 
-                            title="Video Estratégico - Desarrollo de Soluciones">
-                        </iframe>
+                        <iframe src="https://drive.google.com/file/d/1XHbEN9KKyb48zZ-m0bn28nLU70IDH-AH/preview" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <p class="video-caption">Integración de tecnología, análisis de datos y gerencia moderna para resultados de alto impacto.</p>
                 </div>
@@ -274,6 +413,7 @@
         </div>
     </section>
 
+    <!-- MÓDULO I -->
     <section id="lapso1" class="tab-content">
         <div class="card">
             <h2><i class="fas fa-layer-group"></i> MÓDULO I: LA GERENCIA</h2>
@@ -296,190 +436,59 @@
                     <span class="status ready"><i class="fas fa-check-circle"></i> Módulo Activo</span>
                 </div>
             </div>
-
-            <div class="mindmap-integrated">
-                <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-project-diagram"></i> Mapa Estratégico: Gerencia IT
-                </h3>
-                <div class="mindmap-wrapper">
-                    <div class="mindmap-container">
-                        <svg width="1000" height="900" viewBox="0 0 1000 900">
-                            <defs>
-                                <marker id="hollow-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#fff" stroke="#2b2b2b" stroke-width="1.5"/>
-                                </marker>
-                                <marker id="black-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b2b2b"/>
-                                </marker>
-                            </defs>
-                            <path d="M 400,160 L 460,160 L 460,180 L 550,180 L 550,165 L 610,165" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 690,160 L 760,160" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 690,205 L 760,205" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 690,250 L 760,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 305,165 L 305,215 L 230,215" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 210,270 L 210,325" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                            <path d="M 200,415 L 140,415" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 200,460 L 140,460" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 200,505 L 140,505" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 200,550 L 140,550" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 500,250" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 400,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 600,270" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 350,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 650,430" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 500,500" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,500 L 380,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,500 L 620,540" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 650,350" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 650,450" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 500,400 L 500,620 L 730,620" stroke="#2b2b2b" stroke-width="3" fill="none" marker-end="url(#hollow-arrow)"/>
-                            <path d="M 330,590 L 290,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                            <path d="M 530,590 L 530,680" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                            <path d="M 670,590 L 710,670" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                            <path d="M 400,680 L 400,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                            <path d="M 600,680 L 600,750" stroke="#2b2b2b" stroke-width="3" fill="none" stroke-dasharray="5 3" marker-end="url(#black-arrow)"/>
-                        </svg>
-
-                        <div class="mindmap-node mindmap-node-yellow" style="top: 350px; left: 390px; width: 220px; height: 120px;" data-tooltip="Marco integral que integra el Proceso Administrativo PODC, los fundamentos de Drucker, los roles de Mintzberg y la visión estratégica para liderar equipos de ingeniería informática con enfoque en negocio.">
-                            <div class="mindmap-node-title">Gerencia IT</div>
-                            <div class="mindmap-node-desc">Wiki-Framework</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 120px; left: 400px; width: 200px; height: 90px;" data-tooltip="El padre de la gerencia moderna. Acuñó el concepto del 'Trabajador del Conocimiento': el cerebro del ingeniero es el activo real.">
-                            <div class="mindmap-node-title">Peter Drucker</div>
-                            <div class="mindmap-node-desc">Trabajador del Conocimiento</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-green" style="top: 125px; left: 690px; width: 85px; height: 85px;" data-tooltip="La Gerencia Integral requiere dominar tres áreas críticas: Técnica, Mercadeo y Finanzas.">
-                            <div class="mindmap-node-title">Triada</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 90px; left: 830px; width: 130px;" data-tooltip="Viabilidad técnica, arquitectura escalable, selección de stack.">Técnica</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 145px; left: 830px; width: 130px;" data-tooltip="Necesidades del usuario, propuesta de valor, posicionamiento en el mercado.">Mercadeo</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 200px; left: 830px; width: 130px;" data-tooltip="Rentabilidad, retorno de inversión, optimización de recursos.">Finanzas</div>
-                        <div class="mindmap-node mindmap-node-green" style="top: 125px; left: 200px; width: 90px; height: 90px;" data-tooltip="Henry Mintzberg: teoría de los roles gerenciales.">
-                            <div class="mindmap-node-title">Mintzberg</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 215px; left: 140px; width: 190px; height: 70px;" data-tooltip="Los 10 roles gerenciales: Cabeza Visible, Líder, Enlace, Monitor, Difusor, Portavoz, Emprendedor, Gestor de problemas, Asignador de recursos, Negociador.">
-                            <div class="mindmap-node-title">Los 10 Roles</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 375px; left: 140px; width: 180px; height: 90px;" data-tooltip="Aplicación del ciclo administrativo (Planificar, Organizar, Dirigir, Controlar) a proyectos de software.">
-                            <div class="mindmap-node-title">PODC</div>
-                            <div class="mindmap-node-desc">Proceso Administrativo</div>
-                        </div>
-                        <div class="mindmap-list-wrapper" style="top: 470px; left: 40px;">
-                            <div class="mindmap-list-item" data-tooltip="Definición del Product Backlog, selección del Stack tecnológico, estimación de Sprints.">
-                                <div class="mindmap-list-number">1</div>
-                                <div class="mindmap-list-box">Planificación</div>
-                            </div>
-                            <div class="mindmap-list-item" data-tooltip="Estructuración de células ágiles Scrum, asignación de roles Dev-QA-DevOps.">
-                                <div class="mindmap-list-number">2</div>
-                                <div class="mindmap-list-box">Organización</div>
-                            </div>
-                            <div class="mindmap-list-item" data-tooltip="Liderazgo técnico del Tech Lead: resolver bloqueos en Dailies, gestionar deuda técnica.">
-                                <div class="mindmap-list-number">3</div>
-                                <div class="mindmap-list-box">Dirección</div>
-                            </div>
-                            <div class="mindmap-list-item" data-tooltip="Implementación de CI/CD, revisiones de código, monitoreo de KPIs.">
-                                <div class="mindmap-list-number">4</div>
-                                <div class="mindmap-list-box">Control</div>
-                            </div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 320px; left: 710px; width: 170px; height: 80px;" data-tooltip="Alinear la cultura de ingeniería con los objetivos estratégicos del negocio.">
-                            <i class="fas fa-star"></i>
-                            <div class="mindmap-node-title">Rol Líder</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 420px; left: 710px; width: 170px; height: 80px;" data-tooltip="Puente para traducir requerimientos de clientes no técnicos a especificaciones funcionales.">
-                            <i class="fas fa-handshake"></i>
-                            <div class="mindmap-node-title">Rol Enlace</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 580px; left: 710px; width: 170px; height: 80px;" data-tooltip="Identificar tecnologías disruptivas como IA, integrarlas como ventaja competitiva.">
-                            <i class="fas fa-rocket"></i>
-                            <div class="mindmap-node-title">Rol Emprendedor</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 280px; width: 190px; height: 90px;" data-tooltip="Arquitectura orientada a negocio + OKRs técnicos.">
-                            <div class="mindmap-node-title">Del Código a la Estrategia</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 490px; width: 190px; height: 90px;" data-tooltip="Tech debt reduction, DORA metrics, resiliencia y escalabilidad.">
-                            <div class="mindmap-node-title">Sostenibilidad del Producto</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-teal" style="top: 530px; left: 700px; width: 190px; height: 90px;" data-tooltip="Cultura de innovación continua, mentoring técnico y psychological safety.">
-                            <div class="mindmap-node-title">Liderazgo Transformacional</div>
-                        </div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 200px; width: 130px;" data-tooltip="Integración y despliegue continuo (CI/CD).">DevOps</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 200px; width: 130px;" data-tooltip="Reducción de la deuda técnica.">Tech Debt</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 530px; width: 130px;" data-tooltip="OKRs aplicados a ingeniería.">OKRs Técnicos</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 530px; width: 130px;" data-tooltip="Métricas DORA.">DORA Metrics</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 670px; left: 830px; width: 130px;" data-tooltip="Storytelling técnico, comunicación ejecutiva.">Stakeholder Mgmt</div>
-                        <div class="mindmap-node mindmap-node-light-yellow" style="top: 740px; left: 830px; width: 130px;" data-tooltip="Alineación de la ingeniería con la estrategia de producto.">Product Alignment</div>
-                    </div>
-                </div>
-                <p class="mindmap-caption" style="font-size: 0.85rem; color: #475569; margin-top: 0.75rem; text-align: center;">
-                    <i class="fas fa-info-circle"></i> Explora los conceptos clave: toca cualquier nodo para ver la explicación. Desliza para ver todo el mapa.
-                </p>
-            </div>
-
-            <div class="video-integrated" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(249,115,22,0.2);">
-                <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-play-circle"></i> Análisis de Puntos de Quiebre: Caso Xerox PARC vs. Apple
-                </h3>
+            <!-- Video Caso Xerox -->
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;"><i class="fas fa-play-circle"></i> Análisis de Puntos de Quiebre: Xerox PARC vs. Apple</h3>
                 <div class="video-wrapper">
-                    <iframe 
-                        src="https://drive.google.com/file/d/1QpOeR6tb0-9_fsb0nfkIyDNblIiMcSjS/preview"
-                        allow="autoplay; fullscreen; picture-in-picture" 
-                        allowfullscreen 
-                        title="Análisis de Puntos de Quiebre: Caso Xerox PARC vs. Apple">
-                    </iframe>
+                    <iframe src="https://drive.google.com/file/d/1QpOeR6tb0-9_fsb0nfkIyDNblIiMcSjS/preview" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <p class="video-caption" style="text-align: center; margin-top: 1rem; color: #475569; font-size: 0.95rem;">
-                    <strong>De la invención a la innovación:</strong> Análisis sobre cómo la visión comercial y gerencial marcó la diferencia entre el desarrollo tecnológico en el laboratorio y el éxito rotundo en el mercado.
-                </p>
-            </div>
-
-            <div class="pdf-integrated">
-                <h3 style="margin-bottom: 1.5rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-file-pdf"></i> Análisis de Punto de Quiebre
-                </h3>
-                <div class="pdf-viewer-container">
-                    <iframe 
-                        src="https://drive.google.com/file/d/1MRDbKLzg_9JRNvxe9MJrnvpzRbFfUYsn/preview" 
-                        allow="autoplay">
-                    </iframe>
+                <div class="pdf-viewer-container" style="margin-top: 1.5rem;">
+                    <iframe src="https://drive.google.com/file/d/1MRDbKLzg_9JRNvxe9MJrnvpzRbFfUYsn/preview" allow="autoplay"></iframe>
                 </div>
-                <div class="pdf-actions">
+                <div style="text-align: center;">
                     <a href="https://drive.google.com/file/d/1MRDbKLzg_9JRNvxe9MJrnvpzRbFfUYsn/view?usp=drive_link" target="_blank" class="btn-download">
-                        <i class="fas fa-external-link-alt"></i> Ver pantalla completa / Descargar Análisis
+                        <i class="fas fa-external-link-alt"></i> Ver análisis completo (PDF)
                     </a>
                 </div>
-                <p class="video-caption" style="text-align: center; margin-top: 1rem; color: #475569; font-size: 0.95rem;">
-                    Documento detallado con las conclusiones estratégicas sobre la gestión de la innovación y los fallos gerenciales históricos.
-                </p>
             </div>
-
         </div>
     </section>
 
+    <!-- MÓDULO II: integración del mapa mental interactivo -->
     <section id="lapso2" class="tab-content">
         <div class="card">
             <h2><i class="fas fa-tools"></i> MÓDULO II: HERRAMIENTAS GERENCIALES</h2>
             <div class="activities-grid">
                 <div class="activity-card">
-                    <div class="activity-icon"><i class="fas fa-toolbox"></i></div>
-                    <h3>Estrategias de Optimización</h3>
-                    <div class="activity-badge">Metodologías</div>
-                    <ul class="activity-list">
-                        <li><i class="fas fa-check-double"></i> Balanced Scorecard</li>
-                        <li><i class="fas fa-check-double"></i> Benchmarking</li>
-                        <li><i class="fas fa-check-double"></i> Coaching</li>
-                        <li><i class="fas fa-check-double"></i> Outsourcing</li>
-                        <li><i class="fas fa-check-double"></i> Reingeniería</li>
-                        <li><i class="fas fa-check-double"></i> Gerencia basada en Valores</li>
-                        <li><i class="fas fa-check-double"></i> Cultura Organizacional</li>
-                        <li><i class="fas fa-check-double"></i> Toma de Decisiones</li>
-                    </ul>
-                    <span class="status pending"><i class="fas fa-hourglass-half"></i> Próximamente</span>
+                    <div class="activity-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <h3>Mapa Conceptual Integrado</h3>
+                    <div class="activity-badge">Ecosistema gerencial moderno</div>
+                    <p style="margin: 0.5rem 0;">Explora el mapa interactivo que conecta Inteligencia Emocional, Balanced Scorecard, 6 Sigma, Empowerment y Mindset Digital. Cada nodo revela autores y relaciones sistémicas.</p>
                 </div>
+            </div>
+            <!-- Iframe del mapa mental alojado como mapamental2.html (mismo directorio) -->
+            <div class="mindmap-iframe-container">
+                <iframe src="mapamental2.html" title="Mapa Mental - Herramientas Gerenciales" loading="lazy"></iframe>
+            </div>
+            <p class="video-caption" style="margin-top: 0.5rem;">
+                <i class="fas fa-hand-pointer"></i> Interactúa con el mapa: explora los nodos, descarga la imagen PNG o amplía los conceptos. La herramienta visual representa la interdependencia entre modelos clave para la transformación organizacional.
+            </p>
+            <div style="margin-top: 2rem; background: #fef9f4; padding: 1rem; border-radius: 1rem;">
+                <h3><i class="fas fa-book-open"></i> Contenido temático del módulo</h3>
+                <ul class="activity-list" style="margin-top: 0.5rem;">
+                    <li><i class="fas fa-check-double"></i> Balanced Scorecard (Kaplan & Norton)</li>
+                    <li><i class="fas fa-check-double"></i> Benchmarking y Reingeniería</li>
+                    <li><i class="fas fa-check-double"></i> Coaching y Mentoring</li>
+                    <li><i class="fas fa-check-double"></i> Outsourcing y Cultura Organizacional</li>
+                    <li><i class="fas fa-check-double"></i> Gerencia basada en Valores</li>
+                    <li><i class="fas fa-check-double"></i> Toma de Decisiones estratégicas</li>
+                </ul>
+                <span class="status ready"><i class="fas fa-check-circle"></i> Módulo II activo - Mapa mental integrado</span>
             </div>
         </div>
     </section>
 
+    <!-- MÓDULO III -->
     <section id="lapso3" class="tab-content">
         <div class="card">
             <h2><i class="fas fa-bullhorn"></i> MÓDULO III: MERCADEO</h2>
@@ -497,12 +506,13 @@
                         <li><i class="fas fa-check-double"></i> Estrategias de Mercado</li>
                         <li><i class="fas fa-check-double"></i> Planeación del marketing</li>
                     </ul>
-                    <span class="status pending"><i class="fas fa-clock"></i> Pendiente</span>
+                    <span class="status pending"><i class="fas fa-hourglass-half"></i> Próximamente</span>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- MÓDULO IV -->
     <section id="lapso4" class="tab-content">
         <div class="card">
             <h2><i class="fas fa-project-diagram"></i> MÓDULO IV: SEGMENTACIÓN DE MERCADO</h2>
@@ -527,109 +537,55 @@
 </main>
 
 <footer>
-    <div class="footer-content">
-        <div class="social-icons">
-            <a href="https://www.linkedin.com/in/ernesto-guerrero-a9877a163" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            <a href="#" aria-label="Correo"><i class="fas fa-envelope"></i></a>
-        </div>
-        <p>Ing. Ernesto Guerrero, Sub-Proyecto Gerencia y Mercadeo | Carrera Ingeniería Informática, VIII Semestre</p>
-        <p class="copyright">© 2026 Portafolio Académico</p>
+    <div class="social-icons">
+        <a href="https://www.linkedin.com/in/ernesto-guerrero-a9877a163" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="Correo"><i class="fas fa-envelope"></i></a>
     </div>
+    <p>Ing. Ernesto Guerrero · Sub-Proyecto Gerencia y Mercadeo · Ingeniería Informática, VIII Semestre</p>
+    <p class="copyright">© 2026 Portafolio Académico · Barinas, Venezuela</p>
 </footer>
 
-<button class="scroll-top" id="scrollTopBtn" aria-label="Volver arriba">
-    <i class="fas fa-arrow-up"></i>
-</button>
+<button class="scroll-top" id="scrollTopBtn" aria-label="Volver arriba"><i class="fas fa-arrow-up"></i></button>
 
-<script src="script.js"></script>
 <script>
-    // Tooltip para los nodos del mapa mental
-    (function() {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'custom-tooltip';
-        tooltip.style.opacity = '0';
-        tooltip.style.visibility = 'hidden';
-        document.body.appendChild(tooltip);
+    // Navegación por pestañas
+    const tabs = document.querySelectorAll('.nav-btn');
+    const contents = document.querySelectorAll('.tab-content');
 
-        let activeTarget = null;
-        let hideTimeout = null;
+    function activateTab(tabId) {
+        contents.forEach(content => content.classList.remove('active'));
+        const activeContent = document.getElementById(tabId);
+        if (activeContent) activeContent.classList.add('active');
+        tabs.forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+    }
 
-        function showTooltip(target, text) {
-            if (!text) return;
-            if (hideTimeout) clearTimeout(hideTimeout);
-            tooltip.innerText = text;
-            tooltip.style.opacity = '1';
-            tooltip.style.visibility = 'visible';
-
-            const rect = target.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
-            let top = rect.top - tooltipRect.height - 8;
-            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-
-            if (top < 10) top = rect.bottom + 8;
-            if (left + tooltipRect.width > window.innerWidth - 10) left = window.innerWidth - tooltipRect.width - 10;
-            if (left < 10) left = 10;
-
-            tooltip.style.top = `${top}px`;
-            tooltip.style.left = `${left}px`;
-            activeTarget = target;
-        }
-
-        function hideTooltip() {
-            tooltip.style.opacity = '0';
-            tooltip.style.visibility = 'hidden';
-            activeTarget = null;
-        }
-
-        function scheduleHide(delay = 2000) {
-            if (hideTimeout) clearTimeout(hideTimeout);
-            hideTimeout = setTimeout(hideTooltip, delay);
-        }
-
-        // Eventos para ratón
-        function handleMouseEnter(e) {
-            const target = e.currentTarget;
-            if (hideTimeout) clearTimeout(hideTimeout);
-            const text = target.getAttribute('data-tooltip');
-            if (text) showTooltip(target, text);
-        }
-        function handleMouseLeave() {
-            scheduleHide(500);
-        }
-
-        // Eventos táctiles
-        function handleTouchStart(e) {
-            e.preventDefault();
-            const target = e.currentTarget;
-            const text = target.getAttribute('data-tooltip');
-            if (text) {
-                if (activeTarget === target) {
-                    hideTooltip();
-                } else {
-                    showTooltip(target, text);
-                    scheduleHide(3000);
-                }
-            }
-        }
-
-        const elements = document.querySelectorAll('[data-tooltip]');
-        elements.forEach(el => {
-            el.removeAttribute('title');
-            el.addEventListener('mouseenter', handleMouseEnter);
-            el.addEventListener('mouseleave', handleMouseLeave);
-            el.addEventListener('touchstart', handleTouchStart, { passive: false });
+    tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            activateTab(tabId);
+            localStorage.setItem('activeTab', tabId);
         });
+    });
 
-        // Ocultar al tocar fuera
-        document.body.addEventListener('touchstart', function(e) {
-            if (activeTarget && !activeTarget.contains(e.target) && !tooltip.contains(e.target)) {
-                hideTooltip();
-            }
-        });
-    })();
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab && document.getElementById(savedTab)) {
+        activateTab(savedTab);
+    } else {
+        activateTab('perfil');
+    }
+
+    // Scroll to top button
+    const scrollBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) scrollBtn.style.display = 'flex';
+        else scrollBtn.style.display = 'none';
+    });
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 </script>
 </body>
 </html>
