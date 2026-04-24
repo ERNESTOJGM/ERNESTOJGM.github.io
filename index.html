@@ -9,7 +9,179 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="https://i.ibb.co/JwTPQdgs/Logo-GYM.png">
     <style>
-        /* Estilos para el mapa mental integrado (versión responsive) */
+        /* ========== HEADER COMPACTO Y RESPONSIVO ========== */
+        header {
+            padding: 0.6rem 1rem !important;
+            min-height: auto !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 0.5rem !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 999 !important;
+            background: #fff !important;
+            border-bottom: 2px solid #f0f0f0 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        }
+        .header-content {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.6rem !important;
+            flex-shrink: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .header-logo {
+            height: 42px !important;
+            width: auto !important;
+            max-height: 42px !important;
+            object-fit: contain !important;
+            margin: 0 !important;
+        }
+        .logo-title {
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .blog-name {
+            font-size: 1.2rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            white-space: nowrap !important;
+            line-height: 1.1 !important;
+        }
+        .subtitle {
+            display: none !important;
+        }
+
+        /* Navegación compacta */
+        nav {
+            margin: 0 !important;
+            padding: 0 !important;
+            flex-shrink: 1 !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            max-width: 100% !important;
+        }
+        .nav-container {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            gap: 0.35rem !important;
+            padding: 0.2rem 0 !important;
+            margin: 0 !important;
+            align-items: center !important;
+        }
+        .nav-btn {
+            padding: 0.4rem 0.8rem !important;
+            font-size: 0.78rem !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            border-radius: 6px !important;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+            min-height: unset !important;
+            height: auto !important;
+        }
+        .nav-btn i {
+            font-size: 0.75rem !important;
+            margin-right: 3px !important;
+        }
+
+        /* Responsivo: tablets y móviles */
+        @media (max-width: 900px) {
+            header {
+                padding: 0.5rem 0.8rem !important;
+                gap: 0.4rem !important;
+            }
+            .header-logo {
+                height: 34px !important;
+                max-height: 34px !important;
+            }
+            .blog-name {
+                font-size: 1rem !important;
+            }
+            .nav-btn {
+                padding: 0.35rem 0.6rem !important;
+                font-size: 0.7rem !important;
+            }
+            .nav-btn i {
+                font-size: 0.7rem !important;
+            }
+            .nav-container {
+                gap: 0.25rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: 0.4rem 0.5rem !important;
+                justify-content: center !important;
+                text-align: center !important;
+            }
+            .header-content {
+                width: 100% !important;
+                justify-content: center !important;
+                gap: 0.4rem !important;
+            }
+            .header-logo {
+                height: 30px !important;
+                max-height: 30px !important;
+            }
+            .blog-name {
+                font-size: 0.9rem !important;
+            }
+            nav {
+                width: 100% !important;
+                overflow-x: auto !important;
+                padding-bottom: 0.3rem !important;
+            }
+            .nav-container {
+                justify-content: flex-start !important;
+                flex-wrap: nowrap !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+                gap: 0.2rem !important;
+            }
+            .nav-container::-webkit-scrollbar {
+                display: none !important;
+            }
+            .nav-btn {
+                padding: 0.3rem 0.5rem !important;
+                font-size: 0.68rem !important;
+                border-radius: 5px !important;
+            }
+            .nav-btn i {
+                font-size: 0.65rem !important;
+                margin-right: 2px !important;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .header-logo {
+                height: 26px !important;
+                max-height: 26px !important;
+            }
+            .blog-name {
+                font-size: 0.8rem !important;
+            }
+            .nav-btn {
+                padding: 0.25rem 0.4rem !important;
+                font-size: 0.62rem !important;
+            }
+            .nav-btn i {
+                font-size: 0.6rem !important;
+            }
+        }
+
+        /* Ajuste del main para compensar header más delgado */
+        main.container {
+            padding-top: 0.8rem !important;
+        }
+
+        /* ========== ESTILOS PREVIOS DEL MAPA MENTAL Y PDF ========== */
         .mindmap-integrated {
             margin-top: 2rem;
             padding-top: 1rem;
@@ -25,7 +197,7 @@
         }
         .mindmap-container {
             position: relative;
-            width: 1000px;   /* ancho fijo para conservar diseño */
+            width: 1000px;
             height: 900px;
             margin: 0 auto;
         }
@@ -37,7 +209,6 @@
             height: 100%;
             pointer-events: none;
         }
-        /* Nodos */
         .mindmap-node {
             position: absolute;
             display: flex;
@@ -55,9 +226,15 @@
             touch-action: manipulation;
             z-index: 2;
         }
-        .mindmap-node:active { transform: scale(0.98); }
-        .mindmap-node-yellow { background-color: #fce276; }
-        .mindmap-node-teal { background-color: #a2d2cf; }
+        .mindmap-node:active {
+            transform: scale(0.98);
+        }
+        .mindmap-node-yellow {
+            background-color: #fce276;
+        }
+        .mindmap-node-teal {
+            background-color: #a2d2cf;
+        }
         .mindmap-node-green {
             background-color: #d1e7a5;
             border-radius: 50%;
@@ -67,8 +244,16 @@
             border-radius: 6px;
             padding: 0.4rem;
         }
-        .mindmap-node-title { font-weight: 700; font-size: 1.2rem; color: #1a1a1a; }
-        .mindmap-node-desc { font-size: 0.9rem; color: #333; margin-top: 4px; }
+        .mindmap-node-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1a1a1a;
+        }
+        .mindmap-node-desc {
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 4px;
+        }
         .mindmap-list-wrapper {
             position: absolute;
             display: flex;
@@ -105,14 +290,27 @@
             box-shadow: -2px 2px 0 #2b2b2b;
         }
         @media (max-width: 700px) {
-            .mindmap-node-title { font-size: 0.9rem; }
-            .mindmap-node-desc { font-size: 0.7rem; }
-            .mindmap-node { padding: 0.4rem; }
-            .mindmap-list-box { width: 130px; font-size: 0.8rem; height: 32px; }
-            .mindmap-list-number { width: 24px; height: 24px; font-size: 0.8rem; }
+            .mindmap-node-title {
+                font-size: 0.9rem;
+            }
+            .mindmap-node-desc {
+                font-size: 0.7rem;
+            }
+            .mindmap-node {
+                padding: 0.4rem;
+            }
+            .mindmap-list-box {
+                width: 130px;
+                font-size: 0.8rem;
+                height: 32px;
+            }
+            .mindmap-list-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8rem;
+            }
         }
 
-        /* Tooltip personalizado */
         .custom-tooltip {
             position: fixed;
             background: #2b2b2b;
@@ -138,7 +336,6 @@
             border-bottom: 8px solid #2b2b2b;
         }
 
-        /* Video mejorado */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -157,7 +354,6 @@
             object-fit: contain;
         }
 
-        /* Estilos para el PDF integrado */
         .pdf-integrated {
             margin-top: 3rem;
             padding-top: 2rem;
@@ -478,7 +674,6 @@
                 </div>
             </div>
 
-            <!-- Mapa Mental Integrado (iframe a mapamental2.html) -->
             <div style="margin-top: 2rem; border-radius: 1rem; overflow: hidden; border: 2px solid #e2e8f0; background: #f1f5f9;">
                 <iframe src="mapamental2.html" style="width: 100%; height: 850px; border: none; display: block;" title="Mapa Mental - Herramientas Gerenciales"></iframe>
             </div>
@@ -554,7 +749,6 @@
 
 <script src="script.js"></script>
 <script>
-    // Tooltip para los nodos del mapa mental
     (function() {
         const tooltip = document.createElement('div');
         tooltip.className = 'custom-tooltip';
@@ -597,7 +791,6 @@
             hideTimeout = setTimeout(hideTooltip, delay);
         }
 
-        // Eventos para ratón
         function handleMouseEnter(e) {
             const target = e.currentTarget;
             if (hideTimeout) clearTimeout(hideTimeout);
@@ -608,7 +801,6 @@
             scheduleHide(500);
         }
 
-        // Eventos táctiles
         function handleTouchStart(e) {
             e.preventDefault();
             const target = e.currentTarget;
@@ -631,7 +823,6 @@
             el.addEventListener('touchstart', handleTouchStart, { passive: false });
         });
 
-        // Ocultar al tocar fuera
         document.body.addEventListener('touchstart', function(e) {
             if (activeTarget && !activeTarget.contains(e.target) && !tooltip.contains(e.target)) {
                 hideTooltip();
