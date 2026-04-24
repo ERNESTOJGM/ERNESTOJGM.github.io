@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerencia Moderna y Transformación Organizacional</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js">
+    </script>
+    <style>
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        }
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon {
+            fill: #f8fafc;
+            stroke: #1e293b;
+            stroke-width: 2px;
+        }
+
+        /* Botón de descarga */
+        .btn-descargar {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .btn-descargar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.55);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        .btn-descargar:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+        .btn-descargar:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Durante la captura, aseguramos que todo esté visible */
+        #area-captura {
+            position: relative;
+            background: #f1f5f9;
+            border-radius: 16px;
+            padding: 8px;
+            transition: box-shadow 0.3s;
+        }
+        #area-captura.capturando {
+            box-shadow: 0 0 0 4px #2563eb55;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans leading-normal tracking-normal">
+
+    <header class="bg-slate-900 text-white py-12 shadow-2xl">
+        <div class="container mx-auto text-center px-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+                Ecosistema de la Gerencia Moderna
+            </h1>
+            <p class="text-xl text-blue-400 font-light italic">Módulo II: Modelos Gerenciales y Transformación</p>
+            <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
+                <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
+                </span>
+                <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-graduation-cap mr-2 text-blue-400"></i>VIII Semestre Informática, Profesora: Dra. Dexi Azuaje
+                </span>
+                <!-- BOTÓN DE DESCARGA PNG -->
+                <button id="btnDescargarPNG" class="btn-descargar bg-slate-800 border border-slate-600 px-5 py-3 rounded-xl text-sm text-white"
+                title="Descargar imagen PNG del mapa conceptual">
+                <i class="fas fa-download"></i>
+                <span id="btnText">Descargar PNG</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 py-12">
+
+    <!-- CONTENEDOR QUE SE EXPORTARÁ COMO IMAGEN -->
+    <div id="area-captura">
+
+        <!-- Sección del Diagrama -->
+        <section class="mb-8">
+            <div class="flex items-center mb-8">
+                <div class="bg-blue-600 w-2 h-8 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">Visualización Conceptual</h2>
+            </div>
+
+            <div class="bg-white p-4 md:p-8 rounded-3xl shadow-xl border border-gray-200">
+                <div class="mermaid" id="diagramaMermaid">
+                    graph TB
+                    %%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#2563eb',
+                    'edgeLabelBackground':'#ffffff', 'tertiaryColor':'#f1f5f9'}}}%%
+
+                    classDef psic fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,color:#1e3a8a;
+                    classDef lider fill:#f0fdf4,stroke:#10b981,stroke-width:2px,color:#064e3b;
+                    classDef estrat fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f;
+                    classDef calidad fill:#fef2f2,stroke:#ef4444,stroke-width:2px,color:#7f1d1d;
+                    classDef futuro fill:#f5f3ff,stroke:#8b5cf6,stroke-width:2px,color:#4c1d95;
+
+                    IE["🧠 Inteligencia Emocional<br/><small>Goleman, 1995</small>"]:::psic
+                    PNL["💬 PNL"]:::psic
+                    MF["🧘 Mindfulness"]:::psic
+                    EVP["🪪 EVP<br/><small>Propuesta de Valor</small>"]:::psic
+
+                    GV["💚 Gerencia por Valores<br/><small>Blanchard & O'Connor, 1997</small>"]:::lider
+                    EMP["🤝 Empowerment<br/><small>Wilson, 1996</small>"]:::lider
+                    MC["👨‍🎓 Mentoring y Coaching"]:::lider
+
+                    BSC["📊 Balanced Scorecard<br/><small>Kaplan & Norton, 1992</small>"]:::estrat
+                    RE["🔄 Reingeniería<br/><small>Hammer & Champy</small>"]:::estrat
+                    BM["🔍 Benchmarking"]:::estrat
+
+                    S6["📈 6 Sigma<br/><small>Harry & Schroeder, 2000</small>"]:::calidad
+                    ISO["📜 SGC ISO 9001"]:::calidad
+                    AUD["🔎 Auditorías"]:::calidad
+
+                    SW["🏠💻 Smartworking"]:::futuro
+                    MD["🚀 Mindset Digital"]:::futuro
+
+                    IE -->|fundamenta| GV
+                    IE -->|facilita| EMP
+                    PNL -->|técnicas para| MC
+                    MF -->|mejora| IE
+                    EVP -->|atrae y retiene en| EMP
+
+                    GV -->|inspira| MD
+                    EMP -->|requiere| MD
+
+                    BSC -->|define métricas para| S6
+                    S6 -->|implanta| ISO
+                    ISO -->|exige| AUD
+                    RE -->|optimiza procesos con| BM
+                    BM -->|alimenta indicadores del| BSC
+
+                    S6 -->|habilita trabajo remoto en| SW
+                    MD -->|acelera adopción de| SW
+                    MD -->|exige nueva medición en| BSC
+                    MD -->|demanda| IE
+
+                    IE -.->|retroalimenta| MD
+                    GV -.->|cultura para| SW
+                </div>
+                <p class="text-center text-gray-500 text-sm mt-6 italic">
+                    <i class="fas fa-project-diagram mr-2"></i>Red de interdependencias: los modelos gerenciales no operan aislados, se refuerzan sistémicamente para la transformación organizacional.
+                </p>
+            </div>
+        </section>
+
+        <!-- Sección de Conceptos (tarjetas) -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="card-gradient p-8 rounded-2xl shadow-lg border border-gray-100">
+                <h3 class="text-2xl font-bold text-blue-700 mb-4 flex items-center">
+                    <i class="fas fa-users-cog mr-3"></i>Liderazgo y Empoderamiento
+                </h3>
+                <ul class="space-y-4">
+                    <li class="border-l-4 border-blue-200 pl-4">
+                        <span class="font-bold block">Gerencia Basada en Valores</span>
+                        <p class="text-gray-600 text-sm">Integración de la ética en la estrategia. <em>(Blanchard & O'Connor, 1997)</em></p>
+                    </li>
+                    <li class="border-l-4 border-blue-200 pl-4">
+                        <span class="font-bold block">Empowerment</span>
+                        <p class="text-gray-600 text-sm">Delegación de autoridad y autonomía operativa. <em>(Wilson, 1996)</em></p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-gradient p-8 rounded-2xl shadow-lg border border-gray-100">
+                <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                    <i class="fas fa-chart-line mr-3"></i>Estrategia y Operaciones
+                </h3>
+                <ul class="space-y-4">
+                    <li class="border-l-4 border-indigo-200 pl-4">
+                        <span class="font-bold block">Balanced Scorecard</span>
+                        <p class="text-gray-600 text-sm">Medición desde perspectivas financiera y humana. <em>(Kaplan & Norton, 1992)</em></p>
+                    </li>
+                    <li class="border-l-4 border-indigo-200 pl-4">
+                        <span class="font-bold block">6 Sigma</span>
+                        <p class="text-gray-600 text-sm">Reducción de variabilidad y defectos técnicos. <em>(Harry & Schroeder, 2000)</em></p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Conclusión -->
+        <section class="bg-slate-800 text-white p-10 rounded-3xl shadow-inner relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold mb-6 italic">Conclusión: El Mindset Digital</h2>
+                <p class="text-lg text-gray-300 leading-relaxed max-w-4xl">
+                    La verdadera transformación no reside en la adquisición de software, sino en la evolución del <strong>Mindset Digital</strong>. Como hemos analizado, la convergencia entre la <strong>Inteligencia Emocional (Goleman, 1995)</strong> y metodologías como <strong>6 Sigma</strong> crea organizaciones resilientes capaces de adoptar el <strong>Smartworking</strong> no como una necesidad, sino como una ventaja competitiva.
+                </p>
+            </div>
+            <i class="fas fa-rocket absolute bottom-[-20px] right-10 text-9xl text-slate-700 opacity-20"></i>
+        </section>
+    </div>
+    <!-- FIN DEL CONTENEDOR DE CAPTURA -->
+
+</main>
+
+<footer class="bg-white border-t border-gray-200 py-12">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-gray-600 font-medium"></p>
+        <div class="flex justify-center space-x-6 mt-4 text-gray-400">
+            <span><i class="fas fa-file-pdf mr-2"></i></span>
+            <span><i class="fas fa-video mr-2"></i></span>
+            <span><i class="fas fa-blog mr-2"></i></span>
+        </div>
+        <p class="text-xs text-gray-400 mt-8 uppercase tracking-widest">Barinas, Venezuela - 2026</p>
+    </div>
+</footer>
+
+<script>
+    // Inicialización de Mermaid
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        securityLevel: 'loose',
+        flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true,
+            curve: 'basis'
+        }
+    });
+
+    // ==================== LÓGICA DE DESCARGA PNG ====================
+    (function() {
+        const btnDescargar = document.getElementById('btnDescargarPNG');
+        const btnText = document.getElementById('btnText');
+        const areaCaptura = document.getElementById('area-captura');
+
+        // Función para convertir el SVG de Mermaid a una imagen <img> incrustada
+        // (html2canvas maneja mejor <img> que SVG inline en algunos navegadores)
+        async function convertirSvgAImg() {
+            const svgElement = areaCaptura.querySelector('.mermaid svg');
+            if (!svgElement) return; // No hay SVG aún
+
+            // Clonar el SVG para no modificar el original directamente
+            const svgClone = svgElement.cloneNode(true);
+
+            // Obtener dimensiones
+            const bbox = svgElement.getBoundingClientRect();
+            const width = bbox.width || 1200;
+            const height = bbox.height || 700;
+
+            // Serializar el SVG
+            const serializer = new XMLSerializer();
+            let svgString = serializer.serializeToString(svgClone);
+
+            // Asegurar que el SVG tenga namespace y dimensiones correctas
+            if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
+                svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+            }
+            if (!svgString.includes('width=')) {
+                svgString = svgString.replace('<svg',
+                    `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"`);
+            }
+
+            // Crear Blob y Object URL
+            const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+
+            // Cargar como Image
+            const img = new Image();
+            img.width = width;
+            img.height = height;
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
+
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = url;
+            });
+
+            // Reemplazar el SVG con la imagen temporalmente
+            const mermaidContainer = areaCaptura.querySelector('.mermaid');
+            if (mermaidContainer) {
+                // Ocultar SVG original
+                if (svgElement.parentNode) {
+                    svgElement.style.display = 'none';
+                }
+                // Insertar imagen clonada
+                const imgWrapper = document.createElement('div');
+                imgWrapper.id = 'svg-img-temporal';
+                imgWrapper.style.display = 'flex';
+                imgWrapper.style.justifyContent = 'center';
+                imgWrapper.style.background = 'white';
+                imgWrapper.style.borderRadius = '12px';
+                imgWrapper.style.padding = '20px';
+                imgWrapper.appendChild(img);
+                mermaidContainer.appendChild(imgWrapper);
+            }
+
+            // Retornar función para restaurar el SVG
+            return {
+                restaurar: () => {
+                    if (svgElement) svgElement.style.display = '';
+                    const temporal = document.getElementById('svg-img-temporal');
+                    if (temporal) temporal.remove();
+                    URL.revokeObjectURL(url);
+                }
+            };
+        }
+
+        // Función principal de descarga
+        async function descargarPNG() {
+            // Deshabilitar botón y mostrar spinner
+            btnDescargar.disabled = true;
+            btnText.innerHTML = '<span class="spinner"></span> Generando...';
+            areaCaptura.classList.add('capturando');
+
+            // Pequeña pausa para que el DOM se actualice visualmente
+            await new Promise(r => setTimeout(r, 150));
+
+            let restaurador = null;
+            try {
+                // Convertir SVG a imagen para mejor compatibilidad con html2canvas
+                restaurador = await convertirSvgAImg();
+
+                // Pequeña pausa para que la imagen se asiente
+                await new Promise(r => setTimeout(r, 200));
+
+                // Scroll suave al área de captura para asegurar rendering completo
+                areaCaptura.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                await new Promise(r => setTimeout(r, 300));
+
+                // Capturar con html2canvas
+                const canvas = await html2canvas(areaCaptura, {
+                    scale: 3, // Alta resolución (3x) para legibilidad perfecta
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#f1f5f9',
+                    logging: false,
+                    windowWidth: areaCaptura.scrollWidth,
+                    windowHeight: areaCaptura.scrollHeight,
+                });
+
+                // Convertir a PNG y descargar
+                const enlace = document.createElement('a');
+                enlace.download = 'Gerencia_Moderna_Mapa_Conceptual.png';
+                enlace.href = canvas.toDataURL('image/png', 1.0);
+                enlace.click();
+
+                // Feedback visual breve
+                btnText.innerHTML = '✅ ¡Descargado!';
+                await new Promise(r => setTimeout(r, 1800));
+
+            } catch (error) {
+                console.error('Error al generar PNG:', error);
+                btnText.innerHTML = '⚠️ Error — Reintentar';
+                await new Promise(r => setTimeout(r, 2500));
+            } finally {
+                // Restaurar SVG original
+                if (restaurador && typeof restaurador.restaurar === 'function') {
+                    restaurador.restaurar();
+                }
+                // Restaurar botón
+                btnDescargar.disabled = false;
+                btnText.innerHTML = 'Descargar PNG';
+                areaCaptura.classList.remove('capturando');
+            }
+        }
+
+        // Asociar evento al botón
+        btnDescargar.addEventListener('click', descargarPNG);
+
+        // Atajo de teclado: Ctrl+Shift+S para descargar
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                descargarPNG();
+            }
+        });
+
+        console.log('✅ Funcionalidad de descarga PNG lista. Usa el botón "Descargar PNG" o Ctrl+Shift+S.');
+    })();
+</script>
+</body>
+</html>
