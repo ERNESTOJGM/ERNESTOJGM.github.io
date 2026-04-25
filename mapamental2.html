@@ -92,7 +92,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
                 Ecosistema de la Gerencia Moderna
             </h1>
-            <p class="text-xl text-blue-400 font-light italic">Módulo II: Modelos Gerenciales y Transformación</p>
+            <p class="text-xl text-blue-400 font-light italic">Modelos Gerenciales y Transformación</p>
             <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
                 <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
                     <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
@@ -120,7 +120,6 @@
             </div>
 
             <div class="bg-white p-4 md:p-8 rounded-3xl shadow-xl border border-gray-200">
-                <!-- ===== DIAGRAMA CORREGIDO ===== -->
                 <div class="mermaid" id="diagramaMermaid">
                     %%{init: {"theme":"base", "themeVariables": {"primaryColor":"#2563eb", "edgeLabelBackground":"#ffffff", "tertiaryColor":"#f1f5f9"}} }%%
                     graph TB
@@ -171,8 +170,8 @@
                     MD -->|exige nueva medición en| BSC
                     MD -->|demanda| IE
 
-                    IE -.->|retroalimenta| MD
-                    GV -.->|cultura para| SW
+                    IE -. retroalimenta .-> MD
+                    GV -. cultura para .-> SW
                 </div>
                 <p class="text-center text-gray-500 text-sm mt-6 italic">
                     <i class="fas fa-project-diagram mr-2"></i>Red de interdependencias: los modelos gerenciales no operan aislados, se refuerzan sistémicamente para la transformación organizacional.
