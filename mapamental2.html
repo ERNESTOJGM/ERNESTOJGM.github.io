@@ -83,6 +83,25 @@
         #area-captura.capturando {
             box-shadow: 0 0 0 4px #2563eb55;
         }
+
+        /* Contenedor responsive para el video */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-900 font-sans leading-normal tracking-normal">
@@ -92,7 +111,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
                 Ecosistema de la Gerencia Moderna
             </h1>
-            <p class="text-xl text-blue-400 font-light italic">Modelos Gerenciales y Transformación</p>
+            <p class="text-xl text-blue-400 font-light italic">Módulo II: Modelos Gerenciales y Transformación</p>
             <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
                 <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
                     <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
@@ -178,6 +197,29 @@
                 </p>
             </div>
         </section>
+
+        <!-- ==================== NUEVA SECCIÓN: VIDEO ==================== -->
+        <section class="mb-8">
+            <div class="flex items-center mb-8">
+                <div class="bg-red-600 w-2 h-8 mr-4 rounded-full"></div>
+                <h2 class="text-3xl font-bold text-slate-800">Exposición Sobre Herramientas Gerenciales</h2>
+            </div>
+            <div class="bg-white p-4 md:p-8 rounded-3xl shadow-xl border border-gray-200">
+                <div class="video-container">
+                    <iframe 
+                        src="https://drive.google.com/file/d/1wBIfUL88uaNFUm1Gw-oNodHSg3JS7za-/preview"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen
+                        loading="lazy"
+                        title="Exposición Sobre Herramientas Gerenciales">
+                    </iframe>
+                </div>
+                <p class="text-center text-gray-500 text-sm mt-6 italic">
+                    <i class="fas fa-video mr-2"></i>Video complementario: exposición detallada sobre herramientas gerenciales y su aplicación en la transformación organizacional.
+                </p>
+            </div>
+        </section>
+        <!-- ==================== FIN SECCIÓN VIDEO ==================== -->
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div class="card-gradient p-8 rounded-2xl shadow-lg border border-gray-100">
