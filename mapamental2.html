@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Gerencia Moderna y Transformación Organizacional | Mapa + Informe</title>
+    <title>Gerencia Moderna</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
+        /* Estilos para el mapa: el scroll horizontal solo dentro del mapa, no afecta al informe */
         .mermaid {
             display: flex;
             justify-content: center;
             background: white;
             border-radius: 12px;
             padding: 20px;
-            overflow-x: auto;
+            overflow-x: auto;  /* solo el mapa tiene scroll si es necesario */
         }
         .card-gradient {
             background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
@@ -56,7 +57,6 @@
             transform: none;
         }
 
-        /* Spinner */
         .spinner {
             display: inline-block;
             width: 18px;
@@ -70,7 +70,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Durante la captura, aseguramos que todo esté visible */
+        /* Área de captura solo para el mapa conceptual y sus elementos asociados (sin video ni informe) */
         #area-captura {
             position: relative;
             background: #f1f5f9;
@@ -82,10 +82,10 @@
             box-shadow: 0 0 0 4px #2563eb55;
         }
 
-        /* estilo para contenedor de video responsivo */
+        /* Contenedor del video (totalmente ajeno al scroll del mapa) */
         .video-responsive {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 20px;
@@ -112,23 +112,20 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans leading-normal tracking-normal">
+<body class="bg-gray-100 text-gray-900 font-sans">
 
-    <header class="bg-slate-900 text-white py-12 shadow-2xl">
-        <div class="container mx-auto text-center px-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
-                Ecosistema de la Gerencia Moderna
-            </h1>
-            <p class="text-xl text-blue-400 font-light italic">Módulo II: Modelos Gerenciales y Transformación</p>
-            <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
-                <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
-                    <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
-                </span>
-                <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
-                    <i class="fas fa-graduation-cap mr-2 text-blue-400"></i>VIII Semestre Informática, Profesora: Dra. Dexi Azuaje
-                </span>
-                <button id="btnDescargarPNG" class="btn-descargar bg-slate-800 border border-slate-600 px-5 py-3 rounded-xl text-sm text-white"
-                title="Descargar imagen PNG del mapa conceptual">
+<header class="bg-slate-900 text-white py-12 shadow-2xl">
+    <div class="container mx-auto text-center px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">Ecosistema de la Gerencia Moderna</h1>
+        <p class="text-xl text-blue-400 font-light italic">Modelos Gerenciales y Transformación</p>
+        <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
+            <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
+            </span>
+            <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
+                <i class="fas fa-graduation-cap mr-2 text-blue-400"></i>VIII Semestre Informática, Profesora: Dra. Dexi Azuaje
+            </span>
+            <button id="btnDescargarPNG" class="btn-descargar px-5 py-3 rounded-xl text-sm" title="Descargar PNG del mapa conceptual">
                 <i class="fas fa-download"></i>
                 <span id="btnText">Descargar PNG</span>
             </button>
@@ -137,16 +134,13 @@
 </header>
 
 <main class="container mx-auto px-4 py-12">
-
-    <!-- ==================== ZONA DE CAPTURA (MAPA + CONTENIDO RELACIONADO) ==================== -->
+    <!-- ========== MAPA CONCEPTUAL (con su propio scroll solo interno) ========== -->
     <div id="area-captura">
-
         <section class="mb-8">
             <div class="flex items-center mb-8">
                 <div class="bg-blue-600 w-2 h-8 mr-4 rounded-full"></div>
                 <h2 class="text-3xl font-bold text-slate-800">Visualización Conceptual</h2>
             </div>
-
             <div class="bg-white p-4 md:p-8 rounded-3xl shadow-xl border border-gray-200">
                 <div class="mermaid" id="diagramaMermaid">
                     %%{init: {"theme":"base", "themeVariables": {"primaryColor":"#2563eb", "edgeLabelBackground":"#ffffff", "tertiaryColor":"#f1f5f9"}} }%%
@@ -223,7 +217,6 @@
                     </li>
                 </ul>
             </div>
-
             <div class="card-gradient p-8 rounded-2xl shadow-lg border border-gray-100">
                 <h3 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
                     <i class="fas fa-chart-line mr-3"></i>Estrategia y Operaciones
@@ -256,42 +249,23 @@
                 <i class="fas fa-book-reader mr-3 text-blue-600"></i>Referencias Bibliográficas
             </h3>
             <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Blanchard, K., & O'Connor, M. (1997).</strong> <em>Administración por Valores.</em> Editorial Norma.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Goleman, D. (1995).</strong> <em>Inteligencia Emocional.</em> Editorial Kairós.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Hammer, M., & Champy, J. (1993).</strong> <em>Reingeniería.</em> Editorial Norma.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Harry, M., & Schroeder, R. (2000).</strong> <em>Six Sigma: The Breakthrough Management Strategy.</em> Currency.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Kaplan, R. S., & Norton, D. P. (1992).</strong> <em>The Balanced Scorecard: Measures That Drive Performance.</em> Harvard Business Review.</span>
-                </li>
-                <li class="flex items-start">
-                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
-                    <span><strong>Wilson, T. (1996).</strong> <em>Manual del Empowerment.</em> Gestión 2000.</span>
-                </li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Blanchard, K., & O'Connor, M. (1997).</strong> <em>Administración por Valores.</em> Editorial Norma.</span></li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Goleman, D. (1995).</strong> <em>Inteligencia Emocional.</em> Editorial Kairós.</span></li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Hammer, M., & Champy, J. (1993).</strong> <em>Reingeniería.</em> Editorial Norma.</span></li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Harry, M., & Schroeder, R. (2000).</strong> <em>Six Sigma: The Breakthrough Management Strategy.</em> Currency.</span></li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Kaplan, R. S., & Norton, D. P. (1992).</strong> <em>The Balanced Scorecard: Measures That Drive Performance.</em> Harvard Business Review.</span></li>
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i><span><strong>Wilson, T. (1996).</strong> <em>Manual del Empowerment.</em> Gestión 2000.</span></li>
             </ul>
         </section>
     </div>
-    <!-- ==================== FIN ZONA CAPTURA ==================== -->
+    <!-- FIN DEL ÁREA DE CAPTURA (SOLO MAPA) -->
 
-    <!-- SECCIÓN DE VIDEO COMPLEMENTARIO (fuera del mapa conceptual) -->
-    <div class="mt-16 mb-10">
+    <!-- ========== SECCIÓN DE VIDEO (completamente externa, sin scroll asociado) ========== -->
+    <div class="mt-20 mb-12">
         <div class="flex items-center gap-3 mb-6">
             <div class="bg-red-600 w-2 h-8 rounded-full"></div>
             <h2 class="text-2xl md:text-3xl font-bold text-slate-800">🎬 Multimedia complementaria</h2>
         </div>
-
         <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
             <div class="p-6 pb-2">
                 <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
@@ -302,22 +276,19 @@
             </div>
             <div class="px-6 pb-6">
                 <div class="video-responsive">
-                    <iframe 
-                        src="https://www.youtube.com/embed/3QnD2c4Xl2k?si=7L6jXfHkZQo2nFwv&autoplay=0" 
+                    <iframe src="https://www.youtube.com/embed/3QnD2c4Xl2k?si=7L6jXfHkZQo2nFwv&autoplay=0" 
                         title="Video - Gerencia moderna y herramientas de transformación" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
                 </div>
-                <p class="text-xs text-gray-400 mt-3 text-center">Material de apoyo: transformación digital, liderazgo ágil y modelos estratégicos (duración aproximada 8 min).</p>
+                <p class="text-xs text-gray-400 mt-3 text-center">Material de apoyo: transformación digital, liderazgo ágil y modelos estratégicos.</p>
             </div>
         </div>
     </div>
 
-    <!-- INFORME SOBRE HERRAMIENTAS GERENCIALES (PDF) - fuera del mapa y del video -->
+    <!-- ========== INFORME PDF (directamente fuera de cualquier scroll o marco deslizante) ========== -->
     <section class="mb-16">
-        <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-xl">
+        <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl border border-gray-200 overflow-hidden">
             <div class="bg-amber-50 border-b border-amber-100 px-8 py-5">
                 <div class="flex items-center gap-3">
                     <i class="fas fa-file-alt text-3xl text-red-700"></i>
@@ -344,8 +315,7 @@
                     </div>
                     <div class="flex-shrink-0">
                         <a href="https://drive.google.com/file/d/1EpdTKrZDJSavVghIG4-Ejt8Mb2M8Etca/view?usp=drive_link" 
-                           target="_blank" 
-                           rel="noopener noreferrer"
+                           target="_blank" rel="noopener noreferrer"
                            class="btn-pdf inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-7 rounded-xl transition-all duration-200 shadow-md">
                             <i class="fas fa-download text-xl"></i>
                             <span>Acceder al informe completo</span>
@@ -355,49 +325,26 @@
                     </div>
                 </div>
                 <div class="mt-8 pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm">
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-brain text-purple-500 text-xl mb-1"></i>
-                        <span class="font-semibold">Enfoque sistémico</span>
-                        <span class="text-gray-500">Interconexión de modelos</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-chart-simple text-emerald-500 text-xl mb-1"></i>
-                        <span class="font-semibold">Métricas y BSC</span>
-                        <span class="text-gray-500">KPIs + cuadro de mando</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <i class="fas fa-lightbulb text-amber-500 text-xl mb-1"></i>
-                        <span class="font-semibold">Caso práctico</span>
-                        <span class="text-gray-500">Smartworking + calidad</span>
-                    </div>
+                    <div class="flex flex-col items-center"><i class="fas fa-brain text-purple-500 text-xl mb-1"></i><span class="font-semibold">Enfoque sistémico</span><span class="text-gray-500">Interconexión de modelos</span></div>
+                    <div class="flex flex-col items-center"><i class="fas fa-chart-simple text-emerald-500 text-xl mb-1"></i><span class="font-semibold">Métricas y BSC</span><span class="text-gray-500">KPIs + cuadro de mando</span></div>
+                    <div class="flex flex-col items-center"><i class="fas fa-lightbulb text-amber-500 text-xl mb-1"></i><span class="font-semibold">Caso práctico</span><span class="text-gray-500">Smartworking + calidad</span></div>
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<!-- Footer sin información solicitada: se ha eliminado el texto "Barinas, Venezuela - 2026" y los tres íconos (pdf, video, blog) -->
-<footer class="bg-white border-t border-gray-200 py-12">
-    <div class="container mx-auto px-4 text-center">
-        <p class="text-gray-600 font-medium">Universidad | Gerencia Moderna y Transformación Organizacional</p>
-        <!-- Los emojis y la línea de ubicación han sido eliminados según solicitud -->
-    </div>
-</footer>
+<!-- No hay pie de página (footer) con información alguna, tal como se solicitó -->
 
 <script>
-    // Inicialización de Mermaid
     mermaid.initialize({
         startOnLoad: true,
         theme: 'base',
         securityLevel: 'loose',
-        flowchart: {
-            useMaxWidth: true,
-            htmlLabels: true,
-            curve: 'basis'
-        }
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
     });
 
-    // ==================== LÓGICA DE DESCARGA PNG ====================
+    // Lógica de descarga del PNG (solo para #area-captura)
     (function() {
         const btnDescargar = document.getElementById('btnDescargarPNG');
         const btnText = document.getElementById('btnText');
@@ -406,21 +353,17 @@
         async function convertirSvgAImg() {
             const svgElement = areaCaptura.querySelector('.mermaid svg');
             if (!svgElement) return null;
-
             const svgClone = svgElement.cloneNode(true);
             const bbox = svgElement.getBoundingClientRect();
             const width = bbox.width || 1200;
             const height = bbox.height || 700;
-
             let svgString = new XMLSerializer().serializeToString(svgClone);
             if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
                 svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
             }
             if (!svgString.includes('width=')) {
-                svgString = svgString.replace('<svg',
-                    `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"`);
+                svgString = svgString.replace('<svg', `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"`);
             }
-
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const img = new Image();
@@ -428,13 +371,11 @@
             img.height = height;
             img.style.maxWidth = '100%';
             img.style.height = 'auto';
-
             await new Promise((resolve, reject) => {
                 img.onload = resolve;
                 img.onerror = reject;
                 img.src = url;
             });
-
             const mermaidContainer = areaCaptura.querySelector('.mermaid');
             if (mermaidContainer) {
                 if (svgElement.parentNode) svgElement.style.display = 'none';
@@ -463,14 +404,12 @@
             btnText.innerHTML = '<span class="spinner"></span> Generando...';
             areaCaptura.classList.add('capturando');
             await new Promise(r => setTimeout(r, 150));
-
             let restaurador = null;
             try {
                 restaurador = await convertirSvgAImg();
                 await new Promise(r => setTimeout(r, 220));
                 areaCaptura.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 await new Promise(r => setTimeout(r, 280));
-
                 const canvas = await html2canvas(areaCaptura, {
                     scale: 3,
                     useCORS: true,
@@ -480,7 +419,6 @@
                     windowWidth: areaCaptura.scrollWidth,
                     windowHeight: areaCaptura.scrollHeight,
                 });
-
                 const enlace = document.createElement('a');
                 enlace.download = 'Gerencia_Moderna_Mapa_Conceptual.png';
                 enlace.href = canvas.toDataURL('image/png', 1.0);
@@ -488,25 +426,23 @@
                 btnText.innerHTML = '✅ ¡Descargado!';
                 await new Promise(r => setTimeout(r, 1800));
             } catch (error) {
-                console.error('Error PNG:', error);
+                console.error(error);
                 btnText.innerHTML = '⚠️ Error — Reintentar';
                 await new Promise(r => setTimeout(r, 2500));
             } finally {
-                if (restaurador && typeof restaurador.restaurar === 'function') restaurador.restaurar();
+                if (restaurador) restaurador.restaurar();
                 btnDescargar.disabled = false;
                 btnText.innerHTML = 'Descargar PNG';
                 areaCaptura.classList.remove('capturando');
             }
         }
-
         btnDescargar.addEventListener('click', descargarPNG);
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.shiftKey && e.key === 'S') {
                 e.preventDefault();
                 descargarPNG();
             }
         });
-        console.log('✅ Descarga PNG lista | Video + Informe añadido fuera del área de captura. Footer limpiado.');
     })();
 </script>
 </body>
