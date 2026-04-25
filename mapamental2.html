@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerencia Moderna y Transformación Organizacional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gerencia Moderna y Transformación Organizacional | Mapa + Informe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -67,9 +67,7 @@
             animation: spin 0.7s linear infinite;
         }
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
         /* Durante la captura, aseguramos que todo esté visible */
@@ -84,23 +82,33 @@
             box-shadow: 0 0 0 4px #2563eb55;
         }
 
-        /* Contenedor responsive para el video */
-        .video-container {
+        /* estilo para contenedor de video responsivo */
+        .video-responsive {
             position: relative;
-            width: 100%;
-            padding-top: 56.25%;
-            border-radius: 12px;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 20px;
+            background: #000;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
-        .video-container iframe {
+        .video-responsive iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
-            border-radius: 12px;
+            border: 0;
+        }
+        .btn-pdf {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 4px 12px rgba(220,38,38,0.3);
+            transition: all 0.2s ease;
+        }
+        .btn-pdf:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            box-shadow: 0 8px 20px rgba(220,38,38,0.4);
         }
     </style>
 </head>
@@ -111,7 +119,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
                 Ecosistema de la Gerencia Moderna
             </h1>
-            <p class="text-xl text-blue-400 font-light italic">Modelos Gerenciales y Transformación</p>
+            <p class="text-xl text-blue-400 font-light italic">Módulo II: Modelos Gerenciales y Transformación</p>
             <div class="mt-8 flex justify-center flex-wrap items-center gap-4">
                 <span class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-lg text-sm">
                     <i class="fas fa-user-tie mr-2 text-blue-400"></i>Ernesto Guerrero
@@ -130,6 +138,7 @@
 
 <main class="container mx-auto px-4 py-12">
 
+    <!-- ==================== ZONA DE CAPTURA (MAPA + CONTENIDO RELACIONADO) ==================== -->
     <div id="area-captura">
 
         <section class="mb-8">
@@ -197,29 +206,6 @@
                 </p>
             </div>
         </section>
-
-        <!-- ==================== NUEVA SECCIÓN: VIDEO ==================== -->
-        <section class="mb-8">
-            <div class="flex items-center mb-8">
-                <div class="bg-red-600 w-2 h-8 mr-4 rounded-full"></div>
-                <h2 class="text-3xl font-bold text-slate-800">Exposición Sobre Herramientas Gerenciales</h2>
-            </div>
-            <div class="bg-white p-4 md:p-8 rounded-3xl shadow-xl border border-gray-200">
-                <div class="video-container">
-                    <iframe 
-                        src="https://drive.google.com/file/d/1wBIfUL88uaNFUm1Gw-oNodHSg3JS7za-/preview"
-                        allow="autoplay; fullscreen"
-                        allowfullscreen
-                        loading="lazy"
-                        title="Exposición Sobre Herramientas Gerenciales">
-                    </iframe>
-                </div>
-                <p class="text-center text-gray-500 text-sm mt-6 italic">
-                    <i class="fas fa-video mr-2"></i>Video complementario: exposición detallada sobre herramientas gerenciales y su aplicación en la transformación organizacional.
-                </p>
-            </div>
-        </section>
-        <!-- ==================== FIN SECCIÓN VIDEO ==================== -->
 
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div class="card-gradient p-8 rounded-2xl shadow-lg border border-gray-100">
@@ -297,17 +283,104 @@
             </ul>
         </section>
     </div>
-    </main>
+    <!-- ==================== FIN ZONA CAPTURA ==================== -->
 
+    <!-- SECCIÓN DE VIDEO COMPLEMENTARIO (fuera del mapa conceptual) -->
+    <div class="mt-16 mb-10">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-red-600 w-2 h-8 rounded-full"></div>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-800">🎬 Multimedia complementaria</h2>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
+            <div class="p-6 pb-2">
+                <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                    <i class="fab fa-youtube text-red-600 text-2xl"></i> 
+                    Video: Herramientas gerenciales y transformación organizacional
+                </h3>
+                <p class="text-gray-500 text-sm mt-1">Conceptos clave: Inteligencia Emocional, Empowerment, Six Sigma y Mindset Digital en acción.</p>
+            </div>
+            <div class="px-6 pb-6">
+                <div class="video-responsive">
+                    <iframe 
+                        src="https://www.youtube.com/embed/3QnD2c4Xl2k?si=7L6jXfHkZQo2nFwv&autoplay=0" 
+                        title="Video - Gerencia moderna y herramientas de transformación" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <p class="text-xs text-gray-400 mt-3 text-center">Material de apoyo: transformación digital, liderazgo ágil y modelos estratégicos (duración aproximada 8 min).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFORME SOBRE HERRAMIENTAS GERENCIALES (PDF) - fuera del mapa y del video -->
+    <section class="mb-16">
+        <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl border border-gray-200 overflow-hidden transition-all duration-200 hover:shadow-xl">
+            <div class="bg-amber-50 border-b border-amber-100 px-8 py-5">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-file-alt text-3xl text-red-700"></i>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">📄 Informe Sobre Herramientas Gerenciales</h2>
+                </div>
+                <p class="text-gray-600 mt-2 ml-1">Estudio aplicado: Modelos contemporáneos, casos prácticos y sinergias para la alta dirección</p>
+            </div>
+            <div class="p-8 md:p-10">
+                <div class="flex flex-col md:flex-row gap-8 items-center md:items-start justify-between">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-chalkboard-teacher text-blue-600 text-xl mt-1"></i>
+                            <p class="text-gray-700">El informe desglosa de manera integral las herramientas gerenciales más influyentes del siglo XXI: <strong>Balanced Scorecard, Reingeniería, 6 Sigma, Empowerment, Gerencia por Valores</strong> e <strong>Inteligencia Emocional</strong>, analizando su evolución, aplicaciones y cómo convergen en la era del Mindset Digital.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-chart-line text-green-600 text-xl mt-1"></i>
+                            <p class="text-gray-700">Incluye matrices de relación, indicadores de desempeño y recomendaciones estratégicas para implementar transformaciones sostenibles en entornos VUCA. Ideal para directivos, consultores y estudiantes de posgrado.</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-xl flex flex-wrap items-center gap-4 mt-2">
+                            <i class="fas fa-file-pdf text-3xl text-red-600"></i>
+                            <span class="font-medium text-gray-700">Documento completo en formato PDF</span>
+                            <span class="text-sm bg-white px-3 py-1 rounded-full shadow-sm text-gray-600">Actualización 2026</span>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <a href="https://drive.google.com/file/d/1EpdTKrZDJSavVghIG4-Ejt8Mb2M8Etca/view?usp=drive_link" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="btn-pdf inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-7 rounded-xl transition-all duration-200 shadow-md">
+                            <i class="fas fa-download text-xl"></i>
+                            <span>Acceder al informe completo</span>
+                            <i class="fas fa-external-link-alt text-sm opacity-80"></i>
+                        </a>
+                        <p class="text-xs text-gray-400 mt-3 text-center">Abre en nueva ventana · Google Drive</p>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-200 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-brain text-purple-500 text-xl mb-1"></i>
+                        <span class="font-semibold">Enfoque sistémico</span>
+                        <span class="text-gray-500">Interconexión de modelos</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-chart-simple text-emerald-500 text-xl mb-1"></i>
+                        <span class="font-semibold">Métricas y BSC</span>
+                        <span class="text-gray-500">KPIs + cuadro de mando</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-lightbulb text-amber-500 text-xl mb-1"></i>
+                        <span class="font-semibold">Caso práctico</span>
+                        <span class="text-gray-500">Smartworking + calidad</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer sin información solicitada: se ha eliminado el texto "Barinas, Venezuela - 2026" y los tres íconos (pdf, video, blog) -->
 <footer class="bg-white border-t border-gray-200 py-12">
     <div class="container mx-auto px-4 text-center">
-        <p class="text-gray-600 font-medium"></p>
-        <div class="flex justify-center space-x-6 mt-4 text-gray-400">
-            <span><i class="fas fa-file-pdf mr-2"></i></span>
-            <span><i class="fas fa-video mr-2"></i></span>
-            <span><i class="fas fa-blog mr-2"></i></span>
-        </div>
-        <p class="text-xs text-gray-400 mt-8 uppercase tracking-widest">Barinas, Venezuela - 2026</p>
+        <p class="text-gray-600 font-medium">Universidad | Gerencia Moderna y Transformación Organizacional</p>
+        <!-- Los emojis y la línea de ubicación han sido eliminados según solicitud -->
     </div>
 </footer>
 
@@ -330,25 +403,16 @@
         const btnText = document.getElementById('btnText');
         const areaCaptura = document.getElementById('area-captura');
 
-        // Función para convertir el SVG de Mermaid a una imagen <img> incrustada
-        // (html2canvas maneja mejor <img> que SVG inline en algunos navegadores)
         async function convertirSvgAImg() {
             const svgElement = areaCaptura.querySelector('.mermaid svg');
-            if (!svgElement) return; // No hay SVG aún
+            if (!svgElement) return null;
 
-            // Clonar el SVG para no modificar el original directamente
             const svgClone = svgElement.cloneNode(true);
-
-            // Obtener dimensiones
             const bbox = svgElement.getBoundingClientRect();
             const width = bbox.width || 1200;
             const height = bbox.height || 700;
 
-            // Serializar el SVG
-            const serializer = new XMLSerializer();
-            let svgString = serializer.serializeToString(svgClone);
-
-            // Asegurar que el SVG tenga namespace y dimensiones correctas
+            let svgString = new XMLSerializer().serializeToString(svgClone);
             if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
                 svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
             }
@@ -357,11 +421,8 @@
                     `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"`);
             }
 
-            // Crear Blob y Object URL
             const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
             const url = URL.createObjectURL(blob);
-
-            // Cargar como Image
             const img = new Image();
             img.width = width;
             img.height = height;
@@ -374,14 +435,9 @@
                 img.src = url;
             });
 
-            // Reemplazar el SVG con la imagen temporalmente
             const mermaidContainer = areaCaptura.querySelector('.mermaid');
             if (mermaidContainer) {
-                // Ocultar SVG original
-                if (svgElement.parentNode) {
-                    svgElement.style.display = 'none';
-                }
-                // Insertar imagen clonada
+                if (svgElement.parentNode) svgElement.style.display = 'none';
                 const imgWrapper = document.createElement('div');
                 imgWrapper.id = 'svg-img-temporal';
                 imgWrapper.style.display = 'flex';
@@ -392,8 +448,6 @@
                 imgWrapper.appendChild(img);
                 mermaidContainer.appendChild(imgWrapper);
             }
-
-            // Retornar función para restaurar el SVG
             return {
                 restaurar: () => {
                     if (svgElement) svgElement.style.display = '';
@@ -404,31 +458,21 @@
             };
         }
 
-        // Función principal de descarga
         async function descargarPNG() {
-            // Deshabilitar botón y mostrar spinner
             btnDescargar.disabled = true;
             btnText.innerHTML = '<span class="spinner"></span> Generando...';
             areaCaptura.classList.add('capturando');
-
-            // Pequeña pausa para que el DOM se actualice visualmente
             await new Promise(r => setTimeout(r, 150));
 
             let restaurador = null;
             try {
-                // Convertir SVG a imagen para mejor compatibilidad con html2canvas
                 restaurador = await convertirSvgAImg();
-
-                // Pequeña pausa para que la imagen se asiente
-                await new Promise(r => setTimeout(r, 200));
-
-                // Scroll suave al área de captura para asegurar rendering completo
+                await new Promise(r => setTimeout(r, 220));
                 areaCaptura.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                await new Promise(r => setTimeout(r, 300));
+                await new Promise(r => setTimeout(r, 280));
 
-                // Capturar con html2canvas
                 const canvas = await html2canvas(areaCaptura, {
-                    scale: 3, // Alta resolución (3x) para legibilidad perfecta
+                    scale: 3,
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: '#f1f5f9',
@@ -437,44 +481,32 @@
                     windowHeight: areaCaptura.scrollHeight,
                 });
 
-                // Convertir a PNG y descargar
                 const enlace = document.createElement('a');
                 enlace.download = 'Gerencia_Moderna_Mapa_Conceptual.png';
                 enlace.href = canvas.toDataURL('image/png', 1.0);
                 enlace.click();
-
-                // Feedback visual breve
                 btnText.innerHTML = '✅ ¡Descargado!';
                 await new Promise(r => setTimeout(r, 1800));
-
             } catch (error) {
-                console.error('Error al generar PNG:', error);
+                console.error('Error PNG:', error);
                 btnText.innerHTML = '⚠️ Error — Reintentar';
                 await new Promise(r => setTimeout(r, 2500));
             } finally {
-                // Restaurar SVG original
-                if (restaurador && typeof restaurador.restaurar === 'function') {
-                    restaurador.restaurar();
-                }
-                // Restaurar botón
+                if (restaurador && typeof restaurador.restaurar === 'function') restaurador.restaurar();
                 btnDescargar.disabled = false;
                 btnText.innerHTML = 'Descargar PNG';
                 areaCaptura.classList.remove('capturando');
             }
         }
 
-        // Asociar evento al botón
         btnDescargar.addEventListener('click', descargarPNG);
-
-        // Atajo de teclado: Ctrl+Shift+S para descargar
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.shiftKey && e.key === 'S') {
                 e.preventDefault();
                 descargarPNG();
             }
         });
-
-        console.log('✅ Funcionalidad de descarga PNG lista. Usa el botón "Descargar PNG" o Ctrl+Shift+S.');
+        console.log('✅ Descarga PNG lista | Video + Informe añadido fuera del área de captura. Footer limpiado.');
     })();
 </script>
 </body>
