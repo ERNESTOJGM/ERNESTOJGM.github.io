@@ -788,14 +788,7 @@
             border-bottom: 8px solid #2b2b2b;
         }
 
-        /* ========== IFRAME DE MAPA MENTAL EXTERNO ========== */
-        .card iframe[src*="mapamental2"] {
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            background: #fff;
-        }
-
-        /* ========== RESPONSIVE: TABLETS (max-width: 900px) ========== */
+        /* ========== RESPONSIVE: TABLETS ========== */
         @media (max-width: 900px) {
             header {
                 padding: 0.6rem 0.8rem !important;
@@ -877,7 +870,7 @@
             }
         }
 
-        /* ========== RESPONSIVE: MÓVILES (max-width: 640px) ========== */
+        /* ========== RESPONSIVE: MÓVILES ========== */
         @media (max-width: 640px) {
             header {
                 padding: 0.5rem 0.6rem !important;
@@ -1039,8 +1032,6 @@
             .mindmap-wrapper::after {
                 font-size: 0.65rem;
                 padding: 4px 8px;
-                bottom: 4px;
-                right: 8px;
             }
             .mindmap-caption {
                 font-size: 0.75rem;
@@ -1075,7 +1066,7 @@
             }
         }
 
-        /* ========== RESPONSIVE: MÓVILES PEQUEÑOS (max-width: 380px) ========== */
+        /* ========== MÓVILES PEQUEÑOS ========== */
         @media (max-width: 380px) {
             .header-logo {
                 height: 32px !important;
@@ -1224,7 +1215,6 @@
                     <div class="info-item">
                         <strong><i class="fas fa-globe"></i> Visión de Mercado</strong>
                         <p>Evolucionar del código a otras ramas de la ingenieria y la gerencia, utilizando analítica de datos, KPIs estratégicos y automatización de procesos ágiles centrados en el cliente.</p>
-                        <div class="linkedin-profile-link"></div>
                     </div>
                     <div class="info-item">
                         <strong><i class="fas fa-play-circle"></i> DESARROLLA SOLUCIONES, IMPULSA LA INDUSTRIA</strong>
@@ -1450,6 +1440,39 @@
                 <p style="margin-top: 0.75rem; font-size: 0.85rem; color: #475569; text-align: center;">
                     <i class="fas fa-hand-pointer"></i> Mapa interactivo: Explora los conceptos de Gerencia Moderna, haz clic en los nodos y descarga la imagen.
                 </p>
+
+                <!-- ================== RECURSOS COMPLEMENTARIOS (PLAN DE NEGOCIO) ================== -->
+                <div class="mindmap-integrated" style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid #fbbf24;">
+                    <h3 style="margin-top: 0; margin-bottom: 1.5rem; font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-folder-open"></i> Recursos Complementarios
+                    </h3>
+
+                    <!-- Tarjeta informativa -->
+                    <div style="background: linear-gradient(135deg, #fff7ed 0%, #fffbeb 100%); border: 2px solid #fbbf24; border-radius: 20px; padding: 1.5rem; box-shadow: 0 12px 24px rgba(251, 191, 36, 0.15); margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                            <span style="background: #f97316; color: white; border-radius: 16px; padding: 8px 16px; font-size: 1.5rem;">🍔🌭</span>
+                            <h3 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">BariBurguerApp</h3>
+                        </div>
+                        <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 0.5rem;">
+                            <strong>Propuesta de Plan de Negocio</strong> – App para puestos de comida rápida en Barinas. Geolocalización, cero comisiones, marketing local y visión de escalabilidad.
+                        </p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span style="background: #d1fae5; color: #065f46; padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;">📊 4 P's</span>
+                            <span style="background: #e0e7ff; color: #3730a3; padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;">⚙️ Gerencia IT</span>
+                            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;">🚀 Visión 2027</span>
+                        </div>
+                    </div>
+
+                    <!-- Incrustar el plan de negocio -->
+                    <div style="border-radius: 1rem; overflow: hidden; border: 2px solid #fbbf24; background: #fff; box-shadow: 0 12px 30px rgba(0,0,0,0.1);">
+                        <iframe
+                            src="plan_de_negocio.html"
+                            style="width: 100%; height: 900px; border: none; display: block;"
+                            title="Plan de Negocio BariBurguerApp"
+                            scrolling="auto">
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </section>
 
