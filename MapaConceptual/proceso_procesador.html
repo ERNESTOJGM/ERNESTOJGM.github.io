@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Conceptual Profesional: Procesos y Procesador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            overflow-x: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+        }
+        /* Imágenes de fondo sutiles para las tarjetas */
+        .card-bg-img {
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 120px;
+            height: 120px;
+            opacity: 0.08;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            filter: grayscale(100%);
+            transition: opacity 0.3s ease;
+        }
+        .card-gradient:hover .card-bg-img {
+            opacity: 0.15;
+            filter: grayscale(0%);
+        }
+        .mermaid .node rect,
+        .mermaid .node circle,
+        .mermaid .node polygon {
+            fill: #fefefe;
+            stroke: #1e293b;
+            stroke-width: 1.8px;
+            rx: 8px;
+            ry: 8px;
+        }
+        .btn-descargar {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        .btn-descargar:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            box-shadow: 0 12px 22px -8px rgba(0,0,0,0.4);
+        }
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #area-captura {
+            position: relative;
+            background: #f1f5f9;
+            border-radius: 28px;
+            padding: 12px;
+            transition: box-shadow 0.2s;
+        }
+        #area-captura.capturando {
+            box-shadow: 0 0 0 4px #3b82f6aa;
+        }
+        .estado-bloque {
+            border-left: 5px solid;
+            transition: all 0.2s;
+        }
+        /* Decoración de CPU en el header */
+        .header-cpu-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-gray-100 text-gray-900 font-sans">
+
+    <header class="bg-slate-900 text-white py-12 shadow-2xl relative overflow-hidden">
+        <div class="header-cpu-bg"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto text-center px-4 relative z-10">
+            <div class="inline-flex items-center gap-3 bg-blue-900/40 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-mono mb-4 border border-blue-500/30">
+                <i class="fas fa-microchip text-blue-300"></i>
+                <span class="text-blue-100">Arquitectura de Sistemas Operativos Modernos</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent">
+                Gestión Profesional de Procesos y CPU
+            </h1>
+            <p class="text-xl text-blue-200 font-light max-w-3xl mx-auto mb-8">
+                Análisis profundo de Estructuras (PCB), Concurrencia, Prevención de Deadlock y Algoritmos de Scheduling.
+            </p>
+
+             <p class="text-xl text-blue-300 font-light max-w-3xl mx-auto mb-8">
+                Bachiller: Ernesto Guerrero C.I.18.907.869, Carrera: Ing. Informática, Sub-Proyecto: Sistemas Operativos, Profesor(a): Corina Contreras, Sección:SP-01
+            </p>
+            
+
+           </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <div id="area-captura">
+            <section class="mb-10">
+                <div class="flex items-center mb-6">
+                    <div class="bg-indigo-600 w-2 h-8 mr-4 rounded-full"></div>
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
+                        <i class="fas fa-project-diagram text-indigo-500"></i> Arquitectura de Relaciones del SO
+                    </h2>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-3xl shadow-xl border border-gray-200 relative overflow-hidden">
+                    <div class="mermaid" id="diagramaMermaid">
+                        %%{init: {"theme":"base", "themeVariables": {"primaryColor":"#2563eb", "edgeLabelBackground":"#ffffff", "tertiaryColor":"#f1f5f9"}} }%%
+                        graph TB
+                            classDef proc fill:#e0f2fe,stroke:#0c4a6e,stroke-width:2px,color:#0c4a6e,font-weight:bold;
+                            classDef concur fill:#dcfce7,stroke:#166534,stroke-width:2px,color:#14532d;
+                            classDef dead fill:#ffe4e2,stroke:#991b1b,stroke-width:2px,color:#7f1d1d;
+                            classDef plan fill:#fef9c3,stroke:#a16207,stroke-width:2px,color:#713f12;
+                            
+                            PCB["📌 ESTRUCTURA DEL PROCESO<br/><small>Bloque de Control (PCB) · PID, Registros, PC</small>"]:::proc
+                            EST["🔄 CONMUTACIÓN Y ESTADOS<br/><small>Context Switch · Nuevo → Listo → Ejecución</small>"]:::proc
+                            HILOS["🧵 MODELOS DE HILOS<br/><small>User vs Kernel Threads (1:1, M:1, M:M)</small>"]:::proc
+                            
+                            SINCRO["⚡ CONCURRENCIA AVANZADA<br/><small>Gestión de Secciones Críticas y Carrera</small>"]:::concur
+                            MUTEX["🔒 EXCLUSIÓN MUTUA<br/><small>Locks de Hardware · Spinlocks</small>"]:::concur
+                            SEMAF["📩 SEMÁFOROS Y MONITORES<br/><small>Variables de Condición · Operaciones Atómicas</small>"]:::concur
+                            
+                            COFFMAN["☠️ INTERBLOQUEO (DEADLOCK)<br/><small>Las 4 Condiciones de Coffman</small>"]:::dead
+                            GESTION["🛡️ GESTIÓN DEL DEADLOCK<br/><small>Prevención, Evitación y Detección</small>"]:::dead
+                            BANQUERO["🏦 ALGORITMO DEL BANQUERO<br/><small>Asignación Segura de Recursos (Dijkstra)</small>"]:::dead
+                            
+                            NIVELES["🎯 SCHEDULING DEL PROCESADOR<br/><small>Planificadores a Corto, Medio y Largo Plazo</small>"]:::plan
+                            METRICAS["📊 MÉTRICAS DE RENDIMIENTO<br/><small>Throughput, Latencia, Tiempo de Respuesta</small>"]:::plan
+                            ALGORITMOS["⚙️ ALGORITMOS DE PLANIFICACIÓN<br/><small>Políticas Apropiativas vs No Apropiativas</small>"]:::plan
+                            MLFQ["♻️ COLAS MULTINIVEL REALIMENTADAS (MLFQ)<br/><small>Prioridad Dinámica + Aging (Envejecimiento)</small>"]:::plan
+                            
+                            PCB --> EST
+                            EST -->|Comparte TCB| HILOS
+                            HILOS --> SINCRO
+                            SINCRO --> MUTEX
+                            MUTEX --> SEMAF
+                            SEMAF -->|Peligro por mala gestión| COFFMAN
+                            
+                            COFFMAN --> GESTION
+                            GESTION --> BANQUERO
+                            BANQUERO -.->|Garantiza estado seguro para| NIVELES
+                            
+                            NIVELES --> METRICAS
+                            METRICAS --> ALGORITMOS
+                            ALGORITMOS --> MLFQ
+                            
+                            MLFQ -.->|Optimiza el| EST
+                            ALGORITMOS -.->|Asigna CPU a| HILOS
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+                <div class="card-gradient p-6 rounded-2xl shadow-md border border-gray-100 estado-bloque" style="border-left-color: #3b82f6;">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=300&q=80" alt="CPU Core" class="card-bg-img">
+                    <h3 class="text-xl font-bold text-blue-700 mb-3 flex items-center gap-2">
+                        <i class="fas fa-layer-group"></i>Estructura: PCB y Conmutación
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-sm relative z-10">
+                        <li><span class="font-semibold text-blue-900">Bloque de Control (PCB):</span> Estructura de datos del kernel que almacena el PID, estado, contador de programa (PC) y mapa de memoria.</li>
+                        <li><span class="font-semibold text-blue-900">Context Switch (Conmutación):</span> Guardar el estado del proceso actual y cargar el del siguiente. Tarea pura de sobrecarga (overhead).</li>
+                        <li><span class="font-semibold text-blue-900">TCB (Thread Control Block):</span> Hilos que comparten memoria y archivos, pero mantienen su propio PC, registros y pila.</li>
+                    </ul>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl shadow-md border border-gray-100 estado-bloque" style="border-left-color: #10b981;">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=300&q=80" alt="Circuit" class="card-bg-img">
+                    <h3 class="text-xl font-bold text-emerald-700 mb-3 flex items-center gap-2">
+                        <i class="fas fa-shield-alt"></i>Concurrencia y Sincronización
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-sm relative z-10">
+                        <li><span class="font-semibold text-emerald-900">Sección Crítica:</span> Código donde se modifica memoria compartida. Requiere exclusión mutua estricta.</li>
+                        <li><span class="font-semibold text-emerald-900">Hardware Primitives:</span> Instrucciones <em>Test-and-Set</em> y <em>Compare-and-Swap</em> para locks eficientes a nivel de procesador.</li>
+                        <li><span class="font-semibold text-emerald-900">Semáforos vs Monitores:</span> Variables atómicas (Dijkstra) versus constructos encapsulados de alto nivel para lenguajes orientados a objetos.</li>
+                    </ul>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl shadow-md border border-gray-100 estado-bloque" style="border-left-color: #dc2626;">
+                    <img src="https://images.unsplash.com/photo-1620283085068-5aab1b6ef9db?auto=format&fit=crop&w=300&q=80" alt="Server error" class="card-bg-img">
+                    <h3 class="text-xl font-bold text-red-700 mb-3 flex items-center gap-2">
+                        <i class="fas fa-ban"></i>Interbloqueo (Deadlock)
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-sm relative z-10">
+                        <li><span class="font-semibold text-red-900">Condiciones de Coffman:</span> Exclusión mutua, Retener y esperar, Sin expropiación, Espera circular. (Deben darse las 4 juntas).</li>
+                        <li><span class="font-semibold text-red-900">Evitación (Avoidance):</span> Uso del <em>Algoritmo del Banquero</em> para evaluar si una petición deja al sistema en un "estado seguro".</li>
+                        <li><span class="font-semibold text-red-900">Recuperación:</span> <em>Rollback</em> (puntos de control) o terminación forzada (Kill) priorizada de procesos víctimas.</li>
+                    </ul>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl shadow-md border border-gray-100 estado-bloque" style="border-left-color: #eab308;">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=300&q=80" alt="Processor Pins" class="card-bg-img">
+                    <h3 class="text-xl font-bold text-amber-700 mb-3 flex items-center gap-2">
+                        <i class="fas fa-network-wired"></i>Scheduling de Procesadores
+                    </h3>
+                    <ul class="space-y-2 text-gray-700 text-sm relative z-10">
+                        <li><span class="font-semibold text-amber-900">Round Robin (RR):</span> Asignación por "Quantum" de tiempo. Si el quantum es muy grande = FCFS; si es muy corto = exceso de conmutación.</li>
+                        <li><span class="font-semibold text-amber-900">SJF y SRTF:</span> El trabajo más corto primero (versión no apropiativa y apropiativa). Teóricamente óptimos, pero requieren predecir ráfagas de CPU.</li>
+                        <li><span class="font-semibold text-amber-900">MLFQ (Modernos):</span> Combina prioridades con RR. Previene la <em>inanición (starvation)</em> mediante técnicas de <em>Envejecimiento (Aging)</em>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <section class="bg-slate-900 text-white p-10 rounded-3xl shadow-2xl relative overflow-hidden mb-10 border border-slate-700">
+                <div class="absolute top-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
+                <div class="absolute bottom-0 left-10 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl"></div>
+                <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="flex-1">
+                        <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
+                            <i class="fas fa-server text-blue-400"></i> Visión Arquitectónica Moderna
+                        </h2>
+                        <p class="text-gray-300 leading-relaxed">
+                            La orquestación eficiente del <strong>Procesador (CPU)</strong> requiere un delicado equilibrio. El SO no solo debe conmutar el contexto manipulando el <strong>PCB</strong>, sino garantizar que la <strong>concurrencia de hilos</strong> en procesadores multi-núcleo esté protegida mediante exclusión mutua, evitando bloqueos sistémicos <em>(Deadlocks)</em>. 
+                            Algoritmos complejos como <strong>MLFQ</strong> permiten que sistemas operativos actuales (como Linux con su scheduler CFS o Windows) maximicen el <em>throughput</em> manteniendo una baja latencia interactiva.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/3 flex justify-center">
+                        <div class="w-32 h-32 md:w-48 md:h-48 rounded-2xl overflow-hidden shadow-lg border-2 border-slate-700">
+                            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=400&q=80" alt="CPU" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 py-8 mt-6">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+           <p><i class="fas fa-shield-check text-green-500"></i>Sub-Proyecto: Sistemas Operativos, UNELLEZ 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // Inicializar Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        // ==================== LÓGICA DE CAPTURA Y DESCARGA PNG ====================
+        (function() {
+            const btnDescargar = document.getElementById('btnDescargarPNG');
+            const btnTextSpan = document.getElementById('btnText');
+            const areaCaptura = document.getElementById('area-captura');
+
+            async function convertirSvgAImg() {
+                const svgElement = areaCaptura.querySelector('.mermaid svg');
+                if (!svgElement) return null;
+
+                const svgClone = svgElement.cloneNode(true);
+                const bbox = svgElement.getBoundingClientRect();
+                const width = Math.max(bbox.width, 1000);
+                const height = Math.max(bbox.height, 600);
+
+                let svgString = new XMLSerializer().serializeToString(svgClone);
+                if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
+                    svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+                }
+                if (!svgString.includes('width=')) {
+                    svgString = svgString.replace('<svg', `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"`);
+                }
+                const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+
+                const img = new Image();
+                img.width = width;
+                img.height = height;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = url;
+                });
+
+                const mermaidContainer = areaCaptura.querySelector('.mermaid');
+                if (mermaidContainer) {
+                    const originalSvg = mermaidContainer.querySelector('svg');
+                    if (originalSvg) originalSvg.style.display = 'none';
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.id = 'temp-img-wrapper';
+                    imgWrapper.style.display = 'flex';
+                    imgWrapper.style.justifyContent = 'center';
+                    imgWrapper.style.background = 'white';
+                    imgWrapper.style.borderRadius = '20px';
+                    imgWrapper.style.padding = '20px';
+                    imgWrapper.appendChild(img);
+                    mermaidContainer.appendChild(imgWrapper);
+                }
+                return {
+                    restaurar: () => {
+                        const originalSvg = areaCaptura.querySelector('.mermaid svg');
+                        if (originalSvg) originalSvg.style.display = '';
+                        const tempWrapper = document.getElementById('temp-img-wrapper');
+                        if (tempWrapper) tempWrapper.remove();
+                        URL.revokeObjectURL(url);
+                    }
+                };
+            }
+
+            async function descargarPNG() {
+                btnDescargar.disabled = true;
+                btnTextSpan.innerHTML = '<span class="spinner"></span> Generando PNG...';
+                areaCaptura.classList.add('capturando');
+                await new Promise(r => setTimeout(r, 120));
+
+                let restaurador = null;
+                try {
+                    restaurador = await convertirSvgAImg();
+                    await new Promise(r => setTimeout(r, 220));
+                    areaCaptura.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    await new Promise(r => setTimeout(r, 280));
+
+                    const canvas = await html2canvas(areaCaptura, {
+                        scale: 3.2,
+                        useCORS: true,
+                        allowTaint: false,
+                        backgroundColor: '#f1f5f9',
+                        logging: false,
+                        windowWidth: areaCaptura.scrollWidth,
+                        windowHeight: areaCaptura.scrollHeight,
+                    });
+
+                    const enlace = document.createElement('a');
+                    enlace.download = 'Arquitectura_Procesos_SO.png';
+                    enlace.href = canvas.toDataURL('image/png', 1.0);
+                    enlace.click();
+
+                    btnTextSpan.innerHTML = '✅ PNG Descargado';
+                    await new Promise(r => setTimeout(r, 1800));
+                } catch (err) {
+                    console.error('Error al generar captura:', err);
+                    btnTextSpan.innerHTML = '⚠️ Error al exportar';
+                    await new Promise(r => setTimeout(r, 2000));
+                } finally {
+                    if (restaurador && typeof restaurador.restaurar === 'function') restaurador.restaurar();
+                    btnDescargar.disabled = false;
+                    btnTextSpan.innerHTML = 'Exportar Mapa a PNG';
+                    areaCaptura.classList.remove('capturando');
+                }
+            }
+
+            btnDescargar.addEventListener('click', descargarPNG);
+        })();
+    </script>
+</body>
+</html>
