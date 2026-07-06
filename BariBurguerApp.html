@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BariBurguerApp - Sabor Llanero 🍔</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Ocultar scrollbars */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
+
+    <!-- Simulador de Dispositivo Móvil (Max 414px) -->
+    <div class="relative w-full h-screen sm:h-[840px] sm:max-w-[414px] bg-slate-50 sm:rounded-[40px] sm:shadow-2xl overflow-hidden flex flex-col border-0 sm:border-8 border-slate-900">
+        
+        <!-- Notch del móvil en modo de escritorio -->
+        <div class="hidden sm:flex absolute top-0 left-1/2 transform -translate-x-1/2 w-36 h-5 bg-slate-900 rounded-b-xl z-50 items-center justify-center">
+            <div class="w-10 h-1 bg-slate-800 rounded-full mb-1"></div>
+        </div>
+
+        <!-- Encabezado Fijo -->
+        <header class="sticky top-0 z-30 flex items-center justify-between bg-white px-5 py-4 border-b border-orange-100 shadow-xs">
+            <div class="flex flex-col">
+                <span class="text-[9px] uppercase tracking-wider font-extrabold text-orange-500">
+                    Entregar en Barinas 📍
+                </span>
+                <div class="flex items-center gap-1 mt-0.5">
+                    <i class="fas fa-map-marker-alt text-orange-600 text-xs"></i>
+                    <select id="headerSectorSelect" onchange="updateSector(this.value)" class="text-xs font-black text-slate-800 bg-transparent border-none p-0 pr-4 focus:outline-none appearance-none cursor-pointer">
+                        <option value="Alto Barinas Sur">Alto Barinas Sur</option>
+                        <option value="Alto Barinas Norte">Alto Barinas Norte</option>
+                        <option value="Centro de Barinas">Centro de Barinas</option>
+                        <option value="La Caramuca">La Caramuca</option>
+                        <option value="Don Samuel">Don Samuel</option>
+                        <option value="La Concordia">La Concordia</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1 bg-orange-50 px-2 py-1 rounded-full border border-orange-100">
+                    <span class="flex h-1.5 w-1.5 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                    </span>
+                    <span class="text-[9px] font-black text-orange-700 uppercase">Abierto</span>
+                </div>
+                <button class="relative p-2 rounded-full bg-slate-50 text-slate-700 hover:text-orange-500 transition">
+                    <i class="far fa-bell"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenedor de Vistas Desplazable -->
+        <main id="mainScroll" class="flex-1 overflow-y-auto pb-24 scrollbar-none">
+            
+            <!-- VISTA: INICIO (HOME) -->
+            <div id="view-home" class="view-content flex flex-col gap-5 p-5">
+                <!-- Hero Promo Banner -->
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-orange-950 to-slate-950 p-5 text-white shadow-md border border-orange-950/40">
+                    <div class="absolute right-[-15px] bottom-[-15px] opacity-20 transform rotate-12 text-7xl">
+                        🍔
+                    </div>
+                    <div class="relative z-10 max-w-[75%]">
+                        <div class="inline-flex items-center gap-1 bg-orange-500/20 border border-orange-500/30 text-orange-400 px-2.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider mb-2">
+                            <i class="fas fa-fire"></i> Sabor Llanero
+                        </div>
+                        <h2 class="text-xl font-black leading-tight mb-1">
+                            ¡La comida urbana <span class="text-yellow-400">más brutal</span> de Barinas!
+                        </h2>
+                        <p class="text-[10px] text-orange-100/70 mb-3 font-medium">
+                            Pide directo a tu casa con el sazón llanero que te encanta.
+                        </p>
+                        <button onclick="applyVoucherQuick()" class="bg-yellow-400 hover:bg-yellow-500 text-slate-950 font-black text-[9px] px-3 py-2 rounded-xl shadow-lg transition flex items-center gap-1.5">
+                            <i class="fas fa-tag"></i> CUPÓN: <span>BARISABOR</span> (10% OFF)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Barra de búsqueda rápida -->
+                <div onclick="navigateTo('search')" class="flex items-center gap-3 bg-white border border-orange-100 rounded-2xl px-4 py-3 shadow-sm text-slate-400 cursor-pointer hover:bg-slate-50 transition">
+                    <i class="fas fa-search text-orange-500"></i>
+                    <span class="text-xs font-medium text-slate-500">¿Qué te provoca comer hoy?</span>
+                </div>
+
+                <!-- Categorías Rápidas -->
+                <div class="flex flex-col gap-2">
+                    <span class="text-xs font-extrabold text-slate-800">Categorías populares</span>
+                    <div class="flex gap-2.5 overflow-x-auto scrollbar-none pb-1">
+                        <button onclick="filterCategory('all')" id="cat-all" class="cat-btn bg-orange-500 text-white px-3.5 py-2.5 rounded-xl font-bold text-xs shrink-0 flex items-center gap-1.5 shadow-sm">
+                            <span>✨</span> Todo
+                        </button>
+                        <button onclick="filterCategory('burgers')" id="cat-burgers" class="cat-btn bg-white border border-orange-100 text-slate-600 px-3.5 py-2.5 rounded-xl font-bold text-xs shrink-0 flex items-center gap-1.5">
+                            <span>🍔</span> Hamburguesas
+                        </button>
+                        <button onclick="filterCategory('dogs')" id="cat-dogs" class="cat-btn bg-white border border-orange-100 text-slate-600 px-3.5 py-2.5 rounded-xl font-bold text-xs shrink-0 flex items-center gap-1.5">
+                            <span>🌭</span> Perros
+                        </button>
+                        <button onclick="filterCategory('sides')" id="cat-sides" class="cat-btn bg-white border border-orange-100 text-slate-600 px-3.5 py-2.5 rounded-xl font-bold text-xs shrink-0 flex items-center gap-1.5">
+                            <span>🍟</span> Raciones
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de productos -->
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <span id="productSectionTitle" class="text-sm font-extrabold text-slate-800">Lo Más Pedido 🔥</span>
+                        <span id="productSectionCount" class="text-[10px] text-slate-400 font-bold">4 productos</span>
+                    </div>
+
+                    <div id="homeProductsGrid" class="flex flex-col gap-3.5">
+                        <!-- Generado dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Banner Afíliate -->
+                <div class="bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-5 text-white relative overflow-hidden border border-slate-700/40">
+                    <div class="absolute right-[-10px] top-[-10px] text-slate-700/25 text-5xl select-none font-bold">
+                        🏪
+                    </div>
+                    <div class="relative z-10 max-w-[85%]">
+                        <span class="text-[9px] font-black uppercase bg-yellow-400 text-slate-950 px-2 py-0.5 rounded-md">
+                            ¿Socio de Comida?
+                        </span>
+                        <h3 class="font-black text-base mt-2">
+                            Afilia tu puesto de comida urbana gratis
+                        </h3>
+                        <p class="text-[10px] text-slate-300 mt-0.5 mb-3 leading-relaxed">
+                            Aparece en nuestra app, recibe pedidos directo a tu WhatsApp y vende sin comisiones.
+                        </p>
+                        <button onclick="navigateTo('partner')" class="bg-white text-slate-950 font-black text-[10px] px-3.5 py-2 rounded-xl hover:bg-yellow-300 transition flex items-center gap-1">
+                            Comenzar Registro <i class="fas fa-arrow-right text-[8px]"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISTA: BUSCAR -->
+            <div id="view-search" class="view-content hidden flex flex-col gap-4 p-5">
+                <div>
+                    <h2 class="text-lg font-black text-slate-800">Buscar Antojos</h2>
+                    <p class="text-[10px] text-slate-400">Consigue tus ingredientes o platos favoritos en Barinas.</p>
+                </div>
+
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-3.5 text-orange-500"></i>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        oninput="handleSearch(this.value)"
+                        placeholder="Busca hamburguesas, tequeños, papas..."
+                        class="w-full bg-white border border-orange-100 rounded-2xl pl-10 pr-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500 transition shadow-xs"
+                    >
+                </div>
+
+                <div class="flex flex-col gap-2 mt-1">
+                    <span class="text-[11px] font-bold text-slate-600">Sugerencias</span>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="setSearchQuery('Queso de mano')" class="px-2.5 py-1.5 bg-white border border-slate-100 hover:border-orange-100 text-slate-600 hover:text-orange-600 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
+                            <i class="fas fa-angle-right text-[8px] text-slate-400"></i> Queso de mano
+                        </button>
+                        <button onclick="setSearchQuery('Smash')" class="px-2.5 py-1.5 bg-white border border-slate-100 hover:border-orange-100 text-slate-600 hover:text-orange-600 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
+                            <i class="fas fa-angle-right text-[8px] text-slate-400"></i> Smash
+                        </button>
+                        <button onclick="setSearchQuery('Tequeños')" class="px-2.5 py-1.5 bg-white border border-slate-100 hover:border-orange-100 text-slate-600 hover:text-orange-600 rounded-lg text-[10px] font-bold transition flex items-center gap-1">
+                            <i class="fas fa-angle-right text-[8px] text-slate-400"></i> Tequeños
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 mt-2">
+                    <span class="text-xs font-bold text-slate-700">Resultados encontrados</span>
+                    <div id="searchProductsGrid" class="flex flex-col gap-3">
+                        <!-- Cargado dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- VISTA: CARRITO -->
+            <div id="view-cart" class="view-content hidden flex flex-col gap-5 p-5">
+                <div>
+                    <h2 class="text-lg font-black text-slate-800">Tu Carrito</h2>
+                    <p class="text-[10px] text-slate-400">Revisa tus productos y completa los datos de entrega.</p>
+                </div>
+
+                <div id="cartEmptyState" class="hidden flex flex-col items-center justify-center text-center py-12 px-4 bg-orange-50/20 border border-orange-100 rounded-3xl">
+                    <span class="text-4xl mb-3">🛒</span>
+                    <h3 class="font-extrabold text-slate-800 text-xs">Tu carrito está vacío</h3>
+                    <p class="text-[10px] text-slate-400 mt-1 max-w-[200px]">
+                        Agrega productos en la pestaña de inicio para empezar tu pedido.
+                    </p>
+                </div>
+
+                <div id="cartActiveState" class="flex flex-col gap-4">
+                    <!-- Lista de productos -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between items-center text-[11px] font-bold text-slate-500">
+                            <span>Tus Artículos</span>
+                            <button onclick="clearCart()" class="text-red-500 hover:text-red-600 font-extrabold flex items-center gap-1">
+                                <i class="far fa-trash-can"></i> Vaciar
+                            </button>
+                        </div>
+
+                        <div id="cartItemsList" class="bg-white border border-orange-50 rounded-3xl p-4 flex flex-col gap-4 shadow-xs">
+                            <!-- Inyectado dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Tipo de entrega -->
+                    <div class="bg-white border border-orange-50 rounded-2xl p-1.5 flex gap-1 shadow-xs">
+                        <button onclick="setDeliveryType('delivery')" id="deliveryType-delivery" class="flex-1 py-2.5 rounded-xl font-black text-[10px] bg-orange-500 text-white shadow-sm transition">
+                            🚗 Delivery (+$1.50)
+                        </button>
+                        <button onclick="setDeliveryType('retiro')" id="deliveryType-retiro" class="flex-1 py-2.5 rounded-xl font-black text-[10px] text-slate-600 hover:bg-slate-50 transition">
+                            🏪 Retiro en Local
+                        </button>
+                    </div>
+
+                    <!-- Formulario de datos -->
+                    <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="flex flex-col gap-4">
+                        <div class="bg-white border border-orange-50 rounded-3xl p-4 shadow-sm flex flex-col gap-3.5">
+                            <span class="text-xs font-black text-slate-800 border-b border-slate-50 pb-1.5">Datos de Entrega 📍</span>
+                            
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[9px] font-bold text-slate-400 uppercase">Tu Nombre</label>
+                                <input type="text" id="orderName" required placeholder="Carlos Mendoza" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[9px] font-bold text-slate-400 uppercase">Teléfono de Contacto</label>
+                                <input type="tel" id="orderPhone" required placeholder="Ej. 0414-1234567" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                            </div>
+
+                            <div id="deliveryFields" class="flex flex-col gap-3.5">
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[9px] font-bold text-slate-400 uppercase">Sector en Barinas</label>
+                                    <select id="orderSector" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                                        <option value="Alto Barinas Sur">Alto Barinas Sur</option>
+                                        <option value="Alto Barinas Norte">Alto Barinas Norte</option>
+                                        <option value="Centro de Barinas">Centro de Barinas</option>
+                                        <option value="La Caramuca">La Caramuca</option>
+                                        <option value="Don Samuel">Don Samuel</option>
+                                        <option value="La Concordia">La Concordia</option>
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[9px] font-bold text-slate-400 uppercase">Dirección y Puntos de Referencia</label>
+                                    <input type="text" id="orderAddress" placeholder="Calle 4, casa verde frente al abasto..." class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-1">
+                                <label class="text-[9px] font-bold text-slate-400 uppercase">Método de Pago Preferido</label>
+                                <select id="orderPayment" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                                    <option value="pago_movil">📲 Pago Móvil (Bs.)</option>
+                                    <option value="efectivo">💵 Efectivo en Mano (USD)</option>
+                                    <option value="zelle">💵 Zelle ($)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Cupón -->
+                        <div class="bg-white border border-orange-50 rounded-3xl p-4 shadow-sm flex flex-col gap-2">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Cupón de Descuento</span>
+                            <div class="flex gap-2">
+                                <input type="text" id="couponInput" placeholder="BARISABOR" class="flex-1 bg-slate-50 border border-orange-50 rounded-xl px-3 py-2 text-xs font-bold uppercase focus:outline-none focus:border-orange-500 transition">
+                                <button type="button" onclick="applyCoupon()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-xl transition">Aplicar</button>
+                            </div>
+                            <p id="couponFeedback" class="text-[9px] font-bold hidden"></p>
+                        </div>
+
+                        <!-- Desglose de Pago -->
+                        <div class="bg-white border border-orange-50 rounded-3xl p-4 shadow-sm flex flex-col gap-2.5">
+                            <div class="flex justify-between text-xs text-slate-500 font-semibold">
+                                <span>Subtotal</span>
+                                <span id="summarySubtotal">$0.00</span>
+                            </div>
+                            <div id="summaryDeliveryRow" class="flex justify-between text-xs text-slate-500 font-semibold">
+                                <span>🚗 Delivery</span>
+                                <span id="summaryDelivery">+$1.50</span>
+                            </div>
+                            <div id="summaryDiscountRow" class="hidden justify-between text-xs text-green-600 font-black">
+                                <span>🏷️ Descuento</span>
+                                <span id="summaryDiscount">-$0.00</span>
+                            </div>
+
+                            <div class="border-t border-slate-50 pt-3 flex flex-col gap-1">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-black text-slate-800">Monto Total USD</span>
+                                    <span id="summaryTotalUSD" class="text-base font-black text-orange-600">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[9px] font-bold text-slate-400">Equivalente en Bolívares</span>
+                                    <span id="summaryTotalVES" class="text-xs font-extrabold text-slate-500">Bs. 0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón enviar -->
+                        <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black py-3.5 rounded-3xl shadow-lg flex items-center justify-center gap-2 transition active:scale-95">
+                            <i class="fab fa-whatsapp"></i> Confirmar por WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- VISTA: AFILIARSE -->
+            <div id="view-partner" class="view-content hidden flex flex-col gap-5 p-5">
+                <button onclick="navigateTo('home')" class="self-start text-[10px] font-black text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-xl transition flex items-center gap-1">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+
+                <div>
+                    <h2 class="text-xl font-black text-slate-800 flex items-center gap-1.5">
+                        <span>Afiliar mi Puesto</span> <i class="fas fa-store text-orange-500 text-sm"></i>
+                    </h2>
+                    <p class="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                        Únete gratis al ecosistema urbano gastronómico de Barinas. Incrementa tus despachos y recibe pedidos directos a tu WhatsApp sin pagar pesadas comisiones.
+                    </p>
+                </div>
+
+                <!-- Formulario de Afiliación -->
+                <form id="partnerForm" onsubmit="handlePartnerSubmit(event)" class="flex flex-col gap-4">
+                    <div class="bg-white border border-orange-50 rounded-3xl p-4 shadow-sm flex flex-col gap-3.5">
+                        <span class="text-xs font-black text-slate-800 border-b border-slate-50 pb-1.5 flex items-center gap-1.5">
+                            <i class="fas fa-user text-orange-500"></i> Datos Propietario
+                        </span>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Nombre Completo</label>
+                            <input type="text" id="partnerOwner" required placeholder="Ej. Juan Pérez" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Teléfono / WhatsApp</label>
+                            <input type="tel" id="partnerPhone" required placeholder="Ej. 0412-5551234" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-orange-50 rounded-3xl p-4 shadow-sm flex flex-col gap-3.5">
+                        <span class="text-xs font-black text-slate-800 border-b border-slate-50 pb-1.5 flex items-center gap-1.5">
+                            <i class="fas fa-store text-orange-500"></i> Datos del Negocio
+                        </span>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Nombre Comercial del Puesto</label>
+                            <input type="text" id="partnerBusiness" required placeholder="Ej. Hamburguesas El Gigante Llanero" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Especialidad Principal</label>
+                            <select id="partnerSpecialty" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                                <option value="Hamburguesas">Hamburguesas Llaneras 🍔</option>
+                                <option value="Perros Calientes">Perros Calientes con todo 🌭</option>
+                                <option value="Pepitos">Pepitos y Gratinados 🥖</option>
+                                <option value="Empanadas / Tequeños">Tequeños y Raciones 🧀</option>
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Dirección Física en Barinas</label>
+                            <input type="text" id="partnerAddress" required placeholder="Ej. Calle principal Don Samuel, al lado de la licorería..." class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                        </div>
+
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-bold text-slate-400 uppercase">Instagram Comercial (Opcional)</label>
+                            <input type="text" id="partnerInstagram" placeholder="Ej. @elgigantebari" class="w-full bg-slate-50 border border-orange-50 rounded-xl px-3 py-2.5 text-xs font-semibold focus:outline-none focus:border-orange-500 transition">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="partnerSubmitBtn" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-3xl shadow-md transition flex items-center justify-center gap-1.5 active:scale-95">
+                        Registrar mi Local Gratis <i class="fas fa-angle-right"></i>
+                    </button>
+                </form>
+
+                <p class="text-[9px] text-slate-400 text-center leading-relaxed">
+                    Al registrarte, nuestro personal de operaciones en Barinas se pondrá en contacto contigo para verificar el local física o digitalmente.
+                </p>
+            </div>
+
+            <!-- VISTA: ÉXITO REGISTRO -->
+            <div id="view-success" class="view-content hidden flex flex-col items-center justify-center text-center p-6 py-12 gap-5 mt-8">
+                <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl shadow-sm">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                    <h3 class="text-xl font-black text-slate-800">¡Registro Recibido!</h3>
+                    <p class="text-xs text-slate-500 max-w-[240px] mx-auto leading-relaxed">
+                        Sandra del equipo de validaciones te llamará muy pronto para darte de alta en el sistema.
+                    </p>
+                </div>
+                <button onclick="navigateTo('home')" class="bg-slate-900 text-white font-black text-xs px-6 py-3 rounded-2xl shadow-md">
+                    Volver al Inicio
+                </button>
+            </div>
+
+            <!-- VISTA: PERFIL -->
+            <div id="view-profile" class="view-content hidden flex flex-col gap-5 p-5">
+                <!-- Tarjeta de Perfil -->
+                <div class="flex items-center gap-4 bg-white border border-orange-50 rounded-3xl p-4 shadow-xs">
+                    <div class="w-12 h-12 bg-gradient-to-tr from-orange-500 to-amber-500 rounded-full flex items-center justify-center text-white text-lg font-black shadow-md">
+                        B
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-[9px] font-black uppercase text-orange-500 tracking-wider">Cliente de Honor</span>
+                        <h3 class="font-black text-slate-800 text-sm leading-none mt-0.5">BariPana Fanático</h3>
+                        <span class="text-[10px] text-slate-400 font-bold mt-1">cliente.barinas@gmail.com</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Puntos -->
+                <div class="bg-gradient-to-br from-slate-900 via-orange-950 to-slate-950 rounded-3xl p-5 text-white shadow-md border border-orange-950 relative overflow-hidden">
+                    <div class="absolute right-[-10px] top-[-10px] opacity-10 text-6xl">
+                        🏆
+                    </div>
+                    <div class="relative z-10 flex flex-col gap-3.5">
+                        <div class="flex justify-between items-center">
+                            <span class="bg-yellow-400 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded uppercase">Club Puntos 🤠</span>
+                            <span class="text-[9px] text-slate-300 font-bold">Nivel Oro</span>
+                        </div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-black text-yellow-400">420</span>
+                            <span class="text-[10px] font-bold text-slate-300">Puntos Llaneros</span>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <div class="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-yellow-400" style="width: 84%"></div>
+                            </div>
+                            <span class="text-[8px] text-slate-300 font-semibold">Faltan 80 pts para tu Hamburguesa gratis.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opciones -->
+                <div class="bg-white border border-orange-50 rounded-2xl overflow-hidden flex flex-col shadow-xs divide-y divide-slate-50">
+                    <div class="p-3.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fas fa-map-location-dot text-orange-500 text-xs bg-orange-50 p-2 rounded-lg"></i>
+                            <span class="text-xs font-bold text-slate-700">Mis direcciones llaneras</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </div>
+                    <div class="p-3.5 flex items-center justify-between hover:bg-slate-50 cursor-pointer">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fas fa-headset text-orange-500 text-xs bg-orange-50 p-2 rounded-lg"></i>
+                            <span class="text-xs font-bold text-slate-700">Soporte Express</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-400 text-[10px]"></i>
+                    </div>
+                </div>
+
+                <button onclick="navigateTo('home')" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-black py-2.5 rounded-2xl text-xs transition">
+                    Cerrar Sesión
+                </button>
+            </div>
+
+        </main>
+
+        <!-- Botón de Carrito Flotante rápido -->
+        <button id="floatingCartBtn" onclick="navigateTo('cart')" class="hidden absolute bottom-20 right-5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black p-4 rounded-full shadow-lg flex items-center gap-1.5 z-20 animate-bounce">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="floatingCartCount" class="bg-white text-orange-600 text-[9px] font-black px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+
+        <!-- Barra de Navegación Inferior Fija -->
+        <nav class="absolute bottom-0 left-0 right-0 z-30 bg-white border-t border-orange-100 py-3.5 px-4 flex justify-between items-center shadow-md">
+            <button onclick="navigateTo('home')" id="nav-home" class="flex flex-col items-center gap-0.5 flex-1 text-orange-500">
+                <i class="fas fa-home text-base"></i>
+                <span class="text-[9px] font-extrabold">Inicio</span>
+            </button>
+            <button onclick="navigateTo('search')" id="nav-search" class="flex flex-col items-center gap-0.5 flex-1 text-slate-400">
+                <i class="fas fa-search text-base"></i>
+                <span class="text-[9px] font-extrabold">Buscar</span>
+            </button>
+            <button onclick="navigateTo('cart')" id="nav-cart" class="flex flex-col items-center gap-0.5 flex-1 text-slate-400 relative">
+                <i class="fas fa-shopping-cart text-base"></i>
+                <span id="navCartBadge" class="hidden absolute top-[-5px] right-[15px] bg-orange-600 text-white text-[8px] font-black min-w-[14px] h-[14px] rounded-full flex items-center justify-center border border-white">0</span>
+                <span class="text-[9px] font-extrabold">Carrito</span>
+            </button>
+            <button onclick="navigateTo('partner')" id="nav-partner" class="flex flex-col items-center gap-0.5 flex-1 text-slate-400">
+                <i class="fas fa-store text-base"></i>
+                <span class="text-[9px] font-extrabold">Afiliarse</span>
+            </button>
+            <button onclick="navigateTo('profile')" id="nav-profile" class="flex flex-col items-center gap-0.5 flex-1 text-slate-400">
+                <i class="fas fa-user text-base"></i>
+                <span class="text-[9px] font-extrabold">Perfil</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Modal de confirmación final -->
+    <div id="confirmOrderModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 flex flex-col gap-4 shadow-xl">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="text-sm font-black text-slate-800">¡Pedido Pre-armado!</h3>
+                <p class="text-[10px] text-slate-500 leading-relaxed mt-1">Se abrirá WhatsApp para enviar los detalles del pedido a la cocina.</p>
+            </div>
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                <pre id="whatsappMessagePreview" class="text-[9px] font-mono text-slate-700 whitespace-pre-wrap max-h-40 overflow-y-auto leading-tight"></pre>
+            </div>
+            <div class="flex flex-col gap-2">
+                <button onclick="sendOrderWhatsApp()" class="w-full bg-green-500 hover:bg-green-600 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5">
+                    <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                </button>
+                <button onclick="closeConfirmModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-2 rounded-xl text-xs">Modificar datos</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lógica de la Aplicación -->
+    <script>
+        const EXCHANGE_RATE = 40.5;
+
+        const PRODUCTS = [
+            {
+                id: 'b1',
+                name: 'La BariLlanera 🤠',
+                description: 'Doble carne de primera, queso de mano artesanal derretido, aguacate llanero, tajadas de plátano maduro frito y salsa tártara de la casa.',
+                price: 7.99,
+                category: 'burgers',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=300&h=225',
+                tag: 'Más Vendida'
+            },
+            {
+                id: 'b2',
+                name: 'BariSmash Doble 🍔',
+                description: 'Doble carne de res smash (costra crujiente), doble queso cheddar americano, cebolla caramelizada, pepinillos y salsa BariBurguer.',
+                price: 5.99,
+                category: 'burgers',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&q=80&w=300&h=225',
+                tag: 'Smash'
+            },
+            {
+                id: 'pd1',
+                name: 'BariPerro Callejero 🌭',
+                description: 'Salchicha jumbo de primera, repollo fresco picadito, cebolla, papitas ralladas súper crujientes, parmesano y salsas de la casa.',
+                price: 3.49,
+                category: 'dogs',
+                rating: 4.6,
+                image: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&q=80&w=300&h=225',
+                tag: 'Clásico'
+            },
+            {
+                id: 's1',
+                name: 'BariTequeños Gigantes 🧀',
+                description: 'Cinco tequeños extra grandes rebosantes de queso blanco llanero derretido. Acompañados con salsa tártara o rosada.',
+                price: 3.99,
+                category: 'sides',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1531749668029-2db88e4b76ce?auto=format&fit=crop&q=80&w=300&h=225',
+                tag: 'Favorito'
+            }
+        ];
+
+        let cart = [];
+        let selectedSector = "Alto Barinas Sur";
+        let deliveryType = "delivery";
+        let discountPercent = 0;
+        let finalMessage = "";
+
+        // Cargar carrito desde localStorage
+        function initApp() {
+            const savedCart = localStorage.getItem('bariburguer_html_cart');
+            const savedSector = localStorage.getItem('bariburguer_html_sector');
+            if (savedCart) {
+                try { cart = JSON.parse(savedCart); } catch(e) {}
+            }
+            if (savedSector) {
+                selectedSector = savedSector;
+                document.getElementById('headerSectorSelect').value = selectedSector;
+                document.getElementById('orderSector').value = selectedSector;
+            }
+            renderHomeProducts();
+            renderSearchProducts();
+            updateCartBadges();
+        }
+
+        function saveCart() {
+            localStorage.setItem('bariburguer_html_cart', JSON.stringify(cart));
+            updateCartBadges();
+        }
+
+        function updateSector(val) {
+            selectedSector = val;
+            localStorage.setItem('bariburguer_html_sector', val);
+            document.getElementById('orderSector').value = val;
+        }
+
+        // Navegación de Vistas
+        function navigateTo(viewId) {
+            const views = ['home', 'search', 'cart', 'partner', 'success', 'profile'];
+            views.forEach(v => {
+                document.getElementById(`view-${v}`).classList.add('hidden');
+                const navBtn = document.getElementById(`nav-${v}`);
+                if (navBtn) {
+                    navBtn.classList.remove('text-orange-500');
+                    navBtn.classList.add('text-slate-400');
+                }
+            });
+
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${viewId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-orange-500');
+            }
+
+            if (viewId === 'cart') {
+                renderCart();
+            }
+
+            document.getElementById('mainScroll').scrollTop = 0;
+        }
+
+        // Renderizado del Home
+        function renderHomeProducts(category = 'all') {
+            const grid = document.getElementById('homeProductsGrid');
+            grid.innerHTML = '';
+            
+            const filtered = category === 'all' 
+                ? PRODUCTS 
+                : PRODUCTS.filter(p => p.category === category);
+
+            document.getElementById('productSectionCount').innerText = `${filtered.length} productos`;
+
+            filtered.forEach(p => {
+                const qty = getCartQty(p.id);
+                const priceBs = (p.price * EXCHANGE_RATE).toFixed(1);
+                
+                const card = `
+                    <div class="bg-white border border-orange-50 rounded-3xl p-3.5 flex gap-3.5 shadow-xs">
+                        <div class="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-slate-50">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between min-w-0">
+                            <div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[8px] font-black uppercase tracking-wider bg-orange-50 text-orange-600 px-1.5 py-0.5 rounded">${p.tag}</span>
+                                    <span class="text-[10px] font-extrabold text-slate-800"><i class="fas fa-star text-yellow-400 text-[8px]"></i> ${p.rating}</span>
+                                </div>
+                                <h4 class="font-extrabold text-xs text-slate-800 tracking-tight mt-1 truncate">${p.name}</h4>
+                                <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5 leading-relaxed">${p.description}</p>
+                            </div>
+                            <div class="flex items-end justify-between mt-2.5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-black text-slate-800">$${p.price.toFixed(2)}</span>
+                                    <span class="text-[8px] font-bold text-slate-400">Bs. ${priceBs}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    ${qty > 0 ? `
+                                        <div class="flex items-center gap-1.5 bg-orange-500 text-white rounded-xl p-1 shadow-xs">
+                                            <button onclick="changeQty('${p.id}', -1)" class="w-5 h-5 rounded-lg bg-orange-600 flex items-center justify-center text-[10px]"><i class="fas fa-minus"></i></button>
+                                            <span class="text-[10px] font-bold px-1">${qty}</span>
+                                            <button onclick="changeQty('${p.id}', 1)" class="w-5 h-5 rounded-lg bg-orange-600 flex items-center justify-center text-[10px]"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    ` : `
+                                        <button onclick="addToCart('${p.id}')" class="bg-orange-500 text-white font-extrabold text-[10px] px-3 py-2 rounded-xl flex items-center gap-1 shadow-sm"><i class="fas fa-plus text-[8px]"></i> Añadir</button>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // Filtrar Categorías en Home
+        function filterCategory(catId) {
+            const btns = document.querySelectorAll('.cat-btn');
+            btns.forEach(b => {
+                b.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
+                b.classList.add('bg-white', 'border', 'border-orange-100', 'text-slate-600');
+            });
+
+            const activeBtn = document.getElementById(`cat-${catId}`);
+            activeBtn.classList.remove('bg-white', 'border', 'border-orange-100', 'text-slate-600');
+            activeBtn.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+
+            const sectionTitles = {
+                all: 'Lo Más Pedido 🔥',
+                burgers: 'Hamburguesas Brutales 🍔',
+                dogs: 'Perros Llaneros con Todo 🌭',
+                sides: 'Acompañantes y Raciones 🍟'
+            };
+            document.getElementById('productSectionTitle').innerText = sectionTitles[catId] || 'Menú';
+            renderHomeProducts(catId);
+        }
+
+        // Búsqueda
+        function setSearchQuery(term) {
+            document.getElementById('searchInput').value = term;
+            handleSearch(term);
+        }
+
+        function handleSearch(query) {
+            const grid = document.getElementById('searchProductsGrid');
+            grid.innerHTML = '';
+            
+            const filtered = PRODUCTS.filter(p => 
+                p.name.toLowerCase().includes(query.toLowerCase()) || 
+                p.description.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-8 text-slate-400">
+                        <span class="text-3xl">🧐</span>
+                        <p class="text-xs font-bold mt-2">No encontramos resultados</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const qty = getCartQty(p.id);
+                const priceBs = (p.price * EXCHANGE_RATE).toFixed(1);
+                const card = `
+                    <div class="bg-white border border-orange-50 rounded-2xl p-3 flex gap-3 shadow-xs">
+                        <div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                            <img src="${p.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 flex flex-col justify-between min-w-0">
+                            <div>
+                                <h4 class="font-extrabold text-xs text-slate-800 truncate">${p.name}</h4>
+                                <p class="text-[9px] text-slate-400 line-clamp-1 mt-0.5">${p.description}</p>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-xs font-black text-slate-800">$${p.price.toFixed(2)}</span>
+                                <div class="flex items-center">
+                                    ${qty > 0 ? `
+                                        <div class="flex items-center gap-1.5 bg-orange-500 text-white rounded-lg p-0.5">
+                                            <button onclick="changeQty('${p.id}', -1)" class="w-4 h-4 rounded-md bg-orange-600 flex items-center justify-center text-[8px]"><i class="fas fa-minus"></i></button>
+                                            <span class="text-[9px] font-bold px-1">${qty}</span>
+                                            <button onclick="changeQty('${p.id}', 1)" class="w-4 h-4 rounded-md bg-orange-600 flex items-center justify-center text-[8px]"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    ` : `
+                                        <button onclick="addToCart('${p.id}')" class="bg-orange-500 text-white font-extrabold text-[9px] px-2 py-1 rounded-lg flex items-center gap-1"><i class="fas fa-plus text-[7px]"></i> Agregar</button>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function renderSearchProducts() {
+            handleSearch('');
+        }
+
+        // Lógica del Carrito
+        function getCartQty(pId) {
+            const item = cart.find(i => i.product.id === pId);
+            return item ? item.quantity : 0;
+        }
+
+        function addToCart(pId) {
+            const prod = PRODUCTS.find(p => p.id === pId);
+            const item = cart.find(i => i.product.id === pId);
+            if (item) {
+                item.quantity += 1;
+            } else {
+                cart.push({ product: prod, quantity: 1 });
+            }
+            saveCart();
+            renderHomeProducts();
+            renderSearchProducts();
+        }
+
+        function changeQty(pId, amount) {
+            const item = cart.find(i => i.product.id === pId);
+            if (item) {
+                item.quantity += amount;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.product.id !== pId);
+                }
+            }
+            saveCart();
+            renderHomeProducts();
+            renderSearchProducts();
+            if (document.getElementById('view-cart').classList.contains('hidden') === false) {
+                renderCart();
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            saveCart();
+            renderHomeProducts();
+            renderSearchProducts();
+            renderCart();
+        }
+
+        function updateCartBadges() {
+            const total = cart.reduce((acc, i) => acc + i.quantity, 0);
+            const badge = document.getElementById('navCartBadge');
+            const floatCount = document.getElementById('floatingCartCount');
+            const floatBtn = document.getElementById('floatingCartBtn');
+
+            if (total > 0) {
+                badge.innerText = total;
+                badge.classList.remove('hidden');
+                floatCount.innerText = total;
+                if (document.getElementById('view-cart').classList.contains('hidden')) {
+                    floatBtn.classList.remove('hidden');
+                } else {
+                    floatBtn.classList.add('hidden');
+                }
+            } else {
+                badge.classList.add('hidden');
+                floatBtn.classList.add('hidden');
+            }
+        }
+
+        function renderCart() {
+            const emptyState = document.getElementById('cartEmptyState');
+            const activeState = document.getElementById('cartActiveState');
+            const list = document.getElementById('cartItemsList');
+
+            if (cart.length === 0) {
+                emptyState.classList.remove('hidden');
+                activeState.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            activeState.classList.remove('hidden');
+            list.innerHTML = '';
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                const totalItem = item.product.price * item.quantity;
+                subtotal += totalItem;
+                const row = `
+                    <div class="flex items-center gap-3 border-b border-slate-50 pb-3 last:border-none last:pb-0">
+                        <div class="w-10 h-10 bg-slate-100 rounded-xl overflow-hidden shrink-0">
+                            <img src="${item.product.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h5 class="text-xs font-bold text-slate-800 truncate">${item.product.name}</h5>
+                            <span class="text-[9px] text-slate-400 font-bold">$${item.product.price.toFixed(2)} c/u</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 bg-slate-50 border border-orange-50 rounded-lg p-1">
+                            <button onclick="changeQty('${item.product.id}', -1)" class="p-1 rounded bg-white text-slate-600 text-[8px]"><i class="fas fa-minus"></i></button>
+                            <span class="text-xs font-black px-1">${item.quantity}</span>
+                            <button onclick="changeQty('${item.product.id}', 1)" class="p-1 rounded bg-white text-slate-600 text-[8px]"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <span class="text-xs font-black text-slate-800 min-w-[50px] text-right">$${totalItem.toFixed(2)}</span>
+                    </div>
+                `;
+                list.innerHTML += row;
+            });
+
+            calculateTotals(subtotal);
+        }
+
+        function setDeliveryType(type) {
+            deliveryType = type;
+            const devBtn = document.getElementById('deliveryType-delivery');
+            const retBtn = document.getElementById('deliveryType-retiro');
+            const fields = document.getElementById('deliveryFields');
+
+            if (type === 'delivery') {
+                devBtn.className = "flex-1 py-2.5 rounded-xl font-black text-[10px] bg-orange-500 text-white shadow-sm transition";
+                retBtn.className = "flex-1 py-2.5 rounded-xl font-black text-[10px] text-slate-600 hover:bg-slate-50 transition";
+                fields.classList.remove('hidden');
+                document.getElementById('summaryDeliveryRow').classList.remove('hidden');
+            } else {
+                retBtn.className = "flex-1 py-2.5 rounded-xl font-black text-[10px] bg-orange-500 text-white shadow-sm transition";
+                devBtn.className = "flex-1 py-2.5 rounded-xl font-black text-[10px] text-slate-600 hover:bg-slate-50 transition";
+                fields.classList.add('hidden');
+                document.getElementById('summaryDeliveryRow').classList.add('hidden');
+            }
+            renderCart();
+        }
+
+        function applyCoupon() {
+            const code = document.getElementById('couponInput').value;
+            const feed = document.getElementById('couponFeedback');
+            if (code.toUpperCase() === 'BARISABOR') {
+                discountPercent = 10;
+                feed.className = "text-[9px] font-bold text-green-600 block";
+                feed.innerText = "¡Cupón BARISABOR aplicado! 10% de descuento.";
+            } else {
+                discountPercent = 0;
+                feed.className = "text-[9px] font-bold text-red-500 block";
+                feed.innerText = "Cupón inválido.";
+            }
+            renderCart();
+        }
+
+        function applyVoucherQuick() {
+            navigateTo('cart');
+            document.getElementById('couponInput').value = 'BARISABOR';
+            applyCoupon();
+        }
+
+        function calculateTotals(subtotal) {
+            const deliveryFee = deliveryType === 'delivery' ? 1.50 : 0;
+            const discount = subtotal * (discountPercent / 100);
+            const totalUSD = subtotal + deliveryFee - discount;
+            const totalVES = totalUSD * EXCHANGE_RATE;
+
+            document.getElementById('summarySubtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summaryDelivery').innerText = `+$${deliveryFee.toFixed(2)}`;
+            
+            const discRow = document.getElementById('summaryDiscountRow');
+            if (discount > 0) {
+                discRow.classList.remove('hidden');
+                discRow.classList.add('flex');
+                document.getElementById('summaryDiscount').innerText = `-$${discount.toFixed(2)}`;
+            } else {
+                discRow.classList.add('hidden');
+                discRow.classList.remove('flex');
+            }
+
+            document.getElementById('summaryTotalUSD').innerText = `$${totalUSD.toFixed(2)}`;
+            document.getElementById('summaryTotalVES').innerText = `Bs. ${totalVES.toFixed(2)}`;
+        }
+
+        // Envío de Pedido
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            if (cart.length === 0) return;
+
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const sector = document.getElementById('orderSector').value;
+            const address = document.getElementById('orderAddress').value;
+            const payment = document.getElementById('orderPayment').value;
+
+            const sub = cart.reduce((acc, i) => acc + i.product.price * i.quantity, 0);
+            const devFee = deliveryType === 'delivery' ? 1.50 : 0;
+            const disc = sub * (discountPercent / 100);
+            const tot = sub + devFee - disc;
+            const totBs = tot * EXCHANGE_RATE;
+
+            let text = `⚡ *NUEVO PEDIDO - BARIBURGUERAPP* 🍔\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `👤 *Cliente:* ${name}\n`;
+            text += `📞 *Teléfono:* ${phone}\n`;
+            text += `📍 *Entrega:* ${deliveryType === 'delivery' ? '🚗 Delivery' : '🏪 Retiro'}\n`;
+            if (deliveryType === 'delivery') {
+                text += `🗺️ *Sector:* ${sector}\n`;
+                text += `🏠 *Dirección:* ${address}\n`;
+            }
+            text += `💳 *Método de Pago:* ${payment === 'pago_movil' ? '📲 Pago Móvil' : payment === 'zelle' ? '💵 Zelle' : '💵 Efectivo (USD)'}\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `🛒 *DETALLE:*\n`;
+            cart.forEach(i => {
+                text += `• ${i.quantity}x ${i.product.name} ($${(i.product.price * i.quantity).toFixed(2)})\n`;
+            });
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `💵 *Subtotal:* $${sub.toFixed(2)}\n`;
+            if (devFee > 0) text += `🚗 *Delivery:* $${devFee.toFixed(2)}\n`;
+            if (disc > 0) text += `🏷️ *Descuento:* -$${disc.toFixed(2)} (${discountPercent}% OFF)\n`;
+            text += `🔥 *TOTAL A PAGAR:* $${tot.toFixed(2)} / *Bs. ${totBs.toFixed(2)}*\n\n`;
+            text += `💬 _¡Hola BariBurguer! Aquí mi pedido. Confirmamos por acá._ 🤠`;
+
+            finalMessage = text;
+            document.getElementById('whatsappMessagePreview').innerText = text;
+            document.getElementById('confirmOrderModal').classList.remove('hidden');
+            document.getElementById('confirmOrderModal').classList.add('flex');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmOrderModal').classList.add('hidden');
+            document.getElementById('confirmOrderModal').classList.remove('flex');
+        }
+
+        function sendOrderWhatsApp() {
+            const encoded = encodeURIComponent(finalMessage);
+            const url = `https://wa.me/584145555555?text=${encoded}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+            closeConfirmModal();
+            clearCart();
+            navigateTo('home');
+        }
+
+        // Registro de Socios
+        function handlePartnerSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('partnerSubmitBtn');
+            btn.innerHTML = `<i class="fas fa-spinner animate-spin"></i> Registrando...`;
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = `Registrar mi Local Gratis <i class="fas fa-angle-right"></i>`;
+                btn.disabled = false;
+                navigateTo('success');
+                document.getElementById('partnerForm').reset();
+            }, 1500);
+        }
+
+        // Inicializar
+        window.onload = initApp;
+    </script>
+</body>
+</html>
