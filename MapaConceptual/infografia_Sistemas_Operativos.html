@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Sistemas de Archivo, Protección y Seguridad</title>
+    <style>
+        :root {
+            --archivo: #0F4C75;
+            --archivo-light: #3282B8;
+            --proteccion: #D35400;
+            --proteccion-light: #E67E22;
+            --seguridad: #1E8449;
+            --seguridad-light: #27AE60;
+            --dark: #1B262C;
+            --gray: #5D6D7E;
+            --light: #F8F9FA;
+            --border: #E5E8E8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #e9ecef;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--dark), var(--archivo));
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        header h1 { font-size: 2.2em; font-weight: 800; letter-spacing: -0.5px; }
+        header p { font-size: 1.1em; color: #BBE1FA; margin-top: 8px; }
+
+        /* Section headers */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 30px;
+            color: white;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        .st-archivo { background: linear-gradient(90deg, var(--archivo), var(--archivo-light)); }
+        .st-proteccion { background: linear-gradient(90deg, var(--proteccion), var(--proteccion-light)); }
+        .st-seguridad { background: linear-gradient(90deg, var(--seguridad), var(--seguridad-light)); }
+
+        .content { padding: 25px 30px; }
+        .intro { font-size: 0.95em; color: var(--gray); margin-bottom: 20px; }
+
+        /* Cards grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+        }
+        .card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            border-top: 4px solid var(--archivo-light);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .card.protection { border-top-color: var(--proteccion-light); }
+        .card.security { border-top-color: var(--seguridad-light); }
+
+        .card h3 {
+            font-size: 1.1em;
+            color: var(--archivo);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card.protection h3 { color: var(--proteccion); }
+        .card.security h3 { color: var(--seguridad); }
+
+        .card p, .card li {
+            font-size: 0.88em;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        ul.feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        ul.feature-list li {
+            padding: 6px 0 6px 22px;
+            position: relative;
+            border-bottom: 1px solid #e5e8e8;
+        }
+        ul.feature-list li:last-child { border-bottom: none; }
+        ul.feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--seguridad);
+            font-weight: bold;
+        }
+
+        /* Table */
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82em;
+        }
+        th {
+            background: var(--dark);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tr:nth-child(even) td { background: #FAFBFC; }
+        tr:hover td { background: var(--light); }
+
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: white;
+            font-weight: 600;
+        }
+        .tag.ntfs { background: #0078D4; }
+        .tag.ext4 { background: #E95420; }
+        .tag.apfs { background: #555; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        .badge.yes { background: #D5F5E3; color: #1E8449; }
+        .badge.no { background: #FADBD8; color: #C0392B; }
+
+        /* Permisos visual */
+        .perm-box {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            margin: 15px 0;
+        }
+        .perm-group {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            min-width: 90px;
+        }
+        .perm-group.owner { border-color: var(--archivo); }
+        .perm-group.group { border-color: var(--proteccion-light); }
+        .perm-group.others { border-color: var(--seguridad-light); }
+        .perm-label { font-size: 0.75em; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+        .perm-bits { display: flex; gap: 3px; justify-content: center; margin-bottom: 6px; }
+        .bit {
+            width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 5px;
+            font-size: 0.75em;
+            font-weight: 700;
+        }
+        .bit.on { background: var(--seguridad); color: white; }
+        .bit.off { background: #E5E8E8; color: #BDC3C7; }
+        .perm-octal { font-size: 1.2em; font-weight: 800; color: var(--dark); }
+        .perm-result {
+            background: var(--dark);
+            color: white;
+            border-radius: 10px;
+            padding: 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            text-align: center;
+        }
+        .perm-result .code { color: #BBE1FA; margin-bottom: 4px; }
+        .perm-result .sym { font-size: 1.2em; font-weight: 700; letter-spacing: 2px; }
+
+        /* CIA */
+        .cia-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin: 15px 0;
+        }
+        .cia-item {
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+            border: 2px solid;
+        }
+        .cia-item.c { background: #EBF5FB; border-color: #2471A3; }
+        .cia-item.i { background: #EAFAF1; border-color: #1E8449; }
+        .cia-item.a { background: #FEF9E7; border-color: #D4AC0D; }
+        .cia-icon { font-size: 1.8em; margin-bottom: 6px; }
+        .cia-title { font-weight: 700; font-size: 0.95em; color: var(--dark); }
+        .cia-desc { font-size: 0.78em; color: var(--gray); margin-top: 4px; }
+
+        /* RAID */
+        .raid-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .raid-item {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        .raid-item:hover { border-color: var(--seguridad-light); }
+        .raid-lvl { font-size: 1.2em; font-weight: 800; color: var(--seguridad); }
+        .raid-name { font-weight: 600; font-size: 0.85em; color: var(--dark); }
+        .raid-desc { font-size: 0.75em; color: var(--gray); margin-top: 4px; }
+
+        /* Backup */
+        .backup-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .backup-item {
+            background: linear-gradient(135deg, var(--light), white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 22px;
+            text-align: center;
+            min-width: 120px;
+        }
+        .backup-num { font-size: 2.2em; font-weight: 800; color: var(--seguridad); }
+        .backup-label { font-weight: 700; font-size: 0.85em; color: var(--dark); }
+        .backup-desc { font-size: 0.75em; color: var(--gray); }
+        .backup-sep { font-size: 1.8em; font-weight: bold; color: var(--gray); }
+
+        /* Summary */
+        .summary-box {
+            background: linear-gradient(135deg, #F4F6F7, white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 10px;
+            border: 2px solid var(--border);
+        }
+        .summary-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .sum-step {
+            width: 100%;
+            max-width: 500px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+        .sum-step.s1 { background: linear-gradient(90deg, var(--archivo), var(--archivo-light)); }
+        .sum-step.s2 { background: linear-gradient(90deg, var(--proteccion), var(--proteccion-light)); }
+        .sum-step.s3 { background: linear-gradient(90deg, var(--seguridad), var(--seguridad-light)); }
+        .sum-title { font-weight: 700; font-size: 1em; }
+        .sum-desc { font-size: 0.85em; opacity: 0.9; }
+        .sum-arrow { font-size: 1.5em; color: var(--gray); font-weight: bold; padding: 4px 0; }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: #aaa;
+            text-align: center;
+            padding: 18px 30px;
+            font-size: 0.82em;
+        }
+        footer strong { color: #ddd; }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.6em; }
+            .content { padding: 18px 15px; }
+            .section-title { padding: 14px 15px; font-size: 1.1em; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .perm-box { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Sistemas de Archivo, Protección y Seguridad</h1>
+        <p>Ernesto Guerrero C.I.18.907.869</p>
+    </header>
+
+    <!-- SECCIÓN 1: SISTEMAS DE ARCHIVO -->
+    <div class="section-title st-archivo">📁 1. Sistemas de Archivo</div>
+    <div class="content">
+        <p class="intro">El sistema de archivos administra memorias periféricas definiendo cómo se almacenan, nombran y organizan los datos.</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sistema</th>
+                        <th>Plataforma</th>
+                        <th>Tamaño Máx.</th>
+                        <th>Journaling</th>
+                        <th>Características Clave</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag ntfs">NTFS</span></td>
+                        <td>🪟 Windows</td>
+                        <td>16 EB</td>
+                        <td><span class="badge yes">✓</span></td>
+                        <td>ACLs, cifrado EFS, compresión, cuotas de disco</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag ext4">ext4</span></td>
+                        <td>🐧 Linux</td>
+                        <td>16 TB / 1 EB vol.</td>
+                        <td><span class="badge yes">✓</span></td>
+                        <td>Extens allocation, delayed allocation, extents</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag apfs">APFS</span></td>
+                        <td>🍎 macOS/iOS</td>
+                        <td>8 EB</td>
+                        <td><span class="badge yes">✓</span></td>
+                        <td>Copy-on-write, snapshots, space sharing, cifrado nativo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <h3>🪟 NTFS</h3>
+                <ul class="feature-list">
+                    <li>Alta fiabilidad y recuperación de errores (Journaling)</li>
+                    <li>Archivos de gran tamaño (hasta 16 Exabytes)</li>
+                    <li>Gestión nativa de permisos y cifrado (EFS)</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🐧 ext4</h3>
+                <ul class="feature-list">
+                    <li>Estándar en distribuciones GNU/Linux</li>
+                    <li>Excelente rendimiento con archivos grandes</li>
+                    <li>Alta resistencia a la fragmentación</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🍎 APFS</h3>
+                <ul class="feature-list">
+                    <li>Optimizado para SSDs</li>
+                    <li>Clonación de archivos casi instantánea</li>
+                    <li>Cifrado fuerte de manera nativa</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 2: PROTECCIÓN -->
+    <div class="section-title st-proteccion">🛡️ 2. Mecanismos de Protección</div>
+    <div class="content">
+        <p class="intro">Mecanismos internos del SO que controlan el acceso de procesos, usuarios y aplicaciones a los recursos del sistema.</p>
+
+        <div class="grid-3">
+            <div class="card protection">
+                <h3>🔑 Control de Acceso (ACL)</h3>
+                <p>Las Listas de Control de Acceso definen qué usuarios o grupos tienen derecho a realizar operaciones específicas sobre archivos o directorios.</p>
+            </div>
+            <div class="card protection">
+                <h3>🚦 Permisos Básicos (rwx)</h3>
+                <ul class="feature-list">
+                    <li><strong>Lectura (r):</strong> Ver contenido, listar directorio</li>
+                    <li><strong>Escritura (w):</strong> Modificar, crear, eliminar</li>
+                    <li><strong>Ejecución (x):</strong> Ejecutar programa, acceder a directorio</li>
+                </ul>
+            </div>
+            <div class="card protection">
+                <h3>🏰 Dominios de Protección</h3>
+                <p>Cada proceso se ejecuta dentro de un "dominio". Asegura que los programas solo tengan los privilegios estrictamente necesarios (<strong>Principio de Menor Privilegio</strong>).</p>
+            </div>
+        </div>
+
+        <p class="intro" style="margin-top:20px;"><strong>Visualización de permisos Unix:</strong></p>
+        <div class="perm-box">
+            <div class="perm-group owner">
+                <div class="perm-label">Owner (u)</div>
+                <div class="perm-bits">
+                    <span class="bit on">r</span><span class="bit on">w</span><span class="bit on">x</span>
+                </div>
+                <div class="perm-octal">7</div>
+            </div>
+            <div class="perm-group group">
+                <div class="perm-label">Group (g)</div>
+                <div class="perm-bits">
+                    <span class="bit on">r</span><span class="bit on">w</span><span class="bit off">x</span>
+                </div>
+                <div class="perm-octal">6</div>
+            </div>
+            <div class="perm-group others">
+                <div class="perm-label">Others (o)</div>
+                <div class="perm-bits">
+                    <span class="bit on">r</span><span class="bit off">w</span><span class="bit off">x</span>
+                </div>
+                <div class="perm-octal">4</div>
+            </div>
+            <div class="perm-result">
+                <div class="code">chmod 764 archivo.txt</div>
+                <div class="sym">-rwxrw-r--</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN 3: SEGURIDAD -->
+    <div class="section-title st-seguridad">🔒 3. Seguridad de la Información</div>
+    <div class="content">
+        <p class="intro">Políticas y herramientas para defender la información contra ataques, robo, corrupción o desastres.</p>
+
+        <p style="font-weight:700; margin-bottom:10px; color:var(--dark);">🔺 Triada CIA</p>
+        <div class="cia-row">
+            <div class="cia-item c">
+                <div class="cia-icon">🔐</div>
+                <div class="cia-title">Confidencialidad</div>
+                <div class="cia-desc">Solo usuarios autorizados acceden. Cifrado, MFA, ACLs.</div>
+            </div>
+            <div class="cia-item i">
+                <div class="cia-icon">✅</div>
+                <div class="cia-title">Integridad</div>
+                <div class="cia-desc">Datos no alterables sin autorización. Hashing, firmas digitales.</div>
+            </div>
+            <div class="cia-item a">
+                <div class="cia-icon">⚡</div>
+                <div class="cia-title">Disponibilidad</div>
+                <div class="cia-desc">Información accesible cuando se necesita. RAID, backups, redundancia.</div>
+            </div>
+        </div>
+
+        <div class="grid-3" style="margin-top:18px;">
+            <div class="card security">
+                <h3>🔑 Cifrado</h3>
+                <ul class="feature-list">
+                    <li><strong>Simétrico:</strong> AES-256, ChaCha20</li>
+                    <li><strong>Asimétrico:</strong> RSA-4096, ECC</li>
+                    <li><strong>En reposo:</strong> LUKS, BitLocker, FileVault</li>
+                    <li><strong>En tránsito:</strong> TLS/SSL, SSH, IPsec</li>
+                </ul>
+            </div>
+            <div class="card security">
+                <h3>💾 Resiliencia y Respaldos</h3>
+                <p style="margin-bottom:10px;"><strong>Estrategia 3-2-1:</strong></p>
+                <ul class="feature-list">
+                    <li>3 copias de los datos</li>
+                    <li>2 medios de almacenamiento distintos</li>
+                    <li>1 copia fuera del sitio</li>
+                </ul>
+            </div>
+            <div class="card security">
+                <h3>🕵️ Auditoría y Monitoreo</h3>
+                <ul class="feature-list">
+                    <li><strong>Logs:</strong> Syslog, Journald</li>
+                    <li><strong>Auditoría:</strong> Auditd (Linux)</li>
+                    <li><strong>Detección:</strong> IDS/IPS (Snort, Suricata)</li>
+                    <li><strong>Correlación:</strong> SIEM (Splunk, ELK)</li>
+                </ul>
+            </div>
+        </div>
+
+        <p style="font-weight:700; margin:20px 0 10px; color:var(--dark);">🛡️ Niveles RAID</p>
+        <div class="raid-row">
+            <div class="raid-item">
+                <div class="raid-lvl">RAID 0</div>
+                <div class="raid-name">Striping</div>
+                <div class="raid-desc">Máx. rendimiento, sin redundancia. Mín. 2 discos.</div>
+            </div>
+            <div class="raid-item">
+                <div class="raid-lvl">RAID 1</div>
+                <div class="raid-name">Mirroring</div>
+                <div class="raid-desc">Copia idéntica. Alta redundancia, 50% capacidad.</div>
+            </div>
+            <div class="raid-item">
+                <div class="raid-lvl">RAID 5</div>
+                <div class="raid-name">Paridad</div>
+                <div class="raid-desc">Datos distribuidos + paridad. Soporta 1 fallo. Mín. 3 discos.</div>
+            </div>
+            <div class="raid-item">
+                <div class="raid-lvl">RAID 6</div>
+                <div class="raid-name">Doble Paridad</div>
+                <div class="raid-desc">Soporta 2 fallos simultáneos. Mín. 4 discos.</div>
+            </div>
+            <div class="raid-item">
+                <div class="raid-lvl">RAID 10</div>
+                <div class="raid-name">Mirror + Striping</div>
+                <div class="raid-desc">Rendimiento + redundancia. Costoso. Mín. 4 discos.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESUMEN -->
+    <div class="section-title" style="background: linear-gradient(90deg, #6C3483, #8E44AD);">🎯 Resumen Integrado</div>
+    <div class="content">
+        <div class="summary-box">
+            <div class="summary-flow">
+                <div class="sum-step s1">
+                    <div class="sum-title">📁 Sistemas de Archivo</div>
+                    <div class="sum-desc">Organizan y almacenan datos de forma estructurada</div>
+                </div>
+                <div class="sum-arrow">↓</div>
+                <div class="sum-step s2">
+                    <div class="sum-title">🛡️ Protección</div>
+                    <div class="sum-desc">Controlan quién accede a qué recursos dentro del SO</div>
+                </div>
+                <div class="sum-arrow">↓</div>
+                <div class="sum-step s3">
+                    <div class="sum-title">🔒 Seguridad</div>
+                    <div class="sum-desc">Defienden contra amenazas externas y desastres</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Sub-Proyecto: Sistemas Operativos</strong></p>
+        <p>Ingeniería Informática, Sección SP-01, Profesora: Corina Contreras</p>
+        <p style="margin-top:6px; opacity:0.7;"> UNELLEZ BARINAS JULIO 2026</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
